@@ -6,7 +6,7 @@
   </ion-card-header>
   <ion-card-content>
     <ion-item *ngFor="let task of taskList.tasks; index as i">
-      <ion-checkbox justify="start" labelPlacement="end" [checked]="task.completed">{{ task.name }}</ion-checkbox>
+      <ion-checkbox justify="start" labelPlacement="end" [checked]="task.completed" (ionChange)="onTaskClicked(task)">{{ task.name }}</ion-checkbox>
     </ion-item>
   </ion-card-content>
 </ion-card>

@@ -1,6 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { TaskList } from 'src/app/models/task-list';
+import { Task } from 'src/app/models/task';
 
 @Component({
   selector: 'app-daily-task-list-page',
@@ -16,6 +17,12 @@ export class DailyTaskListPage implements OnInit {
 
   ngOnInit() {
     this.getDailyTaskList();
+  }
+
+  onTaskClickedEvent(task: Task) {
+    console.log(`${task.name} selected!`);
+    task.completed = !task.completed;
+    console.log(task.completed);
   }
 
   private getDailyTaskList() {
