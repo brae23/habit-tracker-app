@@ -8,7 +8,6 @@ export interface TaskList {
     totalTaskCount: number;
     completedTaskCount: number;
     createdByUserId: string;
-    associatedUserIds: string[];
-    parentListId: string[];
-    recursOn: string[];
+    associatedUserIds?: string[];
+    parentListId?: string;
 }

@@ -4,7 +4,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'lists-home',
+    redirectTo: 'daily-task-list',
     pathMatch: 'full',
   },
   {

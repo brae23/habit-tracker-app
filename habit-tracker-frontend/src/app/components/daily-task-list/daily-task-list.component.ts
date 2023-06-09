@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { TaskList } from 'src/app/models/task-list';
 
 @Component({
   selector: 'app-daily-task-list',
@@ -7,8 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DailyTaskListComponent  implements OnInit {
 
-  constructor() { }
+  @Input() taskList: TaskList;
+  currentDate: number;
 
-  ngOnInit() {}
+  constructor() {
+    this.currentDate = Date.now(); 
+  }
+
+  ngOnInit() {
+  }
 
 }

@@ -1,14 +1,13 @@
 export interface Task {
     id: string;
-    description: string;
-    priority: number;
+    name: string;
+    priority?: number;
     completed: boolean;
-    parentTaskId: string;
+    parentTaskId?: string;
     listId: string;
-    userId: string;
+    createdByUserId: string;
     type: number;
-    dueDate: Date;
-    notes: string;
-    recursOn: string[];
-    assignedDate: Date;
+    dueDate?: Date;
+    notes?: string;
+    assignedDate?: Date;
 }
