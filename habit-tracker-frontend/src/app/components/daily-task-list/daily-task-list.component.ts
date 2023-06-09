@@ -21,7 +21,6 @@ export class DailyTaskListComponent  implements OnInit {
   }
 
   onTaskClicked(task: Task) {
-    task.completed = !task.completed;
     this.taskClicked.emit(task);
   }
 }

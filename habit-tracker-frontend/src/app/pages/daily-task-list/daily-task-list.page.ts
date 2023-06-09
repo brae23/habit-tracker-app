@@ -25,6 +25,10 @@ export class DailyTaskListPage implements OnInit {
     console.log(task.completed);
   }
 
+  onNewTaskClicked() {
+    console.log("New Task clicked");
+  }
+
   private getDailyTaskList() {
     this.dailyTaskList = {
       id: 'listId1',
