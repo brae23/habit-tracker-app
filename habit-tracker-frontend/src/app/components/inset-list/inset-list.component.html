@@ -1,0 +1,5 @@
+<ion-list [inset]="true">
+  <ion-item *ngFor="let item of listItems; index as i">
+    <ion-checkbox justify="start" labelPlacement="end" [checked]="item.completed" (ionChange)="onTaskClicked(item)">{{ item.name }}</ion-checkbox>
+  </ion-item>
+</ion-list>

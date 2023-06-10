@@ -1,13 +1,10 @@
-import { Task } from './task';
+import { ListItem } from './list-item';
 
-export interface TaskList {
-    id: string;
-    tasks: Task[];
+export interface TaskList extends ListItem{
+    listItems: ListItem[];
     description: string;
-    type: number;
     totalTaskCount: number;
     completedTaskCount: number;
     createdByUserId: string;
     associatedUserIds?: string[];
-    parentListId?: string;
 }

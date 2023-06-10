@@ -1,7 +1,5 @@
 import { Task } from './task';
 
-export interface Habit {
-    id: string;
-    task: Task;
+export interface Habit extends Task {
     recursOn: string[];
 }

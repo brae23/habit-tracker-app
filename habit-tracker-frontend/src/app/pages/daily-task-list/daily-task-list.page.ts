@@ -1,7 +1,9 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { TaskList } from 'src/app/models/task-list';
-import { Task } from 'src/app/models/task';
+import { TaskList } from 'src/app/interfaces/task-list';
+import { Task } from 'src/app/interfaces/task';
+import { ListItem } from 'src/app/interfaces/list-item';
+import { Habit } from 'src/app/interfaces/habit';
 
 @Component({
   selector: 'app-daily-task-list-page',
@@ -19,10 +21,10 @@ export class DailyTaskListPage implements OnInit {
     this.getDailyTaskList();
   }
 
-  onTaskClickedEvent(task: Task) {
-    console.log(`${task.name} selected!`);
-    task.completed = !task.completed;
-    console.log(task.completed);
+  onListItemClickedEvent(listItem: ListItem) {
+    console.log(`${listItem.name} selected!`);
+    listItem.completed = !listItem.completed;
+    console.log(listItem.completed);
   }
 
   onNewTaskClicked() {
@@ -30,56 +32,123 @@ export class DailyTaskListPage implements OnInit {
   }
 
   private getDailyTaskList() {
-    this.dailyTaskList = {
+    const habit1: Habit = {
+      id: 'habitId1',
+      name: 'Habit 1 Name',
+      priority: 5,
+      completed: false,
+      parentListId: 'listId1',
+      createdByUserId: 'User1',
+      recursOn: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
+    };
+
+    const testList1: TaskList = {
       id: 'listId1',
+      name: 'Test Inset List 1',
       description: 'Mock Description',
-      type: 1,
-      totalTaskCount: 3,
-      completedTaskCount: 1,
+      completed: false,
+      priority: 1,
+      totalTaskCount: 5,
+      completedTaskCount: 2,
       createdByUserId: 'User 1',
-      tasks: [
+      listItems: [
         {
           id: 'taskId1',
-          listId: 'listId1',
+          parentListId: 'listId1',
           name: 'Task 1 Name',
-          type: 1,
+          priority: 1,
           completed: false,
           createdByUserId: 'User 1'
         },
         {
           id: 'taskId2',
-          listId: 'listId1',
+          parentListId: 'listId1',
           name: 'Task 2 Name',
-          type: 1,
+          priority: 2,
           completed: false,
           createdByUserId: 'User 1'
         },
         {
           id: 'taskId3',
-          listId: 'listId1',
+          parentListId: 'listId1',
           name: 'Task 3 Name',
-          type: 1,
+          priority: 3,
           completed: true,
           createdByUserId: 'User 1'
         },
         {
           id: 'taskId4',
-          listId: 'listId1',
+          parentListId: 'listId1',
           name: 'Task 4 Name',
-          type: 1,
+          priority: 4,
           completed: true,
           createdByUserId: 'User 1'
         },
         {
           id: 'taskId5',
-          listId: 'listId1',
+          parentListId: 'listId1',
           name: 'Task 5 Name',
-          type: 1,
+          priority: 5,
+          completed: false,
+          createdByUserId: 'User 1'
+        }
+      ]
+    }
+  
+
+    this.dailyTaskList = {
+      id: 'listId1',
+      name: 'Daily Task List 1',
+      description: 'Mock Description',
+      completed: false,
+      priority: 1,
+      totalTaskCount: 5,
+      completedTaskCount: 2,
+      createdByUserId: 'User 1',
+      listItems: [
+        {
+          id: 'taskId1',
+          parentListId: 'listId1',
+          name: 'Task 1 Name',
+          priority: 1,
           completed: false,
           createdByUserId: 'User 1'
         },
+        {
+          id: 'taskId2',
+          parentListId: 'listId1',
+          name: 'Task 2 Name',
+          priority: 2,
+          completed: false,
+          createdByUserId: 'User 1'
+        },
+        {
+          id: 'taskId3',
+          parentListId: 'listId1',
+          name: 'Task 3 Name',
+          priority: 3,
+          completed: true,
+          createdByUserId: 'User 1'
+        },
+        {
+          id: 'taskId4',
+          parentListId: 'listId1',
+          name: 'Task 4 Name',
+          priority: 4,
+          completed: true,
+          createdByUserId: 'User 1'
+        },
+        {
+          id: 'taskId5',
+          parentListId: 'listId1',
+          name: 'Task 5 Name',
+          priority: 5,
+          completed: false,
+          createdByUserId: 'User 1'
+        },
+        habit1,
+        testList1,
       ]
     }
   }
-
 }
