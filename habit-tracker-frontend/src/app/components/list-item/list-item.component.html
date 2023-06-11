@@ -1,3 +1,3 @@
-<ion-item>
-  
+<ion-item *ngIf="listItem instanceOf Task">
+    <ion-checkbox justify="start" labelPlacement="end" [checked]="listItem.completed" (ionChange)="onListItemClickedEvent(listItem)">{{ listItem.name }}</ion-checkbox>
 </ion-item>

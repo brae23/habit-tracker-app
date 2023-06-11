@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ListItem } from 'src/app/interfaces/list-item';
 
 @Component({
@@ -9,9 +9,13 @@ import { ListItem } from 'src/app/interfaces/list-item';
 export class ListItemComponent  implements OnInit {
 
   @Input() listItem: ListItem;
+  @Output() listItemClicked: EventEmitter<ListItem>;
 
   constructor() { }
 
   ngOnInit() {}
 
+  onListItemClickedEvent(listItem: ListItem) {
+    this.listItemClicked.emit(listItem);
+  }
 }

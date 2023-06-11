@@ -5,8 +5,11 @@
     </ion-card-title>
   </ion-card-header>
   <ion-card-content>
-    <ion-item *ngFor="let item of taskList.listItems; index as i">
-      <ion-checkbox justify="start" labelPlacement="end" [checked]="item.completed" (ionChange)="onTaskClicked(item)">{{ item.name }}</ion-checkbox>
-    </ion-item>
+    <ion-list>
+      <ng-container *ngFor="let item of taskList.listItems">
+          <app-list-item *ngIf="item instanceOf Task" [listItem]="item"></app-list-item>
+          <app-inset-list *ngIf="item instanceOf TaskList"></app-inset-list>
+      </ng-container>
+  </ion-list>
   </ion-card-content>
 </ion-card>

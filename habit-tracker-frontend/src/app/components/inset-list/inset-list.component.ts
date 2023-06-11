@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ListItem } from 'src/app/interfaces/list-item';
+import { TaskList } from 'src/app/interfaces/task-list';
 
 @Component({
   selector: 'app-inset-list',
@@ -8,7 +9,7 @@ import { ListItem } from 'src/app/interfaces/list-item';
 })
 export class InsetListComponent  implements OnInit {
 
-  @Input() listItems: ListItem[];
+  @Input() taskList: TaskList;
   @Output() listItemClicked: EventEmitter<ListItem>;
 
   constructor() { }
