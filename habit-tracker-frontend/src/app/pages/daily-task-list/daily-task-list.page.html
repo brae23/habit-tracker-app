@@ -1,0 +1,21 @@
+<ion-header class="ion-padding">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title size="large">Daily Task List</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <app-daily-task-list [taskList]="dailyTaskList" (listItemClicked)="onListItemClickedEvent($event)"></app-daily-task-list>
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button>
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="top">
+      <ion-fab-button (click)="onNewTaskClicked()">
+        <ion-icon name="checkbox-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
+</ion-content>

@@ -1,0 +1,14 @@
+<ion-card>
+  <ion-card-header>
+    <ion-card-title class="ion-text-center">
+      {{ currentDate | date:'mediumDate' }}
+    </ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-list>
+      <ng-container *ngFor="let item of taskList.listItems">
+        <app-list-item [listItem]="item" (listItemClicked)="onListItemClickedEvent(item)"></app-list-item>
+      </ng-container>
+    </ion-list>
+  </ion-card-content>
+</ion-card>

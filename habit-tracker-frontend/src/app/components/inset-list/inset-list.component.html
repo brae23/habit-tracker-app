@@ -1,0 +1,10 @@
+<ion-item (click)="onListClicked(isListClosed)">
+  <ion-checkbox class="list-disabled-checkbox" justify="start" labelPlacement="end" [checked]="taskList.completedTaskCount === taskList.totalTaskCount">{{ taskList.name }}</ion-checkbox>
+  <ion-icon name="chevron-down-outline" slot="end" *ngIf="isListClosed"></ion-icon>
+  <ion-icon name="chevron-up-outline" slot="end" *ngIf="!isListClosed"></ion-icon>
+</ion-item> 
+<ion-list *ngIf="!isListClosed">
+  <ion-item *ngFor="let item of taskList.listItems; index as i" class="inset-list-item">
+    <ion-checkbox justify="start" labelPlacement="end" [checked]="item.completed" (ionChange)="listItemClickedEvent(item)">{{ item.name }}</ion-checkbox>
+  </ion-item>
+</ion-list> 
