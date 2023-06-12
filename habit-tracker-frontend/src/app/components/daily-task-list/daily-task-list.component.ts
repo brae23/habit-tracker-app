@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { ListItem } from 'src/app/interfaces/list-item';
-import { TaskList } from 'src/app/interfaces/task-list';
+import { IListItem } from 'src/app/models/i-list-item';
+import { TaskList } from 'src/app/models/task-list';
 
 @Component({
   selector: 'app-daily-task-list',
@@ -10,7 +10,7 @@ import { TaskList } from 'src/app/interfaces/task-list';
 export class DailyTaskListComponent  implements OnInit {
 
   @Input() taskList: TaskList;
-  @Output() listItemClicked: EventEmitter<ListItem> = new EventEmitter();
+  @Output() listItemClicked: EventEmitter<IListItem> = new EventEmitter();
   currentDate: number;
 
   constructor() {
@@ -20,7 +20,7 @@ export class DailyTaskListComponent  implements OnInit {
   ngOnInit() {
   }
 
-  onListItemClickedEvent(listItem: ListItem) {
+  onListItemClickedEvent(listItem: IListItem) {
     this.listItemClicked.emit(listItem);
   }
 }

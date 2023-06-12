@@ -1,6 +1,6 @@
-import { ListItem } from "./list-item";
+import { IListItem } from "./i-list-item";
 
-export class Task implements ListItem{
+export class Task implements IListItem {
     id: string;
     name: string;
     priority: number;

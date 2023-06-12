@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { TaskList } from 'src/app/interfaces/task-list';
-import { ListItem } from 'src/app/interfaces/list-item';
-import { Habit } from 'src/app/interfaces/habit';
+import { TaskList } from 'src/app/models/task-list';
+import { IListItem } from 'src/app/models/i-list-item';
+import { Habit } from 'src/app/models/habit';
 
 @Component({
   selector: 'app-daily-task-list-page',
@@ -19,7 +19,7 @@ export class DailyTaskListPage implements OnInit {
     this.getDailyTaskList();
   }
 
-  onListItemClickedEvent(listItem: ListItem) {
+  onListItemClickedEvent(listItem: IListItem) {
     console.log(`${listItem.name} selected!`);
     listItem.completed = !listItem.completed;
     console.log(listItem.completed);

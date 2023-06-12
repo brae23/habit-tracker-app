@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ListItem } from 'src/app/interfaces/list-item';
-import { TaskList } from 'src/app/interfaces/task-list';
+import { IListItem } from 'src/app/models/i-list-item';
+import { TaskList } from 'src/app/models/task-list';
 
 @Component({
   selector: 'app-inset-list',
@@ -18,7 +18,7 @@ export class InsetListComponent implements OnInit {
 
   ngOnInit() {}
 
-  listItemClickedEvent(listItem: ListItem) {
+  listItemClickedEvent(listItem: IListItem) {
     listItem.completed = !listItem.completed;
     if (listItem.completed) {
       this.taskList.completedTaskCount ++;

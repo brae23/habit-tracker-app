@@ -1,4 +1,4 @@
-export interface ListItem {
+export interface IListItem {
     id: string;
     name: string;
     priority: number;

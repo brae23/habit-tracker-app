@@ -6,8 +6,6 @@ import { FormsModule } from '@angular/forms';
 import { InsetListComponent } from './inset-list/inset-list.component';
 import { ListItemComponent } from './list-item/list-item.component';
 
-
-
 @NgModule({
   declarations: [DailyTaskListComponent, InsetListComponent, ListItemComponent],
   exports: [DailyTaskListComponent],
