@@ -1,10 +1,14 @@
 import { ListItem } from './list-item';
 
-export interface TaskList extends ListItem{
+export class TaskList implements ListItem{
+    id: string;
+    name: string;
+    priority: number;
+    completed: boolean;
+    createdByUserId: string;
     listItems: ListItem[];
     description: string;
     totalTaskCount: number;
     completedTaskCount: number;
-    createdByUserId: string;
     associatedUserIds?: string[];
 }

@@ -20,7 +20,7 @@ export class DailyTaskListComponent  implements OnInit {
   ngOnInit() {
   }
 
-  onTaskClicked(listItem: ListItem) {
+  onListItemClickedEvent(listItem: ListItem) {
     this.listItemClicked.emit(listItem);
   }
 }

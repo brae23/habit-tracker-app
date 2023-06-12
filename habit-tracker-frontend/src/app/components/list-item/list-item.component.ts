@@ -1,21 +1,26 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ListItem } from 'src/app/interfaces/list-item';
+import { Task } from 'src/app/interfaces/task';
+import { TaskList } from 'src/app/interfaces/task-list';
 
 @Component({
   selector: 'app-list-item',
   templateUrl: './list-item.component.html',
   styleUrls: ['./list-item.component.scss'],
 })
-export class ListItemComponent  implements OnInit {
+export class ListItemComponent implements OnInit {
 
-  @Input() listItem: ListItem;
-  @Output() listItemClicked: EventEmitter<ListItem>;
+  @Input() listItem: any;
+  @Output() listItemClicked: EventEmitter<any> = new EventEmitter<any>;
 
   constructor() { }
 
   ngOnInit() {}
 
-  onListItemClickedEvent(listItem: ListItem) {
+  onListItemClickedEvent(listItem: any) {
     this.listItemClicked.emit(listItem);
+  }
+
+  isList(listItem: any) {
+    return listItem.hasOwnProperty('listItems');
   }
 }

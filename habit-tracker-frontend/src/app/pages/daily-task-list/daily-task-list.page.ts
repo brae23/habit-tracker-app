@@ -1,7 +1,5 @@
-import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { TaskList } from 'src/app/interfaces/task-list';
-import { Task } from 'src/app/interfaces/task';
 import { ListItem } from 'src/app/interfaces/list-item';
 import { Habit } from 'src/app/interfaces/habit';
 
@@ -138,6 +136,7 @@ export class DailyTaskListPage implements OnInit {
           completed: true,
           createdByUserId: 'User 1'
         },
+        testList1,
         {
           id: 'taskId5',
           parentListId: 'listId1',
@@ -147,7 +146,6 @@ export class DailyTaskListPage implements OnInit {
           createdByUserId: 'User 1'
         },
         habit1,
-        testList1,
       ]
     }
   }
