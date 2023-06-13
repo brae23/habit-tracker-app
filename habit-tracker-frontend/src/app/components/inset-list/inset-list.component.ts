@@ -1,4 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { cloneDeep } from 'lodash';
+import { DailyTaskListStateFacade } from 'src/app/data-access/+state/daily-task-list/daily-task-list-state.facade';
 import { IListItem } from 'src/app/models/i-list-item';
 import { TaskList } from 'src/app/models/task-list';
 
@@ -10,23 +12,32 @@ import { TaskList } from 'src/app/models/task-list';
 export class InsetListComponent implements OnInit {
 
   @Input() taskList: any;
-  @Output() listItemClicked: EventEmitter<any> = new EventEmitter<any>;
-
   isListClosed: boolean = true;
 
-  constructor() { }
+  constructor(private dailyTaskListStateFacade: DailyTaskListStateFacade) { }
 
   ngOnInit() {}
 
+  ngOnChanges(changes: SimpleChanges) {}
+
   listItemClickedEvent(listItem: IListItem) {
-    listItem.completed = !listItem.completed;
-    if (listItem.completed) {
-      this.taskList.completedTaskCount ++;
+    let tempTaskList = cloneDeep(this.taskList);
+
+    try {
+      let tempListItem = tempTaskList.listItems.find((x: IListItem) => x.id === listItem.id);
+      tempListItem.completed = !listItem.completed;
+      if (tempListItem.completed) {
+        tempTaskList.completedTaskCount ++;
+      }
+      else {
+        tempTaskList.completedTaskCount --;
+      }
     }
-    else {
-      this.taskList.completedTaskCount --;
+    catch(err) {
+      console.log(err);
     }
-    this.listItemClicked.emit(listItem);
+    tempTaskList.completed = tempTaskList.completedTaskCount === tempTaskList.totalTaskCount;
+    this.dailyTaskListStateFacade.updateListItem(tempTaskList);
   }
 
   onListClicked(currentVal: boolean) {
