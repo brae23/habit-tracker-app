@@ -6,6 +6,7 @@ export class HabitList implements TaskList, IListItem {
     name: string;
     priority: number;
     completed: boolean;
+    isCollapsed: boolean;
     createdByUserId: string;
     listItems: IListItem[];
     description: string;

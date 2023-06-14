@@ -6,6 +6,7 @@ export const DefaultDailyTaskListState: DailyTaskListStateModel = {
         name: '',
         priority: 0,
         completed: false,
+        isCollapsed: true,
         createdByUserId: '',
         listItems: [],
         description: '',

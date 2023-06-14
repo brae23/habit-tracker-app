@@ -40,6 +40,7 @@ export class DailyTaskListState {
             name: 'Test Inset List 1',
             description: 'Mock Description',
             completed: false,
+            isCollapsed: true,
             priority: 1,
             totalTaskCount: 5,
             completedTaskCount: 2,
@@ -94,6 +95,7 @@ export class DailyTaskListState {
             name: 'Daily Task List 1',
             description: 'Mock Description',
             completed: false,
+            isCollapsed: false,
             priority: 1,
             totalTaskCount: 5,
             completedTaskCount: 2,
@@ -149,11 +151,21 @@ export class DailyTaskListState {
     @Action(DailyTaskListActions.UpdateListItem)
     updateListItem(ctx: StateContext<DailyTaskListStateModel>, { listItem }: DailyTaskListActions.UpdateListItem) {
         ctx.setState(patch<DailyTaskListStateModel>({
-            DailyTaskList: patch<TaskList>({
-                listItems: updateItem<any>((x) => x.id === listItem.id,
-                    patch<any>({listItem: listItem})
+            DailyTaskList: patch<DailyTaskListStateModel['DailyTaskList']>({
+                listItems: updateItem((x) => x.id === listItem.id,
+                  listItem
                 ),
             }),
         }));
+    }
+
+    @Action(DailyTaskListActions.UpdateListCollapsedState)
+    updateListCollapsedState(ctx: StateContext<DailyTaskListStateModel>, { listItemId, collapsedState }: DailyTaskListActions.UpdateListCollapsedState) {
+      ctx.setState(patch<DailyTaskListStateModel>({
+        DailyTaskList: patch<any>({
+            listItems: updateItem<any>((x) => x.id === listItemId, patch({ isCollapsed: collapsedState })
+            ),
+        }),
+      }));
     }
 }

@@ -21,4 +21,8 @@ export class DailyTaskListStateFacade {
     updateListItem(listItem: IListItem) {
         this.store.dispatch(new DailyTaskListActions.UpdateListItem(listItem));
     }
+
+    updateListCollapsedState(listItemId: string, collapsedState: boolean) {
+        this.store.dispatch(new DailyTaskListActions.UpdateListCollapsedState(listItemId, collapsedState));
+    }
 }

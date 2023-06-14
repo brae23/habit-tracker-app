@@ -12,13 +12,10 @@ import { TaskList } from 'src/app/models/task-list';
 export class InsetListComponent implements OnInit {
 
   @Input() taskList: any;
-  isListClosed: boolean = true;
 
   constructor(private dailyTaskListStateFacade: DailyTaskListStateFacade) { }
 
   ngOnInit() {}
-
-  ngOnChanges(changes: SimpleChanges) {}
 
   listItemClickedEvent(listItem: IListItem) {
     let tempTaskList = cloneDeep(this.taskList);
@@ -41,6 +38,6 @@ export class InsetListComponent implements OnInit {
   }
 
   onListClicked(currentVal: boolean) {
-    this.isListClosed = !currentVal;
+    this.dailyTaskListStateFacade.updateListCollapsedState(this.taskList.id, !currentVal);
   }
 }
