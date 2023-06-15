@@ -28,7 +28,7 @@ export class DailyTaskListState {
         const habit1: Habit = {
             id: 'habitId1',
             name: 'Habit 1 Name',
-            priority: 5,
+            priority: 6,
             completed: false,
             parentListId: 'listId1',
             createdByUserId: 'User1',
@@ -41,7 +41,7 @@ export class DailyTaskListState {
             description: 'Mock Description',
             completed: false,
             isCollapsed: true,
-            priority: 1,
+            priority: 4,
             totalTaskCount: 5,
             completedTaskCount: 2,
             createdByUserId: 'User 1',
@@ -96,7 +96,7 @@ export class DailyTaskListState {
             description: 'Mock Description',
             completed: false,
             isCollapsed: false,
-            priority: 1,
+            priority: 0,
             totalTaskCount: 5,
             completedTaskCount: 2,
             createdByUserId: 'User 1',
@@ -105,7 +105,7 @@ export class DailyTaskListState {
                 id: 'taskId1',
                 parentListId: 'listId1',
                 name: 'Task 1 Name',
-                priority: 1,
+                priority: 0,
                 completed: false,
                 createdByUserId: 'User 1'
               },
@@ -113,7 +113,7 @@ export class DailyTaskListState {
                 id: 'taskId2',
                 parentListId: 'listId1',
                 name: 'Task 2 Name',
-                priority: 2,
+                priority: 1,
                 completed: false,
                 createdByUserId: 'User 1'
               },
@@ -121,7 +121,7 @@ export class DailyTaskListState {
                 id: 'taskId3',
                 parentListId: 'listId1',
                 name: 'Task 3 Name',
-                priority: 3,
+                priority: 2,
                 completed: true,
                 createdByUserId: 'User 1'
               },
@@ -129,7 +129,7 @@ export class DailyTaskListState {
                 id: 'taskId4',
                 parentListId: 'listId1',
                 name: 'Task 4 Name',
-                priority: 4,
+                priority: 3,
                 completed: true,
                 createdByUserId: 'User 1'
               },
