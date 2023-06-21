@@ -9,27 +9,19 @@
 <ion-content>
   <app-daily-task-list [taskList$]="dailyTaskListStateFacade.dailyTaskList$" [isEditMode]="isEditMode" (listItemReordered)="onListItemReorderedEvent($event)"></app-daily-task-list>
   <ion-fab slot="fixed" vertical="bottom" horizontal="start">
-    <ion-fab-button (click)="onEditFabClicked()" size="small" *ngIf="!isEditMode">
+    <ion-fab-button (click)="onEditFabClicked()" *ngIf="!isEditMode">
       <ion-icon name="pencil-outline"></ion-icon>
     </ion-fab-button>
-    <ion-fab-button (click)="onEditCancelClicked()" size="small" *ngIf="isEditMode" color="danger">
-      <ion-icon name="pencil-outline"></ion-icon>
+    <ion-fab-button (click)="onEditFabClicked()" *ngIf="isEditMode">
+      <ion-icon name="save-outline"></ion-icon>
     </ion-fab-button>
-    <ion-fab-list side="top">
-      <ion-fab-button (click)="onEditSaveClicked()" color="primary">
-        <ion-icon name="save-outline"></ion-icon>
-      </ion-fab-button>
-    </ion-fab-list>
   </ion-fab>
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-    <ion-fab-button size="small" *ngIf="!isAddFabOpen" (click)="onAddFabOpen()">
-      <ion-icon name="add-outline"></ion-icon>
-    </ion-fab-button>
-    <ion-fab-button size="small" *ngIf="isAddFabOpen" (click)="onAddFabCancelClicked()" color="danger">
+    <ion-fab-button (click)="onAddFabOpen()">
       <ion-icon name="add-outline"></ion-icon>
     </ion-fab-button>
     <ion-fab-list side="top">
-      <ion-fab-button (click)="onNewTaskClicked()" color="primary">
+      <ion-fab-button (click)="onNewTaskClicked()">
         <ion-icon name="checkbox-outline"></ion-icon>
       </ion-fab-button>
     </ion-fab-list>
