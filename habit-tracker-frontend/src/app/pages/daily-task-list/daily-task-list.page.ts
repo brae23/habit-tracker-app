@@ -49,9 +49,4 @@ export class DailyTaskListPage implements OnInit {
     console.log("Edit Cancel clicked!");
     this.isEditMode = !this.isEditMode;
   }
-
-  onListItemReorderedEvent(listItem: any) {
-    // this.dailyTaskListStateFacade.updateListItem(listItem);
-    console.log(listItem);
-  }
 }

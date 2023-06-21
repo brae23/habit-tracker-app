@@ -1,3 +1,4 @@
+import { ItemReorderEventDetail } from '@ionic/angular';
 import { IListItem } from '../../../models/i-list-item';
 
 export class LoadDailyTaskList {
@@ -15,12 +16,12 @@ export class UpdateListCollapsedState {
     constructor(public listItemId: string, public collapsedState: boolean) {}
 }
 
-export class UpdateListIndex {
-    static readonly type = '[DailyTaskList] UpdateListIndex';
-    constructor(public listItem: IListItem, public listIndex: number) {}
+export class HandleItemIndexReorder {
+    static readonly type = '[DailyTaskList] HandleItemIndexReorder';
+    constructor(public ev: CustomEvent<ItemReorderEventDetail>) {}
 }
 
-export class UpdateInsetListIndex {
-    static readonly type = '[DailyTaskList] UpdateInsetListIndex';
-    constructor(public listItem: IListItem, public listIndex: number) {}
+export class HandleInsetListItemIndexReorder {
+    static readonly type = '[DailyTaskList] HandleInsetListItemIndexReorder';
+    constructor(public ev: CustomEvent<ItemReorderEventDetail>, public id: string) {}
 }

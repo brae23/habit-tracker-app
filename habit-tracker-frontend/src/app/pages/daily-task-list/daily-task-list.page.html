@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <app-daily-task-list [taskList$]="dailyTaskListStateFacade.dailyTaskList$" [isEditMode]="isEditMode" (listItemReordered)="onListItemReorderedEvent($event)"></app-daily-task-list>
+  <app-daily-task-list [taskList$]="dailyTaskListStateFacade.dailyTaskList$" [isEditMode]="isEditMode"></app-daily-task-list>
   <ion-fab slot="fixed" vertical="bottom" horizontal="start">
     <ion-fab-button (click)="onEditFabClicked()" *ngIf="!isEditMode">
       <ion-icon name="pencil-outline"></ion-icon>

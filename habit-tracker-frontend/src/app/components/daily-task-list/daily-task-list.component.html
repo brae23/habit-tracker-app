@@ -6,9 +6,9 @@
   </ion-card-header>
   <ion-card-content>
     <ion-list>
-      <ion-reorder-group [disabled]="false" (ionItemReorder)="handleListItemReorder($any($event))">
+      <ion-reorder-group [disabled]="false" (ionItemReorder)="onListItemReorderedEvent($any($event))">
         <ng-container *ngFor="let item of (taskList$ | async)!.listItems">
-          <app-list-item [listItem]="item" [isEditMode]="isEditMode" (listItemReordered)="onListItemReorderedEvent($event)"></app-list-item>
+          <app-list-item [listItem]="item" [isEditMode]="isEditMode"></app-list-item>
         </ng-container>
       </ion-reorder-group>
     </ion-list>

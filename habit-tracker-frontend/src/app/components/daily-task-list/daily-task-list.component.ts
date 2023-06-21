@@ -5,6 +5,7 @@ import { TaskList } from 'src/app/models/task-list';
 import { isList } from 'src/app/functions/is-list.function';
 import { ItemReorderEventDetail } from '@ionic/angular';
 import { cloneDeep } from 'lodash';
+import { DailyTaskListStateFacade } from 'src/app/data-access/+state/daily-task-list/daily-task-list-state.facade';
 
 @Component({
   selector: 'app-daily-task-list',
@@ -15,30 +16,17 @@ export class DailyTaskListComponent  implements OnInit {
 
   @Input() taskList$: Observable<TaskList>;
   @Input() isEditMode: boolean;
-  @Output() listItemReordered: EventEmitter<any> = new EventEmitter<any>;
   currentDate: number;
   isList = isList;
 
-  constructor() {
+  constructor(public dailyTaskListStateFacade: DailyTaskListStateFacade) {
     this.currentDate = Date.now(); 
   }
 
   ngOnInit() {
   }
 
-  handleListItemReorder(ev: CustomEvent<ItemReorderEventDetail>) {
-    console.log('Dragged from index', ev.detail.from, 'to', ev.detail.to);
-    this.taskList$.subscribe((x) => {
-      let tempTaskList: TaskList;
-      tempTaskList = cloneDeep(x);
-      let reorderedItem = tempTaskList.listItems.splice(ev.detail.from, 1)[0];
-      tempTaskList.listItems.splice(ev.detail.to, 0, reorderedItem);
-      ev.detail.complete();
-      this.listItemReordered.emit(tempTaskList);
-    });
-  }
-
-  onListItemReorderedEvent(listItem: any) {
-    this.listItemReordered.emit(listItem);
+  onListItemReorderedEvent(ev: CustomEvent<ItemReorderEventDetail>) {
+    this.dailyTaskListStateFacade.handleItemIndexReorder(ev);
   }
 }

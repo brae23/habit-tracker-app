@@ -5,4 +5,5 @@ export interface IListItem {
     completed: boolean;
     parentListId?: string;
     createdByUserId: string;
+    listItems?: IListItem[];
 }

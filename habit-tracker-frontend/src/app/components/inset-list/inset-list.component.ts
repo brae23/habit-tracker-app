@@ -14,7 +14,6 @@ export class InsetListComponent implements OnInit {
 
   @Input() taskList: any;
   @Input() isEditMode: boolean;
-  @Output() listItemReordered: EventEmitter<any> = new EventEmitter<any>;
 
   constructor(private dailyTaskListStateFacade: DailyTaskListStateFacade) { }
 
@@ -45,11 +44,6 @@ export class InsetListComponent implements OnInit {
   }
 
   handleListItemReorder(ev: CustomEvent<ItemReorderEventDetail>) {
-    console.log('Dragged from index', ev.detail.from, 'to', ev.detail.to);
-    let tempTaskList = cloneDeep(this.taskList);
-    let reorderedItem = tempTaskList.listItems.splice(ev.detail.from, 1)[0];
-    tempTaskList.listItems.splice(ev.detail.to, 0, reorderedItem);
-    ev.detail.complete();
-    this.listItemReordered.emit(tempTaskList);
+    this.dailyTaskListStateFacade.handleInsetListItemIndexReorder(ev, this.taskList.id); 
   }
 }

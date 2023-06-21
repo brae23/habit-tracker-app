@@ -7,6 +7,7 @@ import { TaskList } from "src/app/models/task-list";
 import { IListItem } from "src/app/models/i-list-item";
 import { patch, updateItem } from "@ngxs/store/operators";
 import { isList } from "src/app/functions/is-list.function";
+import { cloneDeep } from "lodash";
 
 @State<DailyTaskListStateModel>({
     name: 'dailytasklist',
@@ -165,6 +166,26 @@ export class DailyTaskListState {
         DailyTaskList: patch<any>({
             listItems: updateItem<any>((x) => x.id === listItemId, patch({ isCollapsed: collapsedState })
             ),
+        }),
+      }));
+    }
+
+    @Action(DailyTaskListActions.HandleItemIndexReorder)
+    handleItemIndexReorder(ctx: StateContext<DailyTaskListStateModel>, { ev }: DailyTaskListActions.HandleItemIndexReorder) {
+      const currentListItems = cloneDeep(ctx.getState().DailyTaskList.listItems);
+      ctx.setState(patch<DailyTaskListStateModel>({
+        DailyTaskList: patch<any>({
+            listItems: ev.detail.complete(currentListItems),
+        }),
+      }));
+    }
+    
+    @Action(DailyTaskListActions.HandleItemIndexReorder)
+    handleInsetListItemIndexReorder(ctx: StateContext<DailyTaskListStateModel>, { ev, id }: DailyTaskListActions.HandleInsetListItemIndexReorder) {
+      const currentInsetList = cloneDeep(ctx.getState().DailyTaskList.listItems.find((x) => x.id == id)!.listItems);
+      ctx.setState(patch<DailyTaskListStateModel>({
+        DailyTaskList: patch<TaskList>({
+            listItems: updateItem<any>((x) => x.id == id, patch({ listItems: ev.detail.complete(currentInsetList) })),
         }),
       }));
     }

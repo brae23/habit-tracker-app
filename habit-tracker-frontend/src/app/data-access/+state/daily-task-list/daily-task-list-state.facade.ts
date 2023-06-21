@@ -5,6 +5,7 @@ import { Observable } from "rxjs";
 import { TaskList } from "src/app/models/task-list";
 import * as DailyTaskListActions from './daily-task-list-state.action';
 import { IListItem } from "src/app/models/i-list-item";
+import { ItemReorderEventDetail } from "@ionic/angular";
 
 @Injectable({
     providedIn: 'root',
@@ -26,11 +27,11 @@ export class DailyTaskListStateFacade {
         this.store.dispatch(new DailyTaskListActions.UpdateListCollapsedState(listItemId, collapsedState));
     }
 
-    updateListItemIndex(listItem: IListItem, listIndex: number) {
-        this.store.dispatch(new DailyTaskListActions.UpdateListIndex(listItem, listIndex));
+    handleItemIndexReorder(ev: CustomEvent<ItemReorderEventDetail>) {
+        this.store.dispatch(new DailyTaskListActions.HandleItemIndexReorder(ev));   
     }
 
-    updateInsetListItemIndex(listItem: IListItem, listIndex: number) {
-        this.store.dispatch(new DailyTaskListActions.UpdateInsetListIndex(listItem, listIndex));
+    handleInsetListItemIndexReorder(ev: CustomEvent<ItemReorderEventDetail>, id: string) {
+        this.store.dispatch(new DailyTaskListActions.HandleInsetListItemIndexReorder(ev, id));
     }
 }
