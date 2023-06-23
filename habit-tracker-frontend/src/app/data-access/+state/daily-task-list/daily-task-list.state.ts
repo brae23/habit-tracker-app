@@ -180,7 +180,7 @@ export class DailyTaskListState {
       }));
     }
     
-    @Action(DailyTaskListActions.HandleItemIndexReorder)
+    @Action(DailyTaskListActions.HandleInsetListItemIndexReorder)
     handleInsetListItemIndexReorder(ctx: StateContext<DailyTaskListStateModel>, { ev, id }: DailyTaskListActions.HandleInsetListItemIndexReorder) {
       const currentInsetList = cloneDeep(ctx.getState().DailyTaskList.listItems.find((x) => x.id == id)!.listItems);
       ctx.setState(patch<DailyTaskListStateModel>({
