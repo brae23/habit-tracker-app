@@ -2,8 +2,10 @@
     <app-inset-list [taskList]="listItem" [isEditMode]="isEditMode" (listItemClicked)="onListItemClickedEvent(listItem)"></app-inset-list>
 </ng-container>
 <ng-container *ngIf="!isList(listItem)">
-    <ion-item>
-        <ion-reorder *ngIf="isEditMode" slot="start"></ion-reorder>
-        <ion-checkbox justify="start" labelPlacement="end" [checked]="listItem.completed" (ionChange)="onListItemClickedEvent(listItem)">{{ listItem.name }}</ion-checkbox>
-    </ion-item>
+    <div cdkDrag class="list-box" [cdkDragDisabled]="!isEditMode">
+        <div cdkDragHandle *ngIf="isEditMode" class="drag-handle">
+            <ion-icon name="reorder-three-outline"></ion-icon>
+        </div>
+        <ion-checkbox class="list-checkbox" justify="start" labelPlacement="end" [checked]="listItem.completed" (ionChange)="onListItemClickedEvent(listItem)">{{ listItem.name }}</ion-checkbox>
+    </div>
 </ng-container>

@@ -3,9 +3,8 @@ import { Observable } from 'rxjs';
 import { IListItem } from 'src/app/models/i-list-item';
 import { TaskList } from 'src/app/models/task-list';
 import { isList } from 'src/app/functions/is-list.function';
-import { ItemReorderEventDetail } from '@ionic/angular';
-import { cloneDeep } from 'lodash';
 import { DailyTaskListStateFacade } from 'src/app/data-access/+state/daily-task-list/daily-task-list-state.facade';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-daily-task-list',
@@ -26,7 +25,7 @@ export class DailyTaskListComponent  implements OnInit {
   ngOnInit() {
   }
 
-  onListItemReorderedEvent(ev: CustomEvent<ItemReorderEventDetail>) {
+  onListItemReorderedEvent(ev: CdkDragDrop<IListItem[]>) {
     this.dailyTaskListStateFacade.handleItemIndexReorder(ev);
   }
 }

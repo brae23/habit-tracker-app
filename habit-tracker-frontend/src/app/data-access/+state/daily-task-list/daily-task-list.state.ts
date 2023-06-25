@@ -6,7 +6,7 @@ import { Habit } from "src/app/models/habit";
 import { TaskList } from "src/app/models/task-list";
 import { IListItem } from "src/app/models/i-list-item";
 import { patch, updateItem } from "@ngxs/store/operators";
-import { isList } from "src/app/functions/is-list.function";
+import { moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { cloneDeep } from "lodash";
 
 @State<DailyTaskListStateModel>({
@@ -172,20 +172,34 @@ export class DailyTaskListState {
 
     @Action(DailyTaskListActions.HandleItemIndexReorder)
     handleItemIndexReorder(ctx: StateContext<DailyTaskListStateModel>, { ev }: DailyTaskListActions.HandleItemIndexReorder) {
-      const currentListItems = cloneDeep(ctx.getState().DailyTaskList.listItems);
+      let listItemsState = cloneDeep(ctx.getState().DailyTaskList.listItems);
+      if(ev.previousContainer === ev.container) {
+        moveItemInArray(listItemsState, ev.previousIndex, ev.currentIndex);
+      }
+      else {
+        transferArrayItem(ev.previousContainer.data, ev.container.data, ev.previousIndex, ev.currentIndex);
+      }
       ctx.setState(patch<DailyTaskListStateModel>({
         DailyTaskList: patch<any>({
-            listItems: ev.detail.complete(currentListItems),
+            listItems: listItemsState,
         }),
       }));
     }
     
     @Action(DailyTaskListActions.HandleInsetListItemIndexReorder)
     handleInsetListItemIndexReorder(ctx: StateContext<DailyTaskListStateModel>, { ev, id }: DailyTaskListActions.HandleInsetListItemIndexReorder) {
-      const currentInsetList = cloneDeep(ctx.getState().DailyTaskList.listItems.find((x) => x.id == id)!.listItems);
+      let insetListItemsState = cloneDeep(ctx.getState().DailyTaskList.listItems.find((x) => x.id == id)!.listItems);
+      if(insetListItemsState) {
+        if(ev.previousContainer === ev.container) {
+          moveItemInArray(insetListItemsState, ev.previousIndex, ev.currentIndex);
+        }
+        else {
+          transferArrayItem(ev.previousContainer.data, ev.container.data, ev.previousIndex, ev.currentIndex);
+        }
+      }
       ctx.setState(patch<DailyTaskListStateModel>({
         DailyTaskList: patch<TaskList>({
-            listItems: updateItem<any>((x) => x.id == id, patch({ listItems: ev.detail.complete(currentInsetList) })),
+            listItems: updateItem<any>((x) => x.id == id, patch({ listItems: insetListItemsState })),
         }),
       }));
     }

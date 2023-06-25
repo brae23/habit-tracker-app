@@ -5,12 +5,17 @@
     </ion-card-title>
   </ion-card-header>
   <ion-card-content>
-    <ion-list>
-      <ion-reorder-group [disabled]="false" (ionItemReorder)="onListItemReorderedEvent($any($event))">
-        <ng-container *ngFor="let item of (taskList$ | async)!.listItems">
-          <app-list-item [listItem]="item" [isEditMode]="isEditMode"></app-list-item>
-        </ng-container>
-      </ion-reorder-group>
-    </ion-list>
+    <div 
+      cdkDropList 
+      id="mainList"
+      class="list-div" 
+      (cdkDropListDropped)="onListItemReorderedEvent($event)"
+      #mainList="cdkDropList"
+      [cdkDropListData]="(taskList$ | async)!.listItems"
+      [cdkDropListConnectedTo]="['insetList']">
+      <ng-container *ngFor="let item of (taskList$ | async)!.listItems">
+        <app-list-item [listItem]="item" [isEditMode]="isEditMode"></app-list-item>
+      </ng-container>
+    </div>
   </ion-card-content>
 </ion-card>

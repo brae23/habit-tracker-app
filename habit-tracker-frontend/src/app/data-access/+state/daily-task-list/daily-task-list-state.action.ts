@@ -1,5 +1,6 @@
 import { ItemReorderEventDetail } from '@ionic/angular';
 import { IListItem } from '../../../models/i-list-item';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
 
 export class LoadDailyTaskList {
     static readonly type = '[DailyTaskList] LoadDailyTaskList';
@@ -18,10 +19,10 @@ export class UpdateListCollapsedState {
 
 export class HandleItemIndexReorder {
     static readonly type = '[DailyTaskList] HandleItemIndexReorder';
-    constructor(public ev: CustomEvent<ItemReorderEventDetail>) {}
+    constructor(public ev: CdkDragDrop<IListItem[]>) {}
 }
 
 export class HandleInsetListItemIndexReorder {
     static readonly type = '[DailyTaskList] HandleInsetListItemIndexReorder';
-    constructor(public ev: CustomEvent<ItemReorderEventDetail>, public id: string) {}
+    constructor(public ev: CdkDragDrop<IListItem[]>, public id: string) {}
 }

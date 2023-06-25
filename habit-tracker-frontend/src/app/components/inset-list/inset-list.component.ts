@@ -4,6 +4,7 @@ import { cloneDeep } from 'lodash';
 import { DailyTaskListStateFacade } from 'src/app/data-access/+state/daily-task-list/daily-task-list-state.facade';
 import { IListItem } from 'src/app/models/i-list-item';
 import { TaskList } from 'src/app/models/task-list';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-inset-list',
@@ -43,7 +44,7 @@ export class InsetListComponent implements OnInit {
     this.dailyTaskListStateFacade.updateListCollapsedState(this.taskList.id, !currentVal);
   }
 
-  handleListItemReorder(ev: CustomEvent<ItemReorderEventDetail>) {
+  handleListItemReorder(ev: CdkDragDrop<IListItem[]>) {
     this.dailyTaskListStateFacade.handleInsetListItemIndexReorder(ev, this.taskList.id); 
   }
 }

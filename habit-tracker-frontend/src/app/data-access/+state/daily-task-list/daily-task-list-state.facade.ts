@@ -6,6 +6,7 @@ import { TaskList } from "src/app/models/task-list";
 import * as DailyTaskListActions from './daily-task-list-state.action';
 import { IListItem } from "src/app/models/i-list-item";
 import { ItemReorderEventDetail } from "@ionic/angular";
+import { CdkDragDrop } from "@angular/cdk/drag-drop";
 
 @Injectable({
     providedIn: 'root',
@@ -27,11 +28,11 @@ export class DailyTaskListStateFacade {
         this.store.dispatch(new DailyTaskListActions.UpdateListCollapsedState(listItemId, collapsedState));
     }
 
-    handleItemIndexReorder(ev: CustomEvent<ItemReorderEventDetail>) {
+    handleItemIndexReorder(ev: CdkDragDrop<IListItem[]>) {
         this.store.dispatch(new DailyTaskListActions.HandleItemIndexReorder(ev));   
     }
 
-    handleInsetListItemIndexReorder(ev: CustomEvent<ItemReorderEventDetail>, id: string) {
+    handleInsetListItemIndexReorder(ev: CdkDragDrop<IListItem[]>, id: string) {
         this.store.dispatch(new DailyTaskListActions.HandleInsetListItemIndexReorder(ev, id));
     }
 }
