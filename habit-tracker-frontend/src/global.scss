@@ -25,17 +25,26 @@
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
+.list-div {
+    width: 500px;
+    max-width: 100%;
+    min-height: 60px;
+    display: block;
+    background: white;
+    overflow: hidden;
+    background: var(--ion-card-background); 
+  }
 
 .list-box {
     padding: 20px 10px;
-    border-bottom: solid 1px #ccc;
-    color: rgba(0, 0, 0, 0.87);
+    border-bottom: solid 1px var(--ion-color-step-300);
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
     box-sizing: border-box;
     font-size: 16px;
+    background: var(--ion-card-background);
 }
 
 .drag-handle {
@@ -69,6 +78,7 @@
 }
 
 .cdk-drag-placeholder {
+    background: var(--ion-card-background); 
     opacity: 0;
 }
 
@@ -78,4 +88,18 @@
 
 .list-div.cdk-drop-list-dragging .list-box:not(.cdk-drag-placeholder) {
     transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.list-icons {
+    color: var(--ion-text-color);
+    height: 20px;
+    width: 20px;
+}
+
+ion-checkbox {
+    color: var(--ion-text-color);
+}
+
+.list-disabled-checkbox {
+    pointer-events: none;
 }

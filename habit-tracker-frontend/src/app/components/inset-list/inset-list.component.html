@@ -1,17 +1,17 @@
 <div cdkDrag class="list-box" (click)="onListClicked(taskList.isCollapsed)" [cdkDragDisabled]="!isEditMode">
-  <div cdkDragHandle class="drag-handle" *ngIf="isEditMode">
-    <ion-icon name="reorder-three-outline"></ion-icon>
+  <div cdkDragHandle class="drag-handle" *ngIf="isEditMode && taskList.isCollapsed">
+    <ion-icon class="list-icons" name="reorder-two-outline"></ion-icon>
   </div>
   <div class="inset-list-box">
     <ion-checkbox class="list-disabled-checkbox list-checkbox" justify="start" labelPlacement="end" [checked]="taskList.completedTaskCount === taskList.totalTaskCount">{{ taskList.name }}</ion-checkbox>
-    <ion-icon name="chevron-down-outline" slot="end" *ngIf="taskList.isCollapsed"></ion-icon>
-    <ion-icon name="chevron-up-outline" slot="end" *ngIf="!taskList.isCollapsed"></ion-icon>
+    <ion-icon class="list-icons" name="chevron-down-outline" slot="end" *ngIf="taskList.isCollapsed"></ion-icon>
+    <ion-icon class="list-icons" name="chevron-up-outline" slot="end" *ngIf="!taskList.isCollapsed"></ion-icon>
   </div>
 </div> 
 <div 
   cdkDropList
   id="insetList"
-  class="list-div" 
+  class="list-div inset-list-div"
   *ngIf="!taskList.isCollapsed" 
   (cdkDropListDropped)="handleListItemReorder($event)"
   #insetList="cdkDropList"
@@ -19,7 +19,7 @@
   [cdkDropListConnectedTo]="['mainList']">
   <div cdkDrag *ngFor="let item of taskList.listItems; index as i" class="list-box inset-list-item" [cdkDragDisabled]="!isEditMode">
     <div cdkDragHandle class="drag-handle" *ngIf="isEditMode">
-      <ion-icon name="reorder-three-outline"></ion-icon>
+      <ion-icon class="list-icons" name="reorder-two-outline"></ion-icon>
     </div>
     <ion-checkbox class="list-checkbox" justify="start" labelPlacement="end" [checked]="item.completed" (ionChange)="listItemClickedEvent(item)">{{ item.name }}</ion-checkbox>
   </div>

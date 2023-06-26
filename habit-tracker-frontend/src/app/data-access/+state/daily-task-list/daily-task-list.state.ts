@@ -89,6 +89,60 @@ export class DailyTaskListState {
               }
             ]
           }
+
+          const testList2: TaskList = {
+            id: 'listId2',
+            name: 'Test Inset List 2',
+            description: 'Mock Description',
+            completed: false,
+            isCollapsed: true,
+            priority: 4,
+            totalTaskCount: 5,
+            completedTaskCount: 2,
+            createdByUserId: 'User 1',
+            listItems: [
+              {
+                id: 'taskId1',
+                parentListId: 'listId1',
+                name: 'Task 1 Name',
+                priority: 1,
+                completed: false,
+                createdByUserId: 'User 1'
+              },
+              {
+                id: 'taskId2',
+                parentListId: 'listId1',
+                name: 'Task 2 Name',
+                priority: 2,
+                completed: false,
+                createdByUserId: 'User 1'
+              },
+              {
+                id: 'taskId3',
+                parentListId: 'listId1',
+                name: 'Task 3 Name',
+                priority: 3,
+                completed: true,
+                createdByUserId: 'User 1'
+              },
+              {
+                id: 'taskId4',
+                parentListId: 'listId1',
+                name: 'Task 4 Name',
+                priority: 4,
+                completed: true,
+                createdByUserId: 'User 1'
+              },
+              {
+                id: 'taskId5',
+                parentListId: 'listId1',
+                name: 'Task 5 Name',
+                priority: 5,
+                completed: false,
+                createdByUserId: 'User 1'
+              }
+            ]
+          }
         
       
           const dailyTaskList = {
@@ -135,6 +189,7 @@ export class DailyTaskListState {
                 createdByUserId: 'User 1'
               },
               testList1,
+              testList2,
               {
                 id: 'taskId5',
                 parentListId: 'listId1',

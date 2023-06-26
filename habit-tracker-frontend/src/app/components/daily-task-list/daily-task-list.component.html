@@ -8,7 +8,7 @@
     <div 
       cdkDropList 
       id="mainList"
-      class="list-div" 
+      class="list-div main-list-div" 
       (cdkDropListDropped)="onListItemReorderedEvent($event)"
       #mainList="cdkDropList"
       [cdkDropListData]="(taskList$ | async)!.listItems"

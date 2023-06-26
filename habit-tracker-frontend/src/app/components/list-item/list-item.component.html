@@ -4,7 +4,7 @@
 <ng-container *ngIf="!isList(listItem)">
     <div cdkDrag class="list-box" [cdkDragDisabled]="!isEditMode">
         <div cdkDragHandle *ngIf="isEditMode" class="drag-handle">
-            <ion-icon name="reorder-three-outline"></ion-icon>
+            <ion-icon class="list-icons" name="reorder-two-outline"></ion-icon>
         </div>
         <ion-checkbox class="list-checkbox" justify="start" labelPlacement="end" [checked]="listItem.completed" (ionChange)="onListItemClickedEvent(listItem)">{{ listItem.name }}</ion-checkbox>
     </div>

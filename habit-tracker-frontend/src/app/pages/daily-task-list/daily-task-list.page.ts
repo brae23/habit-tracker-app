@@ -26,27 +26,10 @@ export class DailyTaskListPage implements OnInit {
   }
 
   onNewTaskClicked() {
-    console.log("New Task clicked");
-    this.isAddFabOpen = false;
-  }
-
-  onAddFabCancelClicked() {
-    console.log("Add cancel clicked!");
     this.isAddFabOpen = false;
   }
 
   onEditFabClicked() {
-    console.log("Edit clicked!");
-    this.isEditMode = !this.isEditMode;
-  }
-
-  onEditSaveClicked() {
-    console.log("Save clicked!");
-    this.isEditMode = !this.isEditMode;
-  }
-
-  onEditCancelClicked() {
-    console.log("Edit Cancel clicked!");
     this.isEditMode = !this.isEditMode;
   }
 }
