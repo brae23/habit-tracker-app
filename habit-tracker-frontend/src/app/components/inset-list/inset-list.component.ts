@@ -45,6 +45,6 @@ export class InsetListComponent implements OnInit {
   }
 
   handleListItemReorder(ev: CdkDragDrop<IListItem[]>) {
-    this.dailyTaskListStateFacade.handleInsetListItemIndexReorder(ev, this.taskList.id); 
+    this.dailyTaskListStateFacade.handleItemIndexReorder(ev);
   }
 }
