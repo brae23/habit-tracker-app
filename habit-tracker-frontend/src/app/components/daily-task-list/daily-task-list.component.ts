@@ -1,10 +1,11 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IListItem } from 'src/app/models/i-list-item';
 import { TaskList } from 'src/app/models/task-list';
 import { isList } from 'src/app/functions/is-list.function';
 import { DailyTaskListStateFacade } from 'src/app/data-access/+state/daily-task-list/daily-task-list-state.facade';
-import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import { CdkDrag, CdkDragDrop, CdkDragMove, CdkDragRelease, CdkDropList } from '@angular/cdk/drag-drop';
+import { NestedDragDropService } from 'src/app/services/nested-drag-drop.service';
 
 @Component({
   selector: 'app-daily-task-list',
@@ -15,17 +16,41 @@ export class DailyTaskListComponent  implements OnInit {
 
   @Input() taskList$: Observable<TaskList>;
   @Input() isEditMode: boolean;
+  @ViewChild(CdkDropList) dropList?: CdkDropList;
   currentDate: number;
   isList = isList;
 
-  constructor(public dailyTaskListStateFacade: DailyTaskListStateFacade) {
+  allowDropPredicate = (drag: CdkDrag, drop: CdkDropList) => {
+    return this.nestedDragDropService.isDropAllowed(drag, drop);
+  };
+
+  public get connectedLists() {
+    return this.nestedDragDropService.dropLists;
+  }
+
+  constructor(
+    public dailyTaskListStateFacade: DailyTaskListStateFacade,
+    public nestedDragDropService: NestedDragDropService) {
     this.currentDate = Date.now(); 
   }
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  ngAfterViewInit() {
+    if(this.dropList) {
+      this.nestedDragDropService.register(this.dropList);
+    }
   }
 
-  onListItemReorderedEvent(ev: CdkDragDrop<IListItem[]>) {
+  onItemDropped(ev: CdkDragDrop<IListItem[]>) {
     this.dailyTaskListStateFacade.handleItemIndexReorder(ev);
+  }
+
+  dragMoved(event: CdkDragMove<IListItem>) {
+    this.nestedDragDropService.dragMoved(event);
+  }
+
+  dragReleased(event: CdkDragRelease) {
+    this.nestedDragDropService.dragReleased(event);
   }
 }

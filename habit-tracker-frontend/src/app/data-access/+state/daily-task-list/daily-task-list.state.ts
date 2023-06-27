@@ -235,7 +235,7 @@ export class DailyTaskListState {
         transferArrayItem(ev.previousContainer.data, ev.container.data, ev.previousIndex, ev.currentIndex);
       }
       ctx.setState(patch<DailyTaskListStateModel>({
-        DailyTaskList: patch<any>({
+        DailyTaskList: patch<TaskList>({
             listItems: listItemsState,
         }),
       }));

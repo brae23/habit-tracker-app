@@ -1,10 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { ItemReorderEventDetail } from '@ionic/angular';
 import { cloneDeep } from 'lodash';
 import { DailyTaskListStateFacade } from 'src/app/data-access/+state/daily-task-list/daily-task-list-state.facade';
 import { IListItem } from 'src/app/models/i-list-item';
 import { TaskList } from 'src/app/models/task-list';
-import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import { CdkDrag, CdkDragDrop, CdkDragMove, CdkDragRelease, CdkDropList } from '@angular/cdk/drag-drop';
+import { NestedDragDropService } from 'src/app/services/nested-drag-drop.service';
 
 @Component({
   selector: 'app-inset-list',
@@ -15,10 +16,28 @@ export class InsetListComponent implements OnInit {
 
   @Input() taskList: any;
   @Input() isEditMode: boolean;
+  @ViewChild(CdkDropList) dropList?: CdkDropList;
 
-  constructor(private dailyTaskListStateFacade: DailyTaskListStateFacade) { }
+  allowDropPredicate = (drag: CdkDrag, drop: CdkDropList) => {
+    return this.nestedDragDropService.isDropAllowed(drag, drop);
+  };
+
+  public get connectedLists() {
+    return this.nestedDragDropService.dropLists;
+  }
+
+  constructor(
+    public nestedDragDropService: NestedDragDropService,
+    private dailyTaskListStateFacade: DailyTaskListStateFacade,
+    ) { }
 
   ngOnInit() {}
+
+  ngAfterViewInit() {
+    if(this.dropList) {
+      this.nestedDragDropService.register(this.dropList);
+    }
+  }
 
   listItemClickedEvent(listItem: IListItem) {
     let tempTaskList = cloneDeep(this.taskList);
@@ -44,7 +63,15 @@ export class InsetListComponent implements OnInit {
     this.dailyTaskListStateFacade.updateListCollapsedState(this.taskList.id, !currentVal);
   }
 
-  handleListItemReorder(ev: CdkDragDrop<IListItem[]>) {
+  onItemDropped(ev: CdkDragDrop<IListItem[]>) {
     this.dailyTaskListStateFacade.handleItemIndexReorder(ev);
+  }
+
+  dragMoved(event: CdkDragMove<IListItem>) {
+    this.nestedDragDropService.dragMoved(event);
+  }
+
+  dragReleased(event: CdkDragRelease) {
+    this.nestedDragDropService.dragReleased(event);
   }
 }

@@ -1,4 +1,9 @@
-<div cdkDrag class="list-box" (click)="onListClicked(taskList.isCollapsed)" [cdkDragDisabled]="!isEditMode">
+<div 
+  cdkDrag 
+  class="list-box" 
+  (click)="onListClicked(taskList.isCollapsed)" 
+  [cdkDragData]="taskList"
+  [cdkDragDisabled]="!isEditMode">
   <div cdkDragHandle class="drag-handle" *ngIf="isEditMode && taskList.isCollapsed">
     <ion-icon class="list-icons" name="reorder-two-outline"></ion-icon>
   </div>
@@ -10,14 +15,21 @@
 </div> 
 <div 
   cdkDropList
-  id="insetList"
+  id="{{taskList.id}}"
   class="list-div inset-list-div"
   *ngIf="!taskList.isCollapsed" 
-  (cdkDropListDropped)="handleListItemReorder($event)"
-  #insetList="cdkDropList"
+  (cdkDropListDropped)="onItemDropped($event)"
   [cdkDropListData]="taskList.listItems"
-  [cdkDropListConnectedTo]="['mainList']">
-  <div cdkDrag *ngFor="let item of taskList.listItems; index as i" class="list-box inset-list-item" [cdkDragDisabled]="!isEditMode">
+  [cdkDropListConnectedTo]="connectedLists"
+  [cdkDropListEnterPredicate]="allowDropPredicate"  
+>
+  <div 
+    cdkDrag  
+    *ngFor="let item of taskList.listItems; index as i" 
+    class="list-box inset-list-item" 
+    [cdkDragDisabled]="!isEditMode"
+    [cdkDragData]="item"
+  >
     <div cdkDragHandle class="drag-handle" *ngIf="isEditMode">
       <ion-icon class="list-icons" name="reorder-two-outline"></ion-icon>
     </div>

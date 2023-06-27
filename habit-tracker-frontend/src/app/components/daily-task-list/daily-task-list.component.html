@@ -6,13 +6,16 @@
   </ion-card-header>
   <ion-card-content>
     <div 
-      cdkDropList 
+      cdkDropList
+      cdkDropListOrientation="vertical"
       id="mainList"
       class="list-div main-list-div" 
-      (cdkDropListDropped)="onListItemReorderedEvent($event)"
+      (cdkDropListDropped)="onItemDropped($event)"
       #mainList="cdkDropList"
       [cdkDropListData]="(taskList$ | async)!.listItems"
-      [cdkDropListConnectedTo]="['insetList']">
+      [cdkDropListConnectedTo]="connectedLists"
+      [cdkDropListEnterPredicate]="allowDropPredicate"
+    >
       <ng-container *ngFor="let item of (taskList$ | async)!.listItems">
         <app-list-item [listItem]="item" [isEditMode]="isEditMode"></app-list-item>
       </ng-container>
