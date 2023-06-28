@@ -64,7 +64,7 @@ export class InsetListComponent implements OnInit {
   }
 
   onItemDropped(ev: CdkDragDrop<IListItem[]>) {
-    this.dailyTaskListStateFacade.handleItemIndexReorder(ev);
+    this.nestedDragDropService.drop(ev);
   }
 
   dragMoved(event: CdkDragMove<IListItem>) {

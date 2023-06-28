@@ -1,7 +1,8 @@
-import { CdkDrag, CdkDragMove, CdkDragRelease, CdkDropList } from '@angular/cdk/drag-drop';
+import { CdkDrag, CdkDragDrop, CdkDragMove, CdkDragRelease, CdkDropList, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable } from '@angular/core';
 import { IListItem } from '../models/i-list-item';
+import { DailyTaskListStateFacade } from '../data-access/+state/daily-task-list/daily-task-list-state.facade';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,9 @@ export class NestedDragDropService {
   dropLists: CdkDropList[] = [];
   currentHoverDropListId?: string;
 
-  constructor(@Inject(DOCUMENT) private document: Document) {}
+  constructor(
+    @Inject(DOCUMENT) private document: Document,
+    private dailyTaskListStateFacade: DailyTaskListStateFacade) {}
 
   public register(dropList: CdkDropList) {
     this.dropLists.push(dropList);
@@ -50,4 +53,9 @@ export class NestedDragDropService {
 
     return drop.id === this.currentHoverDropListId;
   }
+
+  drop(event: CdkDragDrop<IListItem[]>) {
+    this.dailyTaskListStateFacade.handleItemIndexReorder(event);
+  }
+  
 }

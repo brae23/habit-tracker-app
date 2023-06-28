@@ -21,8 +21,3 @@ export class HandleItemIndexReorder {
     static readonly type = '[DailyTaskList] HandleItemIndexReorder';
     constructor(public ev: CdkDragDrop<IListItem[]>) {}
 }
-
-export class HandleInsetListItemIndexReorder {
-    static readonly type = '[DailyTaskList] HandleInsetListItemIndexReorder';
-    constructor(public ev: CdkDragDrop<IListItem[]>, public id: string) {}
-}

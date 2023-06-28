@@ -19,6 +19,7 @@ export class DailyTaskListComponent  implements OnInit {
   @ViewChild(CdkDropList) dropList?: CdkDropList;
   currentDate: number;
   isList = isList;
+  taskList: TaskList;
 
   allowDropPredicate = (drag: CdkDrag, drop: CdkDropList) => {
     return this.nestedDragDropService.isDropAllowed(drag, drop);
@@ -31,10 +32,12 @@ export class DailyTaskListComponent  implements OnInit {
   constructor(
     public dailyTaskListStateFacade: DailyTaskListStateFacade,
     public nestedDragDropService: NestedDragDropService) {
-    this.currentDate = Date.now(); 
+    this.currentDate = Date.now();
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.taskList$.subscribe((x) => this.taskList = x);
+  }
 
   ngAfterViewInit() {
     if(this.dropList) {
@@ -43,7 +46,7 @@ export class DailyTaskListComponent  implements OnInit {
   }
 
   onItemDropped(ev: CdkDragDrop<IListItem[]>) {
-    this.dailyTaskListStateFacade.handleItemIndexReorder(ev);
+    this.nestedDragDropService.drop(ev);
   }
 
   dragMoved(event: CdkDragMove<IListItem>) {

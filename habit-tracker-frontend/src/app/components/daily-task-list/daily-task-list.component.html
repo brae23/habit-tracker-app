@@ -4,19 +4,17 @@
       {{ currentDate | date:'mediumDate' }}
     </ion-card-title>
   </ion-card-header>
-  <ion-card-content>
+  <ion-card-content class ="daily-task-list-card">
     <div 
       cdkDropList
-      cdkDropListOrientation="vertical"
-      id="mainList"
+      id="{{taskList.id}}"
       class="list-div main-list-div" 
       (cdkDropListDropped)="onItemDropped($event)"
-      #mainList="cdkDropList"
       [cdkDropListData]="(taskList$ | async)!.listItems"
       [cdkDropListConnectedTo]="connectedLists"
       [cdkDropListEnterPredicate]="allowDropPredicate"
     >
-      <ng-container *ngFor="let item of (taskList$ | async)!.listItems">
+      <ng-container *ngFor="let item of taskList.listItems">
         <app-list-item [listItem]="item" [isEditMode]="isEditMode"></app-list-item>
       </ng-container>
     </div>

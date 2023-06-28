@@ -31,8 +31,4 @@ export class DailyTaskListStateFacade {
     handleItemIndexReorder(ev: CdkDragDrop<IListItem[]>) {
         this.store.dispatch(new DailyTaskListActions.HandleItemIndexReorder(ev));   
     }
-
-    handleInsetListItemIndexReorder(ev: CdkDragDrop<IListItem[]>, id: string) {
-        this.store.dispatch(new DailyTaskListActions.HandleInsetListItemIndexReorder(ev, id));
-    }
 }

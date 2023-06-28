@@ -8,6 +8,7 @@ import { IListItem } from "src/app/models/i-list-item";
 import { patch, updateItem } from "@ngxs/store/operators";
 import { moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { cloneDeep } from "lodash";
+import { findListItemArray } from "src/app/functions/find-list.function";
 
 @State<DailyTaskListStateModel>({
     name: 'dailytasklist',
@@ -37,7 +38,7 @@ export class DailyTaskListState {
           };
       
           const testList1: TaskList = {
-            id: 'listId1',
+            id: 'insetListId1',
             name: 'Test Inset List 1',
             description: 'Mock Description',
             completed: false,
@@ -91,7 +92,7 @@ export class DailyTaskListState {
           }
 
           const testList2: TaskList = {
-            id: 'listId2',
+            id: 'insetListId2',
             name: 'Test Inset List 2',
             description: 'Mock Description',
             completed: false,
@@ -146,7 +147,7 @@ export class DailyTaskListState {
         
       
           const dailyTaskList = {
-            id: 'listId1',
+            id: 'dtListId1',
             name: 'Daily Task List 1',
             description: 'Mock Description',
             completed: false,
@@ -227,35 +228,18 @@ export class DailyTaskListState {
 
     @Action(DailyTaskListActions.HandleItemIndexReorder)
     handleItemIndexReorder(ctx: StateContext<DailyTaskListStateModel>, { ev }: DailyTaskListActions.HandleItemIndexReorder) {
-      let listItemsState = cloneDeep(ctx.getState().DailyTaskList.listItems);
+      let dailyTaskListState = cloneDeep(ctx.getState().DailyTaskList);
+      let listId = ev.container.id
       if(ev.previousContainer === ev.container) {
-        moveItemInArray(listItemsState, ev.previousIndex, ev.currentIndex);
+        moveItemInArray(findListItemArray(dailyTaskListState, listId)!, ev.previousIndex, ev.currentIndex);
       }
       else {
-        transferArrayItem(ev.previousContainer.data, ev.container.data, ev.previousIndex, ev.currentIndex);
+        let previousListId = ev.previousContainer.id; 
+        transferArrayItem(findListItemArray(dailyTaskListState, previousListId)!, findListItemArray(dailyTaskListState, listId)!, ev.previousIndex, ev.currentIndex);
+        console.log(dailyTaskListState);
       }
       ctx.setState(patch<DailyTaskListStateModel>({
-        DailyTaskList: patch<TaskList>({
-            listItems: listItemsState,
-        }),
-      }));
-    }
-    
-    @Action(DailyTaskListActions.HandleInsetListItemIndexReorder)
-    handleInsetListItemIndexReorder(ctx: StateContext<DailyTaskListStateModel>, { ev, id }: DailyTaskListActions.HandleInsetListItemIndexReorder) {
-      let insetListItemsState = cloneDeep(ctx.getState().DailyTaskList.listItems.find((x) => x.id == id)!.listItems);
-      if(insetListItemsState) {
-        if(ev.previousContainer === ev.container) {
-          moveItemInArray(insetListItemsState, ev.previousIndex, ev.currentIndex);
-        }
-        else {
-          transferArrayItem(ev.previousContainer.data, ev.container.data, ev.previousIndex, ev.currentIndex);
-        }
-      }
-      ctx.setState(patch<DailyTaskListStateModel>({
-        DailyTaskList: patch<TaskList>({
-            listItems: updateItem<any>((x) => x.id == id, patch({ listItems: insetListItemsState })),
-        }),
+        DailyTaskList: dailyTaskListState
       }));
     }
 }
