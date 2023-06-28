@@ -3,7 +3,7 @@
   class="list-box" 
   (click)="onListClicked(taskList.isCollapsed)" 
   [cdkDragData]="taskList"
-  [cdkDragDisabled]="!isEditMode">
+  [cdkDragDisabled]="!isEditMode && !taskList.isCollapsed">
   <div cdkDragHandle class="drag-handle" *ngIf="isEditMode && taskList.isCollapsed">
     <ion-icon class="list-icons" name="reorder-two-outline"></ion-icon>
   </div>
@@ -29,6 +29,8 @@
     class="list-box inset-list-item" 
     [cdkDragDisabled]="!isEditMode"
     [cdkDragData]="item"
+    (cdkDragMoved)="dragMoved($event)"
+    (cdkDragReleased)="dragReleased($event)"
   >
     <div cdkDragHandle class="drag-handle" *ngIf="isEditMode">
       <ion-icon class="list-icons" name="reorder-two-outline"></ion-icon>

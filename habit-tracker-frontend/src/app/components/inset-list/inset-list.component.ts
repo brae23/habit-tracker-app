@@ -39,6 +39,12 @@ export class InsetListComponent implements OnInit {
     }
   }
 
+  ngOnDestroy() {
+    if(this.dropList) {
+      this.nestedDragDropService.unregister(this.dropList);
+    }
+  }
+
   listItemClickedEvent(listItem: IListItem) {
     let tempTaskList = cloneDeep(this.taskList);
 

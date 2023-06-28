@@ -236,7 +236,6 @@ export class DailyTaskListState {
       else {
         let previousListId = ev.previousContainer.id; 
         transferArrayItem(findListItemArray(dailyTaskListState, previousListId)!, findListItemArray(dailyTaskListState, listId)!, ev.previousIndex, ev.currentIndex);
-        console.log(dailyTaskListState);
       }
       ctx.setState(patch<DailyTaskListStateModel>({
         DailyTaskList: dailyTaskListState

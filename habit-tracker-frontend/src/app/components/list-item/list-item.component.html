@@ -3,10 +3,13 @@
 </ng-container>
 <ng-container *ngIf="!isList(listItem)">
     <div 
-    cdkDrag
-    [cdkDragData]="listItem"
-    class="list-box"
-    [cdkDragDisabled]="!isEditMode">
+        cdkDrag
+        [cdkDragData]="listItem"
+        class="list-box"
+        [cdkDragDisabled]="!isEditMode"
+        (cdkDragMoved)="dragMoved($event)"
+        (cdkDragReleased)="dragReleased($event)"
+    >
         <div cdkDragHandle *ngIf="isEditMode" class="drag-handle">
             <ion-icon class="list-icons" name="reorder-two-outline"></ion-icon>
         </div>

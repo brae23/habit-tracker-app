@@ -48,12 +48,4 @@ export class DailyTaskListComponent  implements OnInit {
   onItemDropped(ev: CdkDragDrop<IListItem[]>) {
     this.nestedDragDropService.drop(ev);
   }
-
-  dragMoved(event: CdkDragMove<IListItem>) {
-    this.nestedDragDropService.dragMoved(event);
-  }
-
-  dragReleased(event: CdkDragRelease) {
-    this.nestedDragDropService.dragReleased(event);
-  }
 }
