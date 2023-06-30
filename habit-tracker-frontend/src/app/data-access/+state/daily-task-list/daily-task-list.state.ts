@@ -9,6 +9,7 @@ import { patch, updateItem } from "@ngxs/store/operators";
 import { moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { cloneDeep } from "lodash";
 import { findListItemArray } from "src/app/functions/find-list.function";
+import { toTask } from "src/app/functions/to-task.function";
 
 @State<DailyTaskListStateModel>({
     name: 'dailytasklist',
@@ -43,7 +44,6 @@ export class DailyTaskListState {
             description: 'Mock Description',
             completed: false,
             isCollapsed: true,
-            priority: 4,
             totalTaskCount: 5,
             completedTaskCount: 2,
             createdByUserId: 'User 1',
@@ -52,7 +52,6 @@ export class DailyTaskListState {
                 id: 'taskId1',
                 parentListId: 'listId1',
                 name: 'Task 1 Name',
-                priority: 1,
                 completed: false,
                 createdByUserId: 'User 1'
               },
@@ -60,7 +59,6 @@ export class DailyTaskListState {
                 id: 'taskId2',
                 parentListId: 'listId1',
                 name: 'Task 2 Name',
-                priority: 2,
                 completed: false,
                 createdByUserId: 'User 1'
               },
@@ -68,7 +66,6 @@ export class DailyTaskListState {
                 id: 'taskId3',
                 parentListId: 'listId1',
                 name: 'Task 3 Name',
-                priority: 3,
                 completed: true,
                 createdByUserId: 'User 1'
               },
@@ -76,7 +73,6 @@ export class DailyTaskListState {
                 id: 'taskId4',
                 parentListId: 'listId1',
                 name: 'Task 4 Name',
-                priority: 4,
                 completed: true,
                 createdByUserId: 'User 1'
               },
@@ -84,7 +80,6 @@ export class DailyTaskListState {
                 id: 'taskId5',
                 parentListId: 'listId1',
                 name: 'Task 5 Name',
-                priority: 5,
                 completed: false,
                 createdByUserId: 'User 1'
               }
@@ -97,7 +92,6 @@ export class DailyTaskListState {
             description: 'Mock Description',
             completed: false,
             isCollapsed: true,
-            priority: 4,
             totalTaskCount: 5,
             completedTaskCount: 2,
             createdByUserId: 'User 1',
@@ -106,7 +100,6 @@ export class DailyTaskListState {
                 id: 'taskId1',
                 parentListId: 'listId1',
                 name: 'Task 1 Name',
-                priority: 1,
                 completed: false,
                 createdByUserId: 'User 1'
               },
@@ -114,7 +107,6 @@ export class DailyTaskListState {
                 id: 'taskId2',
                 parentListId: 'listId1',
                 name: 'Task 2 Name',
-                priority: 2,
                 completed: false,
                 createdByUserId: 'User 1'
               },
@@ -122,7 +114,6 @@ export class DailyTaskListState {
                 id: 'taskId3',
                 parentListId: 'listId1',
                 name: 'Task 3 Name',
-                priority: 3,
                 completed: true,
                 createdByUserId: 'User 1'
               },
@@ -130,7 +121,6 @@ export class DailyTaskListState {
                 id: 'taskId4',
                 parentListId: 'listId1',
                 name: 'Task 4 Name',
-                priority: 4,
                 completed: true,
                 createdByUserId: 'User 1'
               },
@@ -138,7 +128,6 @@ export class DailyTaskListState {
                 id: 'taskId5',
                 parentListId: 'listId1',
                 name: 'Task 5 Name',
-                priority: 5,
                 completed: false,
                 createdByUserId: 'User 1'
               }
@@ -207,13 +196,13 @@ export class DailyTaskListState {
 
     @Action(DailyTaskListActions.UpdateListItem)
     updateListItem(ctx: StateContext<DailyTaskListStateModel>, { listItem }: DailyTaskListActions.UpdateListItem) {
-        ctx.setState(patch<DailyTaskListStateModel>({
-            DailyTaskList: patch<DailyTaskListStateModel['DailyTaskList']>({
-                listItems: updateItem((x) => x.id === listItem.id,
-                  listItem
-                ),
-            }),
-        }));
+      ctx.setState(patch<DailyTaskListStateModel>({
+          DailyTaskList: patch<DailyTaskListStateModel['DailyTaskList']>({
+              listItems: updateItem((x) => x.id === listItem.id,
+                listItem
+              ),
+          }),
+      }));
     }
 
     @Action(DailyTaskListActions.UpdateListCollapsedState)
@@ -234,8 +223,11 @@ export class DailyTaskListState {
         moveItemInArray(findListItemArray(dailyTaskListState, listId)!, ev.previousIndex, ev.currentIndex);
       }
       else {
-        let previousListId = ev.previousContainer.id; 
-        transferArrayItem(findListItemArray(dailyTaskListState, previousListId)!, findListItemArray(dailyTaskListState, listId)!, ev.previousIndex, ev.currentIndex);
+        let previousList = findListItemArray(dailyTaskListState, ev.previousContainer.id);
+        transferArrayItem(previousList!, findListItemArray(dailyTaskListState, listId)!, ev.previousIndex, ev.currentIndex);
+        if(previousList!.length == 0) {
+          dailyTaskListState.listItems.map((x) => x.id == ev.previousContainer.id ? toTask(previousList): x);
+        }
       }
       ctx.setState(patch<DailyTaskListStateModel>({
         DailyTaskList: dailyTaskListState

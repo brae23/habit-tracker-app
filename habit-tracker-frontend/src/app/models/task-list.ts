@@ -3,7 +3,6 @@ import { IListItem } from './i-list-item';
 export class TaskList implements IListItem{
     id: string;
     name: string;
-    priority: number;
     completed: boolean;
     isCollapsed: boolean;
     createdByUserId: string;

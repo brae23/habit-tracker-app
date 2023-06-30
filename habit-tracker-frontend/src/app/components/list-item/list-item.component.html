@@ -13,6 +13,11 @@
         <div cdkDragHandle *ngIf="isEditMode" class="drag-handle">
             <ion-icon class="list-icons" name="reorder-two-outline"></ion-icon>
         </div>
-        <ion-checkbox class="list-checkbox" justify="start" labelPlacement="end" [checked]="listItem.completed" (ionChange)="onListItemClickedEvent(listItem)">{{ listItem.name }}</ion-checkbox>
+        <div class="tasklist-item-box">       
+            <ion-checkbox class="list-checkbox" justify="start" labelPlacement="end" [checked]="listItem.completed" (ionChange)="onListItemClickedEvent(listItem)">{{ listItem.name }}</ion-checkbox>
+            <div *ngIf="isEditMode" class="item-add-icon-box" slot="end" (click)="makeItemListClicked()">
+                <ion-icon class="list-icons" name="add-outline"></ion-icon>
+            </div>
+        </div>
     </div>
 </ng-container>

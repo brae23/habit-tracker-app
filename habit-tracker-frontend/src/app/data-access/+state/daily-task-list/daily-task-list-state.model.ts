@@ -4,7 +4,6 @@ export const DefaultDailyTaskListState: DailyTaskListStateModel = {
     DailyTaskList: {
         id: '',
         name: '',
-        priority: 0,
         completed: false,
         isCollapsed: true,
         createdByUserId: '',

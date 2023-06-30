@@ -4,7 +4,10 @@ import { ItemReorderEventDetail } from '@ionic/angular';
 import { cloneDeep } from 'lodash';
 import { DailyTaskListStateFacade } from 'src/app/data-access/+state/daily-task-list/daily-task-list-state.facade';
 import { isList } from 'src/app/functions/is-list.function';
+import { toList } from 'src/app/functions/to-list.function';
 import { IListItem } from 'src/app/models/i-list-item';
+import { DefaultTask } from 'src/app/models/task';
+import { TaskList } from 'src/app/models/task-list';
 import { NestedDragDropService } from 'src/app/services/nested-drag-drop.service';
 
 @Component({
@@ -40,5 +43,9 @@ export class ListItemComponent implements OnInit {
 
   dragReleased(event: CdkDragRelease) {
     this.nestedDragDropService.dragReleased(event);
+  }
+
+  makeItemListClicked() {
+    this.dailyTaskListStateFacade.updateListItem(toList(this.listItem));
   }
 }
