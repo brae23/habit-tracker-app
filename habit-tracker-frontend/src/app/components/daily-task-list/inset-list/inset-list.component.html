@@ -27,14 +27,22 @@
     cdkDrag  
     *ngFor="let item of taskList.listItems; index as i" 
     class="list-box inset-list-item" 
-    [cdkDragDisabled]="!isEditMode"
+    [cdkDragDisabled]="!isEditMode || isNewTask(item)"
     [cdkDragData]="item"
     (cdkDragMoved)="dragMoved($event)"
     (cdkDragReleased)="dragReleased($event)"
   >
-    <div cdkDragHandle class="drag-handle" *ngIf="isEditMode">
-      <ion-icon class="list-icons" name="reorder-two-outline"></ion-icon>
+    <div *ngIf="isNewTask(item)" class="new-task-input-box">
+      <daily-task-list-new-task
+        (itemNameInputText)="onNewTaskNameEnterEvent($event)"
+        (lostFocusEvent)="onNewTaskFocusOutEvent()"
+      ></daily-task-list-new-task>
     </div>
-    <ion-checkbox class="list-checkbox" justify="start" labelPlacement="end" [checked]="item.completed" (ionChange)="listItemClickedEvent(item)">{{ item.name }}</ion-checkbox>
+    <ng-container *ngIf="!isNewTask(item)">
+      <div cdkDragHandle class="drag-handle" *ngIf="isEditMode">
+        <ion-icon class="list-icons" name="reorder-two-outline"></ion-icon>
+      </div>
+      <ion-checkbox class="list-checkbox" justify="start" labelPlacement="end" [checked]="item.completed" (ionChange)="listItemClickedEvent(item)">{{ item.name }}</ion-checkbox>  
+    </ng-container>
   </div>
 </div>

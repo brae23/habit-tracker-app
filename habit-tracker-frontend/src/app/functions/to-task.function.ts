@@ -1,7 +1,7 @@
 import { Task } from "../models/task"
 
 export function toTask(list: any) : Task {
-    let task = {
+    let task: Task = {
         id: list.id,
         name: list.name,
         completed: list.completed,

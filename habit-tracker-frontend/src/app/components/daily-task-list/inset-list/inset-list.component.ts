@@ -1,9 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
-import { ItemReorderEventDetail } from '@ionic/angular';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { cloneDeep } from 'lodash';
 import { DailyTaskListStateFacade } from 'src/app/data-access/+state/daily-task-list/daily-task-list-state.facade';
 import { IListItem } from 'src/app/models/i-list-item';
-import { TaskList } from 'src/app/models/task-list';
 import { CdkDrag, CdkDragDrop, CdkDragMove, CdkDragRelease, CdkDropList } from '@angular/cdk/drag-drop';
 import { NestedDragDropService } from 'src/app/services/nested-drag-drop.service';
 
@@ -79,5 +77,17 @@ export class InsetListComponent implements OnInit {
 
   dragReleased(event: CdkDragRelease) {
     this.nestedDragDropService.dragReleased(event);
+  }
+
+  isNewTask(item: IListItem) {
+    return item.id === '00000000-0000-0000-0000-000000000000';
+  }
+
+  onNewTaskNameEnterEvent($event: any) {
+    console.log("In Inset List: " + $event);
+  }
+
+  onNewTaskFocusOutEvent() {
+    console.log("LOST FOCUS!");
   }
 }

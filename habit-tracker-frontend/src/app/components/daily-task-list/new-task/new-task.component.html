@@ -1,0 +1,10 @@
+<ion-input 
+  placeholder="New Task" 
+  fill="outline"
+  type="text"
+  (ionChange)="onTextInputEnter($any($event))"
+  (ionBlur)="onFocusOut()"
+  autofocus="true"
+  maxlength="100"
+>
+</ion-input>

@@ -1,14 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import { DailyTaskListComponent } from './daily-task-list/daily-task-list.component';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
-import { InsetListComponent } from './inset-list/inset-list.component';
-import { ListItemComponent } from './list-item/list-item.component';
+import { InsetListComponent } from './daily-task-list/inset-list/inset-list.component';
+import { ListItemComponent } from './daily-task-list/list-item/list-item.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { DailyTaskListComponent } from './daily-task-list/daily-task-list/daily-task-list.component';
+import { NewTaskComponent } from './daily-task-list/new-task/new-task.component';
 
 @NgModule({
-  declarations: [DailyTaskListComponent, InsetListComponent, ListItemComponent],
+  declarations: [DailyTaskListComponent, InsetListComponent, ListItemComponent, NewTaskComponent],
   exports: [DailyTaskListComponent],
   imports: [
     CommonModule,

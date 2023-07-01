@@ -17,10 +17,12 @@ export class NestedDragDropService {
     private dailyTaskListStateFacade: DailyTaskListStateFacade) {}
 
   public register(dropList: CdkDropList) {
+    console.log(`Registering droplist with id: ${dropList.id}`);
     this.dropLists.push(dropList);
   }
 
   public unregister(dropList: CdkDropList) {
+    console.log(`Unregistering dropList with id: ${dropList.id}`);
     this.dropLists.splice(this.dropLists.findIndex((x) => x.id === dropList.id));
   }
 

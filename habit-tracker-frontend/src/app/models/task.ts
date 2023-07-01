@@ -14,7 +14,7 @@ export class Task implements IListItem {
 }
 
 export const DefaultTask: Task = {
-    id: "New Task",
+    id: "00000000-0000-0000-0000-000000000000",
     name: "New Task",
     completed: false,
     createdByUserId: "System"
