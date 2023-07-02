@@ -4,6 +4,9 @@ import { DailyTaskListStateFacade } from 'src/app/data-access/+state/daily-task-
 import { IListItem } from 'src/app/models/i-list-item';
 import { CdkDrag, CdkDragDrop, CdkDragMove, CdkDragRelease, CdkDropList } from '@angular/cdk/drag-drop';
 import { NestedDragDropService } from 'src/app/services/nested-drag-drop.service';
+import { TaskList } from 'src/app/models/task-list';
+import { DefaultTask } from 'src/app/models/task';
+import { isNewTask } from 'src/app/functions/is-new-task.function';
 
 @Component({
   selector: 'app-inset-list',
@@ -15,6 +18,8 @@ export class InsetListComponent implements OnInit {
   @Input() taskList: any;
   @Input() isEditMode: boolean;
   @ViewChild(CdkDropList) dropList?: CdkDropList;
+  canCommitNewTask: boolean = false;
+  isNewTask = isNewTask;
 
   allowDropPredicate = (drag: CdkDrag, drop: CdkDropList) => {
     return this.nestedDragDropService.isDropAllowed(drag, drop);
@@ -79,15 +84,25 @@ export class InsetListComponent implements OnInit {
     this.nestedDragDropService.dragReleased(event);
   }
 
-  isNewTask(item: IListItem) {
-    return item.id === '00000000-0000-0000-0000-000000000000';
-  }
-
   onNewTaskNameEnterEvent($event: any) {
-    console.log("In Inset List: " + $event);
+    this.canCommitNewTask = true;
+    let newListItem: IListItem = {
+      id: $event,
+      name: $event,
+      completed: false,
+      createdByUserId: 'UserId1',
+    }
+    this.dailyTaskListStateFacade.addInsetListItem(newListItem, this.taskList.id);
+    this.removeNewDefaultTask();
   }
 
   onNewTaskFocusOutEvent() {
-    console.log("LOST FOCUS!");
+    if(!this.canCommitNewTask) {
+      this.removeNewDefaultTask();
+    }
+  }
+
+  removeNewDefaultTask() {
+    this.dailyTaskListStateFacade.removeInsetListItem(DefaultTask.id, this.taskList.id);
   }
 }

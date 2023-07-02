@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DailyTaskListStateFacade } from 'src/app/data-access/+state/daily-task-list/daily-task-list-state.facade';
 import { IListItem } from 'src/app/models/i-list-item';
+import { DefaultTask } from 'src/app/models/task';
 
 @Component({
   selector: 'app-daily-task-list-page',
@@ -11,7 +12,6 @@ export class DailyTaskListPage implements OnInit {
 
   testUserId: string = 'TestUserId1';
   isEditMode: boolean = false;
-  isAddFabOpen: boolean = false;
   listReorderingTemp: IListItem;
 
   constructor(public dailyTaskListStateFacade: DailyTaskListStateFacade) {
@@ -21,12 +21,8 @@ export class DailyTaskListPage implements OnInit {
     this.dailyTaskListStateFacade.loadDailyTaskList(this.testUserId);
   }
 
-  onAddFabOpen() {
-    this.isAddFabOpen = true;
-  }
-
   onNewTaskClicked() {
-    this.isAddFabOpen = false;
+    this.dailyTaskListStateFacade.addListItem(DefaultTask);
   }
 
   onEditFabClicked() {

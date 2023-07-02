@@ -24,6 +24,22 @@ export class DailyTaskListStateFacade {
         this.store.dispatch(new DailyTaskListActions.UpdateListItem(listItem));
     }
 
+    addListItem(listItem: IListItem) {
+        this.store.dispatch(new DailyTaskListActions.AddListItem(listItem));
+    }
+    
+    addInsetListItem(listItem: IListItem, parentListId: string) {
+        this.store.dispatch(new DailyTaskListActions.AddInsetListItem(listItem, parentListId));
+    }
+
+    removeListItem(listItemId: string) {
+        this.store.dispatch(new DailyTaskListActions.RemoveListItem(listItemId));
+    }
+
+    removeInsetListItem(listItemId: string, parentListId: string) {
+        this.store.dispatch(new DailyTaskListActions.RemoveInsetListItem(listItemId, parentListId));
+    }
+
     updateListCollapsedState(listItemId: string, collapsedState: boolean) {
         this.store.dispatch(new DailyTaskListActions.UpdateListCollapsedState(listItemId, collapsedState));
     }

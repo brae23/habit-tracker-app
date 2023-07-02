@@ -1,12 +1,9 @@
 import { IListItem } from "./i-list-item";
-import { TaskList } from "./task-list";
-
 export class Task implements IListItem {
     id: string;
     name: string;
     completed: boolean;
     createdByUserId: string;
-    parentTaskId?: string;
     parentListId?: string;
     dueDate?: Date;
     notes?: string;

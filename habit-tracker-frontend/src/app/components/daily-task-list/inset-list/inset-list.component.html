@@ -32,7 +32,7 @@
     (cdkDragMoved)="dragMoved($event)"
     (cdkDragReleased)="dragReleased($event)"
   >
-    <div *ngIf="isNewTask(item)" class="new-task-input-box">
+    <div *ngIf="isNewTask(item)" class="new-task-input-box-inset">
       <daily-task-list-new-task
         (itemNameInputText)="onNewTaskNameEnterEvent($event)"
         (lostFocusEvent)="onNewTaskFocusOutEvent()"

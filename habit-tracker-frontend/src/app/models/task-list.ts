@@ -7,8 +7,9 @@ export class TaskList implements IListItem{
     isCollapsed: boolean;
     createdByUserId: string;
     listItems: IListItem[];
-    description: string;
+    createdDate: number;
     totalTaskCount: number;
     completedTaskCount: number;
     associatedUserIds?: string[];
+    description?: string;
 }

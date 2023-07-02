@@ -5,7 +5,7 @@ import * as DailyTaskListActions from './daily-task-list-state.action';
 import { Habit } from "src/app/models/habit";
 import { TaskList } from "src/app/models/task-list";
 import { IListItem } from "src/app/models/i-list-item";
-import { patch, updateItem } from "@ngxs/store/operators";
+import { insertItem, patch, removeItem, updateItem } from "@ngxs/store/operators";
 import { moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { cloneDeep } from "lodash";
 import { findListItemArray } from "src/app/functions/find-list.function";
@@ -42,6 +42,7 @@ export class DailyTaskListState {
             id: 'insetListId1',
             name: 'Test Inset List 1',
             description: 'Mock Description',
+            createdDate: Date.now(),
             completed: false,
             isCollapsed: true,
             totalTaskCount: 5,
@@ -90,6 +91,7 @@ export class DailyTaskListState {
             id: 'insetListId2',
             name: 'Test Inset List 2',
             description: 'Mock Description',
+            createdDate: Date.now(),
             completed: false,
             isCollapsed: true,
             totalTaskCount: 5,
@@ -139,6 +141,7 @@ export class DailyTaskListState {
             id: 'dtListId1',
             name: 'Daily Task List 1',
             description: 'Mock Description',
+            createdDate: Date.now(),
             completed: false,
             isCollapsed: false,
             priority: 0,
@@ -205,10 +208,49 @@ export class DailyTaskListState {
       }));
     }
 
+    @Action(DailyTaskListActions.AddListItem)
+    addListItem(ctx: StateContext<DailyTaskListStateModel>, { listItem }: DailyTaskListActions.AddListItem) {
+      let newListItemIndex = ctx.getState().DailyTaskList.listItems.length + 1;
+      ctx.setState(patch<DailyTaskListStateModel>({
+        DailyTaskList: patch<DailyTaskListStateModel['DailyTaskList']>({
+          listItems: insertItem<IListItem>(listItem, newListItemIndex)
+        })
+      }));
+    }
+
+    @Action(DailyTaskListActions.AddInsetListItem)
+    addInsetListItem(ctx: StateContext<DailyTaskListStateModel>, { listItem, parentListId }: DailyTaskListActions.AddInsetListItem) {
+      ctx.setState(patch<DailyTaskListStateModel>({
+        DailyTaskList: patch<DailyTaskListStateModel['DailyTaskList']>({
+          listItems: updateItem<any>((x) => x.id === parentListId, patch({ listItems: insertItem(listItem) })
+          ),
+        }),
+      }));
+    }
+
+    @Action(DailyTaskListActions.RemoveListItem)
+    removeListItem(ctx: StateContext<DailyTaskListStateModel>, { listItemId }: DailyTaskListActions.RemoveListItem) {
+      ctx.setState(patch<DailyTaskListStateModel>({
+        DailyTaskList: patch<DailyTaskListStateModel['DailyTaskList']>({
+            listItems: removeItem((x) => x.id === listItemId)
+        }),
+      }));
+    }
+
+    @Action(DailyTaskListActions.RemoveInsetListItem)
+    removeInsetListItem(ctx: StateContext<DailyTaskListStateModel>, { listItemId, parentListId }: DailyTaskListActions.RemoveInsetListItem) {
+      ctx.setState(patch<DailyTaskListStateModel>({
+        DailyTaskList: patch<DailyTaskListStateModel['DailyTaskList']>({
+            listItems: updateItem<any>((x) => x.id === parentListId, 
+              patch({ listItems: removeItem<any>((x) => x.id === listItemId)}))
+        }),
+      }));
+    }
+
     @Action(DailyTaskListActions.UpdateListCollapsedState)
     updateListCollapsedState(ctx: StateContext<DailyTaskListStateModel>, { listItemId, collapsedState }: DailyTaskListActions.UpdateListCollapsedState) {
       ctx.setState(patch<DailyTaskListStateModel>({
-        DailyTaskList: patch<any>({
+        DailyTaskList: patch<DailyTaskListStateModel['DailyTaskList']>({
             listItems: updateItem<any>((x) => x.id === listItemId, patch({ isCollapsed: collapsedState })
             ),
         }),

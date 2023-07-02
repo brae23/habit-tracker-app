@@ -94,3 +94,15 @@ ion-checkbox {
 .list-disabled-checkbox {
     pointer-events: none;
 }
+
+.new-task-input-box {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.new-task-input-box-inset {
+    padding-left: 20px;
+}

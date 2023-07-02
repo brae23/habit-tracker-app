@@ -1,13 +1,12 @@
 import { CdkDragMove, CdkDragRelease } from '@angular/cdk/drag-drop';
-import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
-import { ItemReorderEventDetail } from '@ionic/angular';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { cloneDeep } from 'lodash';
 import { DailyTaskListStateFacade } from 'src/app/data-access/+state/daily-task-list/daily-task-list-state.facade';
 import { isList } from 'src/app/functions/is-list.function';
 import { toList } from 'src/app/functions/to-list.function';
+import { isNewTask } from 'src/app/functions/is-new-task.function';
 import { IListItem } from 'src/app/models/i-list-item';
 import { DefaultTask } from 'src/app/models/task';
-import { TaskList } from 'src/app/models/task-list';
 import { NestedDragDropService } from 'src/app/services/nested-drag-drop.service';
 
 @Component({
@@ -19,8 +18,10 @@ export class ListItemComponent implements OnInit {
 
   @Input() listItem: any;
   @Input() isEditMode: boolean;
+  canCommitNewTask: boolean;
 
   isList = isList;
+  isNewTask = isNewTask;
 
   constructor(
     private dailyTaskListStateFacade: DailyTaskListStateFacade,
@@ -47,5 +48,27 @@ export class ListItemComponent implements OnInit {
 
   makeItemListClicked() {
     this.dailyTaskListStateFacade.updateListItem(toList(this.listItem));
+  }
+
+  onNewTaskNameEnterEvent($event: any) {
+    this.canCommitNewTask = true;
+    let newListItem: IListItem = {
+      id: $event,
+      name: $event,
+      completed: false,
+      createdByUserId: 'UserId1',
+    }
+    this.dailyTaskListStateFacade.addListItem(newListItem);
+    this.removeNewDefaultTask();
+  }
+
+  onNewTaskFocusOutEvent() {
+    if(!this.canCommitNewTask) {
+      this.removeNewDefaultTask();
+    }
+  }
+  
+  removeNewDefaultTask() {
+    this.dailyTaskListStateFacade.removeListItem(DefaultTask.id);
   }
 }

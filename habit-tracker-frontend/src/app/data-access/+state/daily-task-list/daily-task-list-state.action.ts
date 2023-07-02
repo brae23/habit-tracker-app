@@ -12,6 +12,26 @@ export class UpdateListItem {
     constructor(public listItem: IListItem) {}
 }
 
+export class AddListItem {
+    static readonly type = '[DailyTaskList] AddListItem';
+    constructor(public listItem: IListItem) {}
+}
+
+export class AddInsetListItem {
+    static readonly type = '[DailyTaskList] AddInsetListItem';
+    constructor(public listItem: IListItem, public parentListId: string) {}
+}
+
+export class RemoveListItem {
+    static readonly type = '[DailyTaskList] RemoveListItem';
+    constructor(public listItemId: string) {}
+}
+
+export class RemoveInsetListItem {
+    static readonly type = '[DailyTaskList] RemoveInsetListItem';
+    constructor(public listItemId: string, public parentListId: string) {}
+}
+
 export class UpdateListCollapsedState {
     static readonly type = '[DailyTaskList] UpdateListCollapsedState';
     constructor(public listItemId: string, public collapsedState: boolean) {}
