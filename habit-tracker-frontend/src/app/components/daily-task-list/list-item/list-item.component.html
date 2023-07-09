@@ -2,7 +2,8 @@
     <app-inset-list [taskList]="listItem" [isEditMode]="isEditMode" (listItemClicked)="onListItemClickedEvent(listItem)"></app-inset-list>
 </ng-container>
 <ng-container *ngIf="!isList(listItem)">
-    <div 
+    <div
+        id="listItem.id"
         cdkDrag
         [cdkDragData]="listItem"
         class="list-box"

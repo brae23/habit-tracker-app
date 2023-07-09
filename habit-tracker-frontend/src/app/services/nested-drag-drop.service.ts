@@ -61,5 +61,4 @@ export class NestedDragDropService {
   drop(event: CdkDragDrop<IListItem[]>) {
     this.dailyTaskListStateFacade.handleItemIndexReorder(event);
   }
-  
 }

@@ -1,5 +1,5 @@
 import { CdkDragMove, CdkDragRelease } from '@angular/cdk/drag-drop';
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { cloneDeep } from 'lodash';
 import { DailyTaskListStateFacade } from 'src/app/data-access/+state/daily-task-list/daily-task-list-state.facade';
 import { isList } from 'src/app/functions/is-list.function';
@@ -8,6 +8,7 @@ import { isNewTask } from 'src/app/functions/is-new-task.function';
 import { IListItem } from 'src/app/models/i-list-item';
 import { DefaultTask } from 'src/app/models/task';
 import { NestedDragDropService } from 'src/app/services/nested-drag-drop.service';
+import { createGesture } from '@ionic/core';
 
 @Component({
   selector: 'app-list-item',
@@ -15,7 +16,6 @@ import { NestedDragDropService } from 'src/app/services/nested-drag-drop.service
   styleUrls: ['./list-item.component.scss'],
 })
 export class ListItemComponent implements OnInit {
-
   @Input() listItem: any;
   @Input() isEditMode: boolean;
   canCommitNewTask: boolean;
