@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,12 @@ import { Component } from '@angular/core';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  constructor() {}
+  constructor(private platform: Platform) {
+    this.platform.keyboardDidShow.subscribe((ev: any) => {
+      console.log(ev);
+    })
+    this.platform.keyboardDidHide.subscribe(() => {
+      // Revert height to original height
+    })
+  }
 }

@@ -1,0 +1,48 @@
+<div 
+  cdkDrag 
+  class="list-box" 
+  (click)="onListClicked(taskList.isCollapsed)" 
+  [cdkDragData]="taskList"
+  [cdkDragDisabled]="dragDisabled">
+  <div cdkDragHandle class="drag-handle" *ngIf="isEditMode && taskList.isCollapsed">
+    <ion-icon class="list-icons" name="reorder-two-outline"></ion-icon>
+  </div>
+  <div class="inset-list-box">
+    <ion-checkbox class="list-disabled-checkbox list-checkbox" justify="start" labelPlacement="end" [checked]="taskList.completed">{{ taskList.name }}</ion-checkbox>
+    <ion-icon class="list-icons" name="chevron-down-outline" slot="end" *ngIf="taskList.isCollapsed"></ion-icon>
+    <ion-icon class="list-icons" name="chevron-up-outline" slot="end" *ngIf="!taskList.isCollapsed"></ion-icon>
+  </div>
+</div> 
+<div 
+  cdkDropList
+  id="{{taskList.id}}"
+  class="list-div inset-list-div"
+  *ngIf="!taskList.isCollapsed" 
+  (cdkDropListDropped)="onItemDropped($event)"
+  [cdkDropListData]="taskList.listItems"
+  [cdkDropListConnectedTo]="connectedLists"
+  [cdkDropListEnterPredicate]="allowDropPredicate"  
+>
+  <div 
+    cdkDrag  
+    *ngFor="let item of taskList.listItems; index as i" 
+    class="list-box inset-list-item" 
+    [cdkDragDisabled]="!isEditMode || isNewTask(item)"
+    [cdkDragData]="item"
+    (cdkDragMoved)="dragMoved($event)"
+    (cdkDragReleased)="dragReleased($event)"
+  >
+    <div *ngIf="isNewTask(item)" class="new-task-input-box-inset">
+      <daily-task-list-new-task
+        (itemNameInputText)="onNewTaskNameEnterEvent($event)"
+        (lostFocusEvent)="onNewTaskFocusOutEvent()"
+      ></daily-task-list-new-task>
+    </div>
+    <ng-container *ngIf="!isNewTask(item)">
+      <div cdkDragHandle class="drag-handle" *ngIf="isEditMode">
+        <ion-icon class="list-icons" name="reorder-two-outline"></ion-icon>
+      </div>
+      <ion-checkbox class="list-checkbox" justify="start" labelPlacement="end" [checked]="item.completed" (ionChange)="listItemClickedEvent(item)">{{ item.name }}</ion-checkbox>  
+    </ng-container>
+  </div>
+</div>

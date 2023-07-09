@@ -1,0 +1,16 @@
+.inset-list-div {
+    box-shadow: inset 0px 0px 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+.inset-list-item {
+    padding-left: 25px;
+    background: var(--ion-color-step-100);
+}
+
+.inset-list-box {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
