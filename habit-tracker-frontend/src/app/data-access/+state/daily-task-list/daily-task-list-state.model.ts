@@ -10,8 +10,6 @@ export const DefaultDailyTaskListState: DailyTaskListStateModel = {
         isCollapsed: true,
         createdByUserId: '',
         listItems: [],
-        totalTaskCount: 0,
-        completedTaskCount: 0
     }
 }
 

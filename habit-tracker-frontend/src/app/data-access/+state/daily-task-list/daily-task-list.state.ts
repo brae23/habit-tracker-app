@@ -10,6 +10,7 @@ import { moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { cloneDeep } from "lodash";
 import { findListItemArray } from "src/app/functions/find-list.function";
 import { toTask } from "src/app/functions/to-task.function";
+import { isList } from "src/app/functions/is-list.function";
 
 @State<DailyTaskListStateModel>({
     name: 'dailytasklist',
@@ -45,8 +46,6 @@ export class DailyTaskListState {
             createdDate: Date.now(),
             completed: false,
             isCollapsed: true,
-            totalTaskCount: 5,
-            completedTaskCount: 2,
             createdByUserId: 'User 1',
             listItems: [
               {
@@ -94,8 +93,6 @@ export class DailyTaskListState {
             createdDate: Date.now(),
             completed: false,
             isCollapsed: true,
-            totalTaskCount: 5,
-            completedTaskCount: 2,
             createdByUserId: 'User 1',
             listItems: [
               {
@@ -260,17 +257,19 @@ export class DailyTaskListState {
     @Action(DailyTaskListActions.HandleItemIndexReorder)
     handleItemIndexReorder(ctx: StateContext<DailyTaskListStateModel>, { ev }: DailyTaskListActions.HandleItemIndexReorder) {
       let dailyTaskListState = cloneDeep(ctx.getState().DailyTaskList);
+      let previousList = findListItemArray(dailyTaskListState, ev.previousContainer.id);
       let listId = ev.container.id
+
       if(ev.previousContainer === ev.container) {
         moveItemInArray(findListItemArray(dailyTaskListState, listId)!, ev.previousIndex, ev.currentIndex);
       }
       else {
-        let previousList = findListItemArray(dailyTaskListState, ev.previousContainer.id);
         transferArrayItem(previousList!, findListItemArray(dailyTaskListState, listId)!, ev.previousIndex, ev.currentIndex);
         if(previousList!.length == 0) {
           dailyTaskListState.listItems.map((x) => x.id == ev.previousContainer.id ? toTask(previousList): x);
         }
       }
+
       ctx.setState(patch<DailyTaskListStateModel>({
         DailyTaskList: dailyTaskListState
       }));

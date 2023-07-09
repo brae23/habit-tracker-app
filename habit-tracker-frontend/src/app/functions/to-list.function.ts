@@ -10,8 +10,6 @@ export function toList(listItem: any): TaskList {
         isCollapsed: false,
         createdByUserId: "UserId1",
         description: "New List",
-        totalTaskCount: 1,
-        completedTaskCount: 0,
         listItems: [DefaultTask]
     }
 }

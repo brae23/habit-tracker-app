@@ -3,7 +3,6 @@ import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable } from '@angular/core';
 import { IListItem } from '../models/i-list-item';
 import { DailyTaskListStateFacade } from '../data-access/+state/daily-task-list/daily-task-list-state.facade';
-import { indexOf } from 'lodash';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +20,7 @@ export class NestedDragDropService {
   }
 
   public unregister(dropList: CdkDropList) {
-    this.dropLists.splice(this.dropLists.findIndex((x) => x.id === dropList.id));
+    this.dropLists.splice(this.dropLists.findIndex((x) => x.id === dropList.id), 1);
   }
 
   dragMoved(event: CdkDragMove<IListItem>) {

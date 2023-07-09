@@ -13,12 +13,14 @@ export class DailyTaskListPage implements OnInit {
   testUserId: string = 'TestUserId1';
   isEditMode: boolean = false;
   listReorderingTemp: IListItem;
+  currentDate: number;
 
   constructor(public dailyTaskListStateFacade: DailyTaskListStateFacade) {
   }
 
   ngOnInit() {
     this.dailyTaskListStateFacade.loadDailyTaskList(this.testUserId);
+    this.currentDate = Date.now();
   }
 
   onNewTaskClicked() {

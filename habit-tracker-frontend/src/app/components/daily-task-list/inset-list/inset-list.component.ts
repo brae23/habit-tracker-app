@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { cloneDeep } from 'lodash';
+import { cloneDeep, forEach } from 'lodash';
 import { DailyTaskListStateFacade } from 'src/app/data-access/+state/daily-task-list/daily-task-list-state.facade';
 import { IListItem } from 'src/app/models/i-list-item';
 import { CdkDrag, CdkDragDrop, CdkDragMove, CdkDragRelease, CdkDropList } from '@angular/cdk/drag-drop';
@@ -19,6 +19,7 @@ export class InsetListComponent implements OnInit {
   @Input() isEditMode: boolean;
   @ViewChild(CdkDropList) dropList?: CdkDropList;
   canCommitNewTask: boolean = false;
+  completedTaskCount: number = 0;
   isNewTask = isNewTask;
 
   allowDropPredicate = (drag: CdkDrag, drop: CdkDropList) => {
@@ -29,12 +30,27 @@ export class InsetListComponent implements OnInit {
     return this.nestedDragDropService.dropLists;
   }
 
+  public get dragDisabled() {
+    if(!this.taskList.isCollapsed) {
+      return true;
+    }
+    else {
+      return !this.isEditMode;
+    }
+  }
+
   constructor(
     public nestedDragDropService: NestedDragDropService,
     private dailyTaskListStateFacade: DailyTaskListStateFacade,
     ) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.taskList.listItems.map((x: IListItem) => {
+      if (x.completed) {
+        this.completedTaskCount++;
+      }
+    });
+  }
 
   ngAfterViewInit() {
     if(this.dropList) {
@@ -55,16 +71,16 @@ export class InsetListComponent implements OnInit {
       let tempListItem = tempTaskList.listItems.find((x: IListItem) => x.id === listItem.id);
       tempListItem.completed = !listItem.completed;
       if (tempListItem.completed) {
-        tempTaskList.completedTaskCount ++;
+        this.completedTaskCount++;
       }
       else {
-        tempTaskList.completedTaskCount --;
+        this.completedTaskCount--;
       }
     }
     catch(err) {
       console.log(err);
     }
-    tempTaskList.completed = tempTaskList.completedTaskCount === tempTaskList.totalTaskCount;
+    tempTaskList.completed = this.completedTaskCount === tempTaskList.listItems.length;
     this.dailyTaskListStateFacade.updateListItem(tempTaskList);
   }
 

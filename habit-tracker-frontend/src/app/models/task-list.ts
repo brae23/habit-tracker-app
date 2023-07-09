@@ -8,8 +8,6 @@ export class TaskList implements IListItem{
     createdByUserId: string;
     listItems: IListItem[];
     createdDate: number;
-    totalTaskCount: number;
-    completedTaskCount: number;
     associatedUserIds?: string[];
     description?: string;
 }
