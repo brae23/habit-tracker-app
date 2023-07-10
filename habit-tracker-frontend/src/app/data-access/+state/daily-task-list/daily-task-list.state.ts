@@ -254,6 +254,16 @@ export class DailyTaskListState {
       }));
     }
 
+    @Action(DailyTaskListActions.UpdateListCompletedState)
+    updateListCompletedState(ctx: StateContext<DailyTaskListStateModel>, { listItemId, completedState }: DailyTaskListActions.UpdateListCompletedState) {
+      ctx.setState(patch<DailyTaskListStateModel>({
+        DailyTaskList: patch<DailyTaskListStateModel['DailyTaskList']>({
+            listItems: updateItem<any>((x) => x.id === listItemId, patch({ completed: completedState })
+            ),
+        }),
+      }));
+    }
+
     @Action(DailyTaskListActions.HandleItemIndexReorder)
     handleItemIndexReorder(ctx: StateContext<DailyTaskListStateModel>, { ev }: DailyTaskListActions.HandleItemIndexReorder) {
       let dailyTaskListState = cloneDeep(ctx.getState().DailyTaskList);

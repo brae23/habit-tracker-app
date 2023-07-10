@@ -20,7 +20,7 @@ export class NestedDragDropService {
   }
 
   public unregister(dropList: CdkDropList) {
-    this.dropLists.splice(this.dropLists.findIndex((x) => x.id === dropList.id), 1);
+    this.dropLists.splice(this.dropLists.findIndex((x) => x.id == dropList.id), 1);
   }
 
   dragMoved(event: CdkDragMove<IListItem>) {

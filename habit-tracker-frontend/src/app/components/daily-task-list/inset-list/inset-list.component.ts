@@ -45,11 +45,7 @@ export class InsetListComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.taskList.listItems.map((x: IListItem) => {
-      if (x.completed) {
-        this.completedTaskCount++;
-      }
-    });
+    this.evaluateCompletedState();
   }
 
   ngAfterViewInit() {
@@ -90,6 +86,7 @@ export class InsetListComponent implements OnInit {
 
   onItemDropped(ev: CdkDragDrop<IListItem[]>) {
     this.nestedDragDropService.drop(ev);
+    this.evaluateCompletedState();
   }
 
   dragMoved(event: CdkDragMove<IListItem>) {
@@ -118,7 +115,20 @@ export class InsetListComponent implements OnInit {
     }
   }
 
-  removeNewDefaultTask() {
+  private removeNewDefaultTask() {
     this.dailyTaskListStateFacade.removeInsetListItem(DefaultTask.id, this.taskList.id);
+  }
+
+  private evaluateCompletedState() {
+    let completed = false;
+    this.taskList.listItems.map((x: IListItem) => {
+      if (x.completed) {
+        this.completedTaskCount++;
+      }
+    });
+    if (this.completedTaskCount == this.taskList.listItems.length) {
+      completed = true;
+    }
+    this.dailyTaskListStateFacade.updateListCompletedState(this.taskList.id, completed);
   }
 }

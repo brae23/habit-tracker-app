@@ -37,6 +37,11 @@ export class UpdateListCollapsedState {
     constructor(public listItemId: string, public collapsedState: boolean) {}
 }
 
+export class UpdateListCompletedState {
+    static readonly type = '[DailyTaskList] UpdateListCompletedState';
+    constructor(public listItemId: string, public completedState: boolean) {}
+}
+
 export class HandleItemIndexReorder {
     static readonly type = '[DailyTaskList] HandleItemIndexReorder';
     constructor(public ev: CdkDragDrop<IListItem[]>) {}

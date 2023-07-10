@@ -19,21 +19,13 @@ export class DailyTaskListPage implements OnInit {
   isEditMode: boolean = false;
   listReorderingTemp: IListItem;
   currentDate: number;
-  dailyTaskListId: string;
 
-  constructor(public dailyTaskListStateFacade: DailyTaskListStateFacade, public nestedDragDropService: NestedDragDropService) {
+  constructor(public dailyTaskListStateFacade: DailyTaskListStateFacade) {
   }
 
   ngOnInit() {
     this.dailyTaskListStateFacade.loadDailyTaskList(this.testUserId);
-    this.nestedDragDropService.register(this.dropList!);
     this.currentDate = Date.now();
-  }
-
-  ngAfterViewInit() {
-    this.dailyTaskListStateFacade.dailyTaskList$.subscribe((x) => {
-      this.dailyTaskListId = x.id;
-    });
   }
 
   onNewTaskClicked() {
@@ -42,14 +34,5 @@ export class DailyTaskListPage implements OnInit {
 
   onEditFabClicked() {
     this.isEditMode = !this.isEditMode;
-  }
-
-  onItemDropped(ev: CdkDragDrop<IListItem[]>) {
-    if(ev.previousContainer.id == this.dailyTaskListId) {
-      this.dailyTaskListStateFacade.removeListItem(ev.previousContainer.data[ev.previousIndex]['id']);
-    }
-    else {
-      this.dailyTaskListStateFacade.removeInsetListItem(ev.previousContainer.data[ev.previousIndex]['id'], ev.previousContainer.id);
-    }
   }
 }

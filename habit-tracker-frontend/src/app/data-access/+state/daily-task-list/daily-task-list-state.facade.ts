@@ -44,6 +44,10 @@ export class DailyTaskListStateFacade {
         this.store.dispatch(new DailyTaskListActions.UpdateListCollapsedState(listItemId, collapsedState));
     }
 
+    updateListCompletedState(listItemId: string, completedState: boolean) {
+        this.store.dispatch(new DailyTaskListActions.UpdateListCompletedState(listItemId, completedState));
+    }
+
     handleItemIndexReorder(ev: CdkDragDrop<IListItem[]>) {
         this.store.dispatch(new DailyTaskListActions.HandleItemIndexReorder(ev));   
     }
