@@ -11,7 +11,7 @@ import { NestedDragDropService } from 'src/app/services/nested-drag-drop.service
 import { createGesture } from '@ionic/core';
 
 @Component({
-  selector: 'app-list-item',
+  selector: 'daily-task-list-list-item',
   templateUrl: './list-item.component.html',
   styleUrls: ['./list-item.component.scss'],
 })

@@ -9,7 +9,7 @@ import { DefaultTask } from 'src/app/models/task';
 import { isNewTask } from 'src/app/functions/is-new-task.function';
 
 @Component({
-  selector: 'app-inset-list',
+  selector: 'daily-task-list-inset-list',
   templateUrl: './inset-list.component.html',
   styleUrls: ['./inset-list.component.scss'],
 })
