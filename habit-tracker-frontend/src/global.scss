@@ -58,6 +58,7 @@
 
 .list-checkbox {
     padding-left: 10px;
+    padding-right: 10px;
 }
 
 .cdk-drag-preview {
@@ -105,4 +106,34 @@ ion-checkbox {
 
 .new-task-input-box-inset {
     padding-left: 20px;
+}
+
+.list-item-container {
+    display: grid;
+}
+
+.list-item-row {
+    background-color: var(--ion-card-background);
+    grid-column: 1;
+    grid-row: 1;
+    z-index: 2;
+}
+
+.swipe-icon-row {
+    background-color: var(--ion-color-danger);
+    z-index: -1;
+    grid-column: 1;
+    grid-row: 1;
+    display: grid;
+    align-items: center;
+    text-align: right;
+    color: #fff;
+    width: 100%;
+}
+
+.swipe-icon-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
 }
