@@ -3,7 +3,6 @@
 </ng-container>
 <ng-container *ngIf="!isList(listItem)">
     <div
-        id="listItem.id"
         cdkDrag
         [cdkDragData]="listItem"
         [cdkDragDisabled]="!isEditMode"
@@ -22,21 +21,22 @@
                 </div>
             </ng-container>
             <ng-container *ngIf="!isNewTask(listItem)">
-                <div cdkDragHandle *ngIf="isEditMode" class="drag-handle">
-                    <ion-icon class="list-icons" name="reorder-two-outline"></ion-icon>
-                </div>
-                <div class="tasklist-item-box list-item-row"> 
-                    <ion-checkbox class="list-checkbox" justify="start" labelPlacement="end" [checked]="listItem.completed" (ionChange)="onListItemClickedEvent(listItem)">{{ listItem.name }}</ion-checkbox>
-                    <div *ngIf="isEditMode" class="item-add-icon-box" slot="end" (click)="makeItemListClicked()">
-                        <ion-icon class="list-icons" name="add-outline"></ion-icon>
+                <div class="dtl-list-checkbox-row">
+                    <div cdkDragHandle *ngIf="isEditMode" class="drag-handle">
+                        <ion-icon class="list-icons" name="reorder-two-outline"></ion-icon>
+                    </div>
+                    <div class="tasklist-item-box list-item-row"> 
+                        <ion-checkbox class="list-checkbox" justify="start" labelPlacement="end" [checked]="listItem.completed" (ionChange)="onListItemClickedEvent(listItem)">{{ listItem.name }}</ion-checkbox>
+                        <div *ngIf="isEditMode" class="item-add-icon-box" slot="end" (click)="makeItemListClicked()">
+                            <ion-icon class="list-icons" name="add-outline"></ion-icon>
+                        </div>
                     </div>
                 </div>
             </ng-container>
         </div>
         <div class="swipe-icon-row">
             <div class="swipe-icon-container">
-              <ion-icon name="trash"></ion-icon>
-              <ion-icon name="information-circle-outline"></ion-icon>
+              <ion-icon name="trash" class="dtl-swipe-icon"></ion-icon>
             </div>
         </div>
     </div>

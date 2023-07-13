@@ -10,6 +10,7 @@ import { DefaultTask } from 'src/app/models/task';
 import { NestedDragDropService } from 'src/app/services/nested-drag-drop.service';
 import { createGesture } from '@ionic/core';
 import { AnimationController, DomController, GestureController } from '@ionic/angular';
+import { SwipeDeleteGesture } from 'src/app/gestures/swipe-delete.gesture';
 
 @Component({
   selector: 'daily-task-list-list-item',
@@ -28,70 +29,20 @@ export class ListItemComponent implements OnInit {
   constructor(
     private dailyTaskListStateFacade: DailyTaskListStateFacade,
     private nestedDragDropService: NestedDragDropService,
-    private gestureCtrl: GestureController, 
-    private animationCtrl: AnimationController, 
-    private domCtrl: DomController,
-    ) { }
+    private swipeDeleteGesture: SwipeDeleteGesture,
+  ) { }
 
   ngOnInit() {}
 
   ngAfterViewInit() {
-    const windowWidth = window.innerWidth;
-    let startX: number;
-
     this.listItemContainer.forEach((x) => {
       const containerElement = x.nativeElement;
       const itemElement = containerElement.childNodes[0];
       const iconRowElement = containerElement.childNodes[1];
-      const deleteAnimation = this.animationCtrl.create()
-        .addElement(containerElement)
-        .duration(200)
-        .easing('ease-out')
-        .fromTo('height', '48px', 0);
 
-      const swipeGesture = this.gestureCtrl.create({
-        el: itemElement,
-        threshold: 15,
-        direction: 'x',
-        gestureName: 'swipe-delete',
-        onStart: ev => {
-          startX = ev.deltaX;
-          console.log(startX);
-        },
-        onMove: ev => {
-          const currentX = ev.deltaX;
-          console.log(currentX);
-
-          this.domCtrl.write(() => {
-            itemElement.style.zIndex = 2;
-            itemElement.style.transform = `translateX(${currentX}px)`;
-          });
-        },
-        onEnd: ev => {
-          itemElement.style.transition = '0.2s ease-out';
-
-          if(ev.deltaX > (windowWidth / 2.0)) {
-            this.domCtrl.write(() => {
-              itemElement.style.transform = `translate3d(${windowWidth}px, 0, 0)`;
-            });
-
-            deleteAnimation.play();
-            deleteAnimation.onFinish(async () => {
-              // Remove the item from the list
-              // TODO: Add popup to ask if the user is sure they want to remove the item from the list
-              this.dailyTaskListStateFacade.removeListItem(this.listItem.id);
-            })
-          }
-          else {
-            this.domCtrl.write(() => {
-              itemElement.style.transform = '';
-            })
-          }
-        }
-      }, true);
-
+      const swipeGesture = this.swipeDeleteGesture.create(containerElement, itemElement, iconRowElement, this.listItem.id);
       swipeGesture.enable(true);
-    })
+    });
   }
 
   ngOnChanges(changes: SimpleChanges) {}

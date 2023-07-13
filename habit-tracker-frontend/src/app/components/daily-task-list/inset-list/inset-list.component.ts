@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { cloneDeep, forEach } from 'lodash';
 import { DailyTaskListStateFacade } from 'src/app/data-access/+state/daily-task-list/daily-task-list-state.facade';
 import { IListItem } from 'src/app/models/i-list-item';
@@ -7,6 +7,7 @@ import { NestedDragDropService } from 'src/app/services/nested-drag-drop.service
 import { TaskList } from 'src/app/models/task-list';
 import { DefaultTask } from 'src/app/models/task';
 import { isNewTask } from 'src/app/functions/is-new-task.function';
+import { SwipeDeleteGesture } from 'src/app/gestures/swipe-delete.gesture';
 
 @Component({
   selector: 'daily-task-list-inset-list',
@@ -14,10 +15,11 @@ import { isNewTask } from 'src/app/functions/is-new-task.function';
   styleUrls: ['./inset-list.component.scss'],
 })
 export class InsetListComponent implements OnInit {
-
   @Input() taskList: any;
   @Input() isEditMode: boolean;
   @ViewChild(CdkDropList) dropList?: CdkDropList;
+  @ViewChildren('insetListItemContainer') listItemContainer: QueryList<ElementRef>;
+  
   canCommitNewTask: boolean = false;
   completedTaskCount: number = 0;
   isNewTask = isNewTask;
@@ -42,7 +44,8 @@ export class InsetListComponent implements OnInit {
   constructor(
     public nestedDragDropService: NestedDragDropService,
     private dailyTaskListStateFacade: DailyTaskListStateFacade,
-    ) { }
+    private swipeDeleteGesture: SwipeDeleteGesture,
+  ) { }
 
   ngOnInit() {
     this.evaluateCompletedState();
@@ -52,6 +55,17 @@ export class InsetListComponent implements OnInit {
     if(this.dropList) {
       this.nestedDragDropService.register(this.dropList);
     }
+
+    console.log(this.listItemContainer);
+
+    this.listItemContainer.forEach((x) => {
+      const containerElement = x.nativeElement;
+      const itemElement = containerElement.childNodes[0];
+      const iconRowElement = containerElement.childNodes[1];
+
+      const swipeGesture = this.swipeDeleteGesture.create(containerElement, itemElement, iconRowElement, itemElement.id);
+      swipeGesture.enable(true);
+    });
   }
 
   ngOnDestroy() {

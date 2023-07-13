@@ -26,11 +26,13 @@
   <div 
     cdkDrag  
     *ngFor="let item of taskList.listItems; index as i" 
-    class="list-box inset-list-item" 
+    class="list-box inset-list-item list-item-container" 
     [cdkDragDisabled]="!isEditMode || isNewTask(item)"
     [cdkDragData]="item"
     (cdkDragMoved)="dragMoved($event)"
     (cdkDragReleased)="dragReleased($event)"
+    id="{{item.id}}"
+    #insetListItemContainer
   >
     <div *ngIf="isNewTask(item)" class="new-task-input-box-inset">
       <daily-task-list-new-task
