@@ -39,7 +39,6 @@ export class ListItemComponent implements OnInit {
       const containerElement = x.nativeElement;
       const itemElement = containerElement.childNodes[0];
       const iconRowElement = containerElement.childNodes[1];
-
       const swipeGesture = this.swipeDeleteGesture.create(containerElement, itemElement, iconRowElement, this.listItem.id);
       swipeGesture.enable(true);
     });

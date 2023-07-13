@@ -101,6 +101,8 @@ ion-checkbox {
     flex-direction: row;
     align-content: center;
     justify-content: center;
+    padding-top: 0px;
+    padding-bottom: 0px;
     width: 100%;
 }
 
@@ -110,13 +112,6 @@ ion-checkbox {
 
 .list-item-container {
     display: grid;
-}
-
-.list-item-row {
-    background-color: var(--ion-card-background);
-    grid-column: 1;
-    grid-row: 1;
-    z-index: 2;
 }
 
 .swipe-icon-row {

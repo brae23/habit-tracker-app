@@ -56,14 +56,11 @@ export class InsetListComponent implements OnInit {
       this.nestedDragDropService.register(this.dropList);
     }
 
-    console.log(this.listItemContainer);
-
     this.listItemContainer.forEach((x) => {
       const containerElement = x.nativeElement;
       const itemElement = containerElement.childNodes[0];
       const iconRowElement = containerElement.childNodes[1];
-
-      const swipeGesture = this.swipeDeleteGesture.create(containerElement, itemElement, iconRowElement, itemElement.id);
+      const swipeGesture = this.swipeDeleteGesture.create(containerElement, itemElement, iconRowElement, itemElement.getAttribute('id'), this.taskList.id, true);
       swipeGesture.enable(true);
     });
   }

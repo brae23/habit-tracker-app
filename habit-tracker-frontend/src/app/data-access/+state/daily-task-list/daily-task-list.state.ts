@@ -191,7 +191,7 @@ export class DailyTaskListState {
               habit1,
             ]
           }
-        ctx.patchState({ DailyTaskList: dailyTaskList });
+        // ctx.patchState({ DailyTaskList: dailyTaskList });
     }
 
     @Action(DailyTaskListActions.UpdateListItem)

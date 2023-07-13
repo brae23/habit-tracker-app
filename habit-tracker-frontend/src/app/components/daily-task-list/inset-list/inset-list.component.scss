@@ -14,3 +14,10 @@
     align-items: center;
     justify-content: space-between;
 }
+
+.inset-list-item-row {
+    background-color: var(--ion-color-step-100);
+    grid-column: 1;
+    grid-row: 1;
+    z-index: 2;
+}

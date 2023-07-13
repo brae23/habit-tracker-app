@@ -31,20 +31,28 @@
     [cdkDragData]="item"
     (cdkDragMoved)="dragMoved($event)"
     (cdkDragReleased)="dragReleased($event)"
-    id="{{item.id}}"
     #insetListItemContainer
   >
-    <div *ngIf="isNewTask(item)" class="new-task-input-box-inset">
-      <daily-task-list-new-task
-        (itemNameInputText)="onNewTaskNameEnterEvent($event)"
-        (lostFocusEvent)="onNewTaskFocusOutEvent()"
-      ></daily-task-list-new-task>
-    </div>
-    <ng-container *ngIf="!isNewTask(item)">
-      <div cdkDragHandle class="drag-handle" *ngIf="isEditMode">
-        <ion-icon class="list-icons" name="reorder-two-outline"></ion-icon>
+    <div class="inset-list-item-row" id="{{item.id}}">
+      <div *ngIf="isNewTask(item)" class="new-task-input-box-inset">
+        <daily-task-list-new-task
+          (itemNameInputText)="onNewTaskNameEnterEvent($event)"
+          (lostFocusEvent)="onNewTaskFocusOutEvent()"
+        ></daily-task-list-new-task>
       </div>
-      <ion-checkbox class="list-checkbox" justify="start" labelPlacement="end" [checked]="item.completed" (ionChange)="listItemClickedEvent(item)">{{ item.name }}</ion-checkbox>  
-    </ng-container>
+      <ng-container *ngIf="!isNewTask(item)">
+        <div class="dtl-list-checkbox-row">
+          <div cdkDragHandle class="drag-handle" *ngIf="isEditMode">
+            <ion-icon class="list-icons" name="reorder-two-outline"></ion-icon>
+          </div>
+          <ion-checkbox class="list-checkbox" justify="start" labelPlacement="end" [checked]="item.completed" (ionChange)="listItemClickedEvent(item)">{{ item.name }}</ion-checkbox>
+        </div> 
+      </ng-container>
+    </div>
+    <div class="swipe-icon-row">
+      <div class="swipe-icon-container">
+        <ion-icon name="trash" class="dtl-swipe-icon"></ion-icon>
+      </div>
+    </div>
   </div>
 </div>
