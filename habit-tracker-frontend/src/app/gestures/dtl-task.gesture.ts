@@ -1,16 +1,20 @@
-import { AnimationController, DomController, GestureController } from "@ionic/angular";
+import { AnimationController, DomController, GestureController, ModalController } from "@ionic/angular";
 import { DailyTaskListStateFacade } from "../data-access/+state/daily-task-list/daily-task-list-state.facade";
 import { Injectable } from "@angular/core";
+import { EditTaskModalComponent } from "../components/daily-task-list/edit-task-modal/edit-task-modal.component";
 
 @Injectable({
     providedIn: 'root'
 })
-export class SwipeDeleteGesture {
+export class DailyTaskListTaskGestures {
+    longPressGestureActive: boolean = false;
+
     constructor(
         private dailyTaskListStateFacade: DailyTaskListStateFacade,
         private gestureCtrl: GestureController, 
         private animationCtrl: AnimationController, 
         private domCtrl: DomController,
+        private modalCtrl: ModalController,
     ) {}
 
     create(containerElement: any, itemElement: any, iconRowElement: any, listItemId: string, parentListId: any = null, isInsetListItem: boolean = false) {
@@ -24,13 +28,19 @@ export class SwipeDeleteGesture {
 
         const swipeGesture = this.gestureCtrl.create({
             el: itemElement,
-            threshold: 15,
-            direction: 'x',
+            threshold: 0,
             gestureName: 'swipe-delete',
             onStart: ev => {
-            startX = ev.deltaX;
+                startX = ev.deltaX;
+                this.longPressGestureActive = true;
+                setTimeout(() => {
+                    if(this.longPressGestureActive) {
+                        this.openEditModal(listItemId, parentListId);
+                    }
+                }, 750);
             },
             onMove: ev => {
+                this.longPressGestureActive = false;
                 const currentX = ev.deltaX;
 
                 if (currentX > startX) {
@@ -41,6 +51,7 @@ export class SwipeDeleteGesture {
                 }
             },
             onEnd: ev => {
+                this.longPressGestureActive = false;
                 itemElement.style.transition = '0.2s ease-out';
                 if(ev.deltaX > (windowWidth / 3.0)) {
                     this.domCtrl.write(() => {
@@ -69,5 +80,12 @@ export class SwipeDeleteGesture {
         }, true);
         
         return swipeGesture;
+    }
+
+    private async openEditModal(listItemId: string, parentListId: string) {
+        const modal = await this.modalCtrl.create({
+            component: EditTaskModalComponent,
+        });
+        modal.present();
     }
 }

@@ -1,5 +1,5 @@
 import { CdkDragMove, CdkDragRelease } from '@angular/cdk/drag-drop';
-import { Component, ElementRef, Input, OnInit, QueryList, SimpleChanges, ViewChildren } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { cloneDeep } from 'lodash';
 import { DailyTaskListStateFacade } from 'src/app/data-access/+state/daily-task-list/daily-task-list-state.facade';
 import { isList } from 'src/app/functions/is-list.function';
@@ -8,9 +8,7 @@ import { isNewTask } from 'src/app/functions/is-new-task.function';
 import { IListItem } from 'src/app/models/i-list-item';
 import { DefaultTask } from 'src/app/models/task';
 import { NestedDragDropService } from 'src/app/services/nested-drag-drop.service';
-import { createGesture } from '@ionic/core';
-import { AnimationController, DomController, GestureController } from '@ionic/angular';
-import { SwipeDeleteGesture } from 'src/app/gestures/swipe-delete.gesture';
+import { DailyTaskListTaskGestures } from 'src/app/gestures/dtl-task.gesture';
 
 @Component({
   selector: 'daily-task-list-list-item',
@@ -29,7 +27,7 @@ export class ListItemComponent implements OnInit {
   constructor(
     private dailyTaskListStateFacade: DailyTaskListStateFacade,
     private nestedDragDropService: NestedDragDropService,
-    private swipeDeleteGesture: SwipeDeleteGesture,
+    private dtlTaskGesture: DailyTaskListTaskGestures,
   ) { }
 
   ngOnInit() {}
@@ -39,12 +37,14 @@ export class ListItemComponent implements OnInit {
       const containerElement = x.nativeElement;
       const itemElement = containerElement.childNodes[0];
       const iconRowElement = containerElement.childNodes[1];
-      const swipeGesture = this.swipeDeleteGesture.create(containerElement, itemElement, iconRowElement, this.listItem.id);
+
+      const swipeGesture = this.dtlTaskGesture.create(containerElement, itemElement, iconRowElement, this.listItem.id);
       swipeGesture.enable(true);
+
+      // const longPressGesture = this.longPressGesture.create(itemElement);
+      // longPressGesture.enable(true);
     });
   }
-
-  ngOnChanges(changes: SimpleChanges) {}
 
   onListItemClickedEvent(listItem: any) {
     let tempListItem = cloneDeep(listItem);

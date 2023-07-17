@@ -1,13 +1,12 @@
 import { Component, ElementRef, Input, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { cloneDeep, forEach } from 'lodash';
+import { cloneDeep } from 'lodash';
 import { DailyTaskListStateFacade } from 'src/app/data-access/+state/daily-task-list/daily-task-list-state.facade';
 import { IListItem } from 'src/app/models/i-list-item';
 import { CdkDrag, CdkDragDrop, CdkDragMove, CdkDragRelease, CdkDropList } from '@angular/cdk/drag-drop';
 import { NestedDragDropService } from 'src/app/services/nested-drag-drop.service';
-import { TaskList } from 'src/app/models/task-list';
 import { DefaultTask } from 'src/app/models/task';
 import { isNewTask } from 'src/app/functions/is-new-task.function';
-import { SwipeDeleteGesture } from 'src/app/gestures/swipe-delete.gesture';
+import { DailyTaskListTaskGestures } from 'src/app/gestures/dtl-task.gesture';
 
 @Component({
   selector: 'daily-task-list-inset-list',
@@ -44,7 +43,7 @@ export class InsetListComponent implements OnInit {
   constructor(
     public nestedDragDropService: NestedDragDropService,
     private dailyTaskListStateFacade: DailyTaskListStateFacade,
-    private swipeDeleteGesture: SwipeDeleteGesture,
+    private dtlTaskGestures: DailyTaskListTaskGestures,
   ) { }
 
   ngOnInit() {
@@ -60,7 +59,7 @@ export class InsetListComponent implements OnInit {
       const containerElement = x.nativeElement;
       const itemElement = containerElement.childNodes[0];
       const iconRowElement = containerElement.childNodes[1];
-      const swipeGesture = this.swipeDeleteGesture.create(containerElement, itemElement, iconRowElement, itemElement.getAttribute('id'), this.taskList.id, true);
+      const swipeGesture = this.dtlTaskGestures.create(containerElement, itemElement, iconRowElement, itemElement.getAttribute('id'), this.taskList.id, true);
       swipeGesture.enable(true);
     });
   }
