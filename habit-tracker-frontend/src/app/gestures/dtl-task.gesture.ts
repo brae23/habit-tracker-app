@@ -2,6 +2,7 @@ import { AnimationController, DomController, GestureController, ModalController 
 import { DailyTaskListStateFacade } from "../data-access/+state/daily-task-list/daily-task-list-state.facade";
 import { Injectable } from "@angular/core";
 import { EditTaskModalComponent } from "../components/daily-task-list/edit-task-modal/edit-task-modal.component";
+import { IListItem } from "../models/i-list-item";
 
 @Injectable({
     providedIn: 'root'
@@ -73,7 +74,7 @@ export class DailyTaskListTaskGestures {
                 }
                 else {
                     this.domCtrl.write(() => {
-                    itemElement.style.transform = '';
+                        itemElement.style.transform = '';
                     })
                 }
             }
@@ -85,7 +86,12 @@ export class DailyTaskListTaskGestures {
     private async openEditModal(listItemId: string, parentListId: string) {
         const modal = await this.modalCtrl.create({
             component: EditTaskModalComponent,
+            componentProps: { 
+                ['listItemId']: listItemId,
+                ['parentListItemId']: parentListId,
+            },
         });
-        modal.present();
+
+        modal.present(); 
     }
 }

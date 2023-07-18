@@ -1,4 +1,4 @@
-import { Action, Selector, State, StateContext } from "@ngxs/store";
+import { Action, Selector, State, StateContext, createSelector } from "@ngxs/store";
 import { DailyTaskListStateModel, DefaultDailyTaskListState } from "./daily-task-list-state.model";
 import { Injectable } from "@angular/core";
 import * as DailyTaskListActions from './daily-task-list-state.action';
@@ -23,7 +23,7 @@ export class DailyTaskListState {
     // Selectors
     @Selector()
     static getDailyTaskList(state: DailyTaskListStateModel) {
-        return state.DailyTaskList;
+      return state.DailyTaskList;
     }
 
     // Actions

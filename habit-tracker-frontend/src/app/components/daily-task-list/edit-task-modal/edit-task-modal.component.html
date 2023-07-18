@@ -12,5 +12,7 @@
   </ion-toolbar>
 </ion-header>
 <ion-content class="ion-padding ion-text-center">
-  <ion-text>Test Edit Task Modal</ion-text>
+  <ion-item>
+    <ion-input labelPlacement="stacked" label="Task name" [(ngModel)]="listItem.name" placeholder="Task Name"></ion-input>
+  </ion-item>
 </ion-content>
