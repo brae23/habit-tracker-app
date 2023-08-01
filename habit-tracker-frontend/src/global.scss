@@ -43,6 +43,7 @@
     align-items: center;
     box-sizing: border-box;
     font-size: 16px;
+    cursor: pointer;
 }
 
 .drag-handle {
@@ -58,6 +59,8 @@
 .list-checkbox {
     padding-left: 10px;
     padding-right: 10px;
+    overflow: hidden;
+    max-width: 85%;
 }
 
 .cdk-drag-preview {

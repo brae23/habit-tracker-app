@@ -1,21 +1,18 @@
 import { AnimationController, DomController, GestureController, ModalController } from "@ionic/angular";
 import { DailyTaskListStateFacade } from "../data-access/+state/daily-task-list/daily-task-list-state.facade";
 import { Injectable } from "@angular/core";
-import { EditTaskModalComponent } from "../components/daily-task-list/edit-task-modal/edit-task-modal.component";
-import { IListItem } from "../models/i-list-item";
+
 
 @Injectable({
     providedIn: 'root'
 })
-export class DailyTaskListTaskGestures {
-    longPressGestureActive: boolean = false;
+export class DailyTaskListSwipeDeleteGesture {
 
     constructor(
         private dailyTaskListStateFacade: DailyTaskListStateFacade,
         private gestureCtrl: GestureController, 
         private animationCtrl: AnimationController, 
         private domCtrl: DomController,
-        private modalCtrl: ModalController,
     ) {}
 
     create(containerElement: any, itemElement: any, iconRowElement: any, listItemId: string, parentListId: any = null, isInsetListItem: boolean = false) {
@@ -33,15 +30,8 @@ export class DailyTaskListTaskGestures {
             gestureName: 'swipe-delete',
             onStart: ev => {
                 startX = ev.deltaX;
-                this.longPressGestureActive = true;
-                setTimeout(() => {
-                    if(this.longPressGestureActive) {
-                        this.openEditModal(listItemId, parentListId);
-                    }
-                }, 750);
             },
             onMove: ev => {
-                this.longPressGestureActive = false;
                 const currentX = ev.deltaX;
 
                 if (currentX > startX) {
@@ -52,7 +42,6 @@ export class DailyTaskListTaskGestures {
                 }
             },
             onEnd: ev => {
-                this.longPressGestureActive = false;
                 itemElement.style.transition = '0.2s ease-out';
                 if(ev.deltaX > (windowWidth / 3.0)) {
                     this.domCtrl.write(() => {
@@ -81,17 +70,5 @@ export class DailyTaskListTaskGestures {
         }, true);
         
         return swipeGesture;
-    }
-
-    private async openEditModal(listItemId: string, parentListId: string) {
-        const modal = await this.modalCtrl.create({
-            component: EditTaskModalComponent,
-            componentProps: { 
-                ['listItemId']: listItemId,
-                ['parentListItemId']: parentListId,
-            },
-        });
-
-        modal.present(); 
     }
 }

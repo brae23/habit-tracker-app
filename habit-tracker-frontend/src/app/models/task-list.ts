@@ -6,7 +6,7 @@ export class TaskList implements IListItem{
     completed: boolean;
     isCollapsed: boolean;
     createdByUserId: string;
-    listItems: IListItem[];
+    listItems: any[];
     createdDate: number;
     associatedUserIds?: string[];
     description?: string;

@@ -1,4 +1,3 @@
-import { DatePipe } from "@angular/common";
 import { TaskList } from "src/app/models/task-list";
 
 export const DefaultDailyTaskListState: DailyTaskListStateModel = {

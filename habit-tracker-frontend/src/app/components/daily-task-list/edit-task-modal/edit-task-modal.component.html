@@ -12,7 +12,51 @@
   </ion-toolbar>
 </ion-header>
 <ion-content class="ion-padding ion-text-center">
-  <ion-item>
-    <ion-input labelPlacement="stacked" label="Task name" [(ngModel)]="listItem.name" placeholder="Task Name"></ion-input>
+  <ion-item class="ion-padding">
+    <ion-input
+      color="primary"
+      labelPlacement="stacked" 
+      label="Task name" 
+      placeholder="Task Name"
+      inputmode="text"
+      fill="solid"
+      value="{{ listItem.name }}"
+      (ionInput)="setName($any($event))"
+      ></ion-input>
   </ion-item>
+
+  <!-- Due Date Input Date Picker -->
+  <!-- Commented out until due date functionality is implemented -->
+
+  <!-- <ion-item class="ion-padding">
+    <ion-label position="stacked">Due Date</ion-label>
+    <ion-input value="{{ listItem.dueDate | date: 'dd MMM yyyy' }}" id="date"></ion-input>
+    <ion-popover trigger="date" >
+        <ng-template>
+            <ion-datetime presentation="datetime" [(ngModel)]="listItem.dueDate" locale="en-US"></ion-datetime>
+        </ng-template>
+    </ion-popover>
+  </ion-item> -->
+
+  <ion-item class="ion-padding">
+    <ion-input
+      color="primary"
+      labelPlacement="stacked" 
+      label="Created By"
+      readonly="true"
+      value="{{ listItem.createdByUserId }}"
+      ></ion-input>
+  </ion-item>
+  <!-- TODO: FIx spacing issue between associated users -->
+  <ng-container *ngIf="listItem.associatedUserIds">
+    <ion-item class="ion-padding">
+      <ion-input
+        color="primary"
+        labelPlacement="stacked" 
+        label="Associated With"
+        readonly="true"
+        value="{{ listItem.associatedUserIds }}"
+        ></ion-input>
+    </ion-item>
+  </ng-container>
 </ion-content>

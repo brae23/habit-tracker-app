@@ -1,5 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { InputCustomEvent, ModalController } from '@ionic/angular';
+import { cloneDeep } from 'lodash';
+import { Subject, takeUntil } from 'rxjs';
 import { DailyTaskListStateFacade } from 'src/app/data-access/+state/daily-task-list/daily-task-list-state.facade';
 import { IListItem } from 'src/app/models/i-list-item';
 import { TaskList } from 'src/app/models/task-list';
@@ -9,23 +11,29 @@ import { TaskList } from 'src/app/models/task-list';
   templateUrl: './edit-task-modal.component.html',
   styleUrls: ['./edit-task-modal.component.scss'],
 })
-export class EditTaskModalComponent  implements OnInit {
+export class EditTaskModalComponent  implements OnInit, OnDestroy {
   @Input('listItemId') listItemId: string;
   @Input('parentListItemId') parentListItemId: string;
+  ngUnsub$: Subject<boolean> = new Subject<boolean>();
   dailyTaskList: TaskList;
-  listItem: IListItem;
+  listItem: any;
 
   constructor(private modalCtl: ModalController, private dailyTaskListStateFacade: DailyTaskListStateFacade) { }
 
   ngOnInit() {
-    this.dailyTaskListStateFacade.dailyTaskList$.subscribe((x) => this.dailyTaskList = x);
+    this.dailyTaskListStateFacade.dailyTaskList$.pipe(takeUntil(this.ngUnsub$)).subscribe((x) => this.dailyTaskList = x);
 
     if (this.parentListItemId != null) {
-      this.listItem = this.dailyTaskList.listItems.find((y) => y.id === this.parentListItemId)?.listItems?.find((z) => z.id === this.listItemId)!;
+      this.listItem = cloneDeep(this.dailyTaskList.listItems.find((y) => y.id === this.parentListItemId)?.listItems?.find((z: any) => z.id === this.listItemId)!);
     }
     else {
-      this.listItem = this.dailyTaskList.listItems.find((y) => y.id === this.listItemId)!;
+      this.listItem = cloneDeep(this.dailyTaskList.listItems.find((y) => y.id === this.listItemId)!);
     }
+  }
+
+  ngOnDestroy() {
+    this.ngUnsub$.next(true);
+    this.ngUnsub$.unsubscribe();
   }
 
   cancelClicked() {
@@ -33,7 +41,15 @@ export class EditTaskModalComponent  implements OnInit {
   }
 
   confirmClicked() {
+    this.dailyTaskListStateFacade.updateListItem(this.listItem);
     return this.modalCtl.dismiss(null, 'confirm');
   }
 
+  setName(ev: InputCustomEvent) {
+    this.listItem.name = ev.detail.value!;
+  }
+
+  setDueDate(ev: InputCustomEvent) {
+    this.listItem.dueDate = ev.detail.value!;
+  }
 }

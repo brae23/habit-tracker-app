@@ -5,9 +5,10 @@ export class Task implements IListItem {
     completed: boolean;
     createdByUserId: string;
     parentListId?: string;
-    dueDate?: Date;
+    dueDate?: number;
     notes?: string;
-    assignedDate?: Date;
+    assignedDate?: number;
+    associatedUserIds?: string[];
 }
 
 export const DefaultTask: Task = {

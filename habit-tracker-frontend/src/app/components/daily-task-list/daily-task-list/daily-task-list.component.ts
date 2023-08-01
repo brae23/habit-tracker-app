@@ -17,6 +17,7 @@ export class DailyTaskListComponent  implements OnInit {
   @Input() taskList$: Observable<TaskList>;
   @Input() isEditMode: boolean;
   @ViewChild(CdkDropList) dropList?: CdkDropList;
+
   currentDate: number;
   isList = isList;
   taskList: TaskList;

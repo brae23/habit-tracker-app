@@ -1,11 +1,14 @@
 .item-add-icon-box {
     display: flex;
     flex-direction: row;
+    position: absolute;
     align-items: center;
     width: 22px;
     height: 22px;
     border-radius: 50%;
     background: var(--ion-color-step-100);
+    z-index: 10;
+    right: 30px;
     cursor: pointer;
 }
 

@@ -7,7 +7,8 @@ import { ListItemComponent } from './daily-task-list/list-item/list-item.compone
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { DailyTaskListComponent } from './daily-task-list/daily-task-list/daily-task-list.component';
 import { NewTaskComponent } from './daily-task-list/new-task/new-task.component';
-import { DailyTaskListTaskGestures } from '../gestures/dtl-task.gesture';
+import { DailyTaskListSwipeDeleteGesture } from '../gestures/dtl-task-swipe-delete.gesture';
+import { DailyTaskListLongPressEditGesture } from '../gestures/dtl-task-long-press-edit.gesture';
 import { EditTaskModalComponent } from './daily-task-list/edit-task-modal/edit-task-modal.component';
 
 @NgModule({
@@ -25,6 +26,6 @@ import { EditTaskModalComponent } from './daily-task-list/edit-task-modal/edit-t
     IonicModule,
     DragDropModule,
   ],
-  providers: [DatePipe, DailyTaskListTaskGestures]
+  providers: [DatePipe, DailyTaskListSwipeDeleteGesture, DailyTaskListLongPressEditGesture ]
 })
 export class ComponentsModule { }

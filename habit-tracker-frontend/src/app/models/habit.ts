@@ -9,8 +9,8 @@ export class Habit implements Task, IListItem {
     createdByUserId: string;
     parentTaskId?: string;
     parentListId?: string;
-    dueDate?: Date;
+    dueDate?: number;
     notes?: string;
-    assignedDate?: Date;
+    assignedDate?: number;
     recursOn: string[];
 }

@@ -11,7 +11,10 @@
     >
       <ng-container *ngIf="taskList.listItems.length > 0">
         <ng-container *ngFor="let item of taskList.listItems">
-          <daily-task-list-list-item [listItem]="item" [isEditMode]="isEditMode"></daily-task-list-list-item>
+          <daily-task-list-list-item 
+            [listItem]="item" 
+            [isEditMode]="isEditMode"
+          ></daily-task-list-list-item>
         </ng-container>
       </ng-container>
       <ng-container *ngIf="taskList.listItems.length == 0">

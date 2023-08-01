@@ -6,9 +6,11 @@ import { isList } from 'src/app/functions/is-list.function';
 import { toList } from 'src/app/functions/to-list.function';
 import { isNewTask } from 'src/app/functions/is-new-task.function';
 import { IListItem } from 'src/app/models/i-list-item';
+import { Task } from 'src/app/models/task';
 import { DefaultTask } from 'src/app/models/task';
 import { NestedDragDropService } from 'src/app/services/nested-drag-drop.service';
-import { DailyTaskListTaskGestures } from 'src/app/gestures/dtl-task.gesture';
+import { DailyTaskListSwipeDeleteGesture } from 'src/app/gestures/dtl-task-swipe-delete.gesture';
+import { DailyTaskListLongPressEditGesture } from 'src/app/gestures/dtl-task-long-press-edit.gesture';
 
 @Component({
   selector: 'daily-task-list-list-item',
@@ -27,7 +29,8 @@ export class ListItemComponent implements OnInit {
   constructor(
     private dailyTaskListStateFacade: DailyTaskListStateFacade,
     private nestedDragDropService: NestedDragDropService,
-    private dtlTaskGesture: DailyTaskListTaskGestures,
+    private dtlSwipeDeleteGesture: DailyTaskListSwipeDeleteGesture,
+    private dtlLongPressGesture: DailyTaskListLongPressEditGesture
   ) { }
 
   ngOnInit() {}
@@ -38,11 +41,10 @@ export class ListItemComponent implements OnInit {
       const itemElement = containerElement.childNodes[0];
       const iconRowElement = containerElement.childNodes[1];
 
-      const swipeGesture = this.dtlTaskGesture.create(containerElement, itemElement, iconRowElement, this.listItem.id);
-      swipeGesture.enable(true);
-
-      // const longPressGesture = this.longPressGesture.create(itemElement);
-      // longPressGesture.enable(true);
+      const swipeDeleteGesture = this.dtlSwipeDeleteGesture.create(containerElement, itemElement, iconRowElement, this.listItem.id);
+      const longPressEditGesture = this.dtlLongPressGesture.create(containerElement, this.listItem.id);
+      longPressEditGesture.enable(true);
+      swipeDeleteGesture.enable(true);
     });
   }
 
@@ -66,7 +68,7 @@ export class ListItemComponent implements OnInit {
 
   onNewTaskNameEnterEvent($event: any) {
     this.canCommitNewTask = true;
-    let newListItem: IListItem = {
+    let newListItem: Task = {
       id: $event,
       name: $event,
       completed: false,
