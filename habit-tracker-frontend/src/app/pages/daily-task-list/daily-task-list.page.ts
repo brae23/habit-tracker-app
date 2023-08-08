@@ -1,11 +1,9 @@
-import { CdkDragDrop, CdkDropList } from '@angular/cdk/drag-drop';
+import { CdkDropList } from '@angular/cdk/drag-drop';
+import { DatePipe } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Observable } from 'rxjs';
 import { DailyTaskListStateFacade } from 'src/app/data-access/+state/daily-task-list/daily-task-list-state.facade';
 import { IListItem } from 'src/app/models/i-list-item';
 import { DefaultTask } from 'src/app/models/task';
-import { TaskList } from 'src/app/models/task-list';
-import { NestedDragDropService } from 'src/app/services/nested-drag-drop.service';
 
 @Component({
   selector: 'app-daily-task-list-page',
@@ -18,14 +16,14 @@ export class DailyTaskListPage implements OnInit {
   testUserId: string = 'TestUserId1';
   isEditMode: boolean = false;
   listReorderingTemp: IListItem;
-  currentDate: number;
+  title: string;
 
-  constructor(public dailyTaskListStateFacade: DailyTaskListStateFacade) {
+  constructor(public dailyTaskListStateFacade: DailyTaskListStateFacade, private datePipe: DatePipe) {
   }
 
   ngOnInit() {
     this.dailyTaskListStateFacade.loadDailyTaskList(this.testUserId);
-    this.currentDate = Date.now();
+    this.title = this.datePipe.transform(Date.now(), 'mediumDate')!;
   }
 
   onNewTaskClicked() {

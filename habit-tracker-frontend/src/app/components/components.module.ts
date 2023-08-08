@@ -7,9 +7,10 @@ import { ListItemComponent } from './daily-task-list/list-item/list-item.compone
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { DailyTaskListComponent } from './daily-task-list/daily-task-list/daily-task-list.component';
 import { NewTaskComponent } from './daily-task-list/new-task/new-task.component';
-import { DailyTaskListSwipeDeleteGesture } from '../gestures/dtl-task-swipe-delete.gesture';
-import { DailyTaskListLongPressEditGesture } from '../gestures/dtl-task-long-press-edit.gesture';
+import { DailyTaskListItemGestures } from '../gestures/dtl-task.gesture';
 import { EditTaskModalComponent } from './daily-task-list/edit-task-modal/edit-task-modal.component';
+import { PageHeaderComponent } from './shared/page-header/page-header.component';
+import { ListAnchorComponent } from './lists-page/list-anchor/list-anchor.component';
 
 @NgModule({
   declarations: [
@@ -17,15 +18,22 @@ import { EditTaskModalComponent } from './daily-task-list/edit-task-modal/edit-t
     InsetListComponent, 
     ListItemComponent, 
     NewTaskComponent,
-    EditTaskModalComponent
+    EditTaskModalComponent,
+    PageHeaderComponent,
+    ListAnchorComponent
   ],
-  exports: [DailyTaskListComponent, EditTaskModalComponent],
+  exports: [
+    DailyTaskListComponent, 
+    EditTaskModalComponent, 
+    PageHeaderComponent,
+    ListAnchorComponent,
+  ],
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
     DragDropModule,
   ],
-  providers: [DatePipe, DailyTaskListSwipeDeleteGesture, DailyTaskListLongPressEditGesture ]
+  providers: [DatePipe, DailyTaskListItemGestures]
 })
 export class ComponentsModule { }

@@ -13,6 +13,7 @@ import { ComponentsModule } from 'src/app/components/components.module';
     IonicModule,
     DailyTaskListPageRoutingModule,
     ComponentsModule,
+    DatePipe
   ],
   declarations: [DailyTaskListPage],
   providers: [DatePipe]

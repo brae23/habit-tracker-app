@@ -1,11 +1,4 @@
-<ion-header class="ion-padding">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title size="large">{{ currentDate | date:'mediumDate' }}</ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-page-header [title]="title"></app-page-header>
 <ion-content class="ion-padding">
   <app-daily-task-list [taskList$]="dailyTaskListStateFacade.dailyTaskList$" [isEditMode]="isEditMode"></app-daily-task-list>
   <ion-fab slot="fixed" vertical="bottom" horizontal="start">

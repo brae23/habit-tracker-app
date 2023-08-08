@@ -9,8 +9,7 @@ import { IListItem } from 'src/app/models/i-list-item';
 import { Task } from 'src/app/models/task';
 import { DefaultTask } from 'src/app/models/task';
 import { NestedDragDropService } from 'src/app/services/nested-drag-drop.service';
-import { DailyTaskListSwipeDeleteGesture } from 'src/app/gestures/dtl-task-swipe-delete.gesture';
-import { DailyTaskListLongPressEditGesture } from 'src/app/gestures/dtl-task-long-press-edit.gesture';
+import { DailyTaskListItemGestures } from 'src/app/gestures/dtl-task.gesture';
 
 @Component({
   selector: 'daily-task-list-list-item',
@@ -29,22 +28,19 @@ export class ListItemComponent implements OnInit {
   constructor(
     private dailyTaskListStateFacade: DailyTaskListStateFacade,
     private nestedDragDropService: NestedDragDropService,
-    private dtlSwipeDeleteGesture: DailyTaskListSwipeDeleteGesture,
-    private dtlLongPressGesture: DailyTaskListLongPressEditGesture
+    private dtlTaskGestures: DailyTaskListItemGestures
   ) { }
 
   ngOnInit() {}
 
   ngAfterViewInit() {
-    this.listItemContainer.forEach((x) => {
+    this.listItemContainer.forEach(async (x) => {
       const containerElement = x.nativeElement;
       const itemElement = containerElement.childNodes[0];
       const iconRowElement = containerElement.childNodes[1];
 
-      const swipeDeleteGesture = this.dtlSwipeDeleteGesture.create(containerElement, itemElement, iconRowElement, this.listItem.id);
-      const longPressEditGesture = this.dtlLongPressGesture.create(containerElement, this.listItem.id);
-      longPressEditGesture.enable(true);
-      swipeDeleteGesture.enable(true);
+      const swipeDeleteGestures = await this.dtlTaskGestures.create(containerElement, itemElement, iconRowElement, this.listItem.id);
+      swipeDeleteGestures.enable(true);
     });
   }
 

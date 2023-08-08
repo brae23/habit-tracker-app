@@ -1,37 +1,59 @@
 import { AnimationController, DomController, GestureController, ModalController } from "@ionic/angular";
 import { DailyTaskListStateFacade } from "../data-access/+state/daily-task-list/daily-task-list-state.facade";
 import { Injectable } from "@angular/core";
-
+import { EditTaskModalComponent } from "../components/daily-task-list/edit-task-modal/edit-task-modal.component";
+import { isNewTaskId } from "../functions/is-new-task.function";
 
 @Injectable({
     providedIn: 'root'
 })
-export class DailyTaskListSwipeDeleteGesture {
+export class DailyTaskListItemGestures {
+    longPressGestureActive: boolean = false;
+    isModalOpen: boolean = false;
 
     constructor(
         private dailyTaskListStateFacade: DailyTaskListStateFacade,
         private gestureCtrl: GestureController, 
         private animationCtrl: AnimationController, 
         private domCtrl: DomController,
+        private modalCtrl: ModalController,
     ) {}
 
-    create(containerElement: any, itemElement: any, iconRowElement: any, listItemId: string, parentListId: any = null, isInsetListItem: boolean = false) {
+    async create(containerElement: any, itemElement: any, iconRowElement: any, listItemId: string, parentListId: any = null, isInsetListItem: boolean = false) {
         const windowWidth = window.innerWidth;
         let startX: number;
+
+        const modal = await this.modalCtrl.create({
+            component: EditTaskModalComponent,
+            
+            componentProps: { 
+                ['listItemId']: listItemId,
+                ['parentListItemId']: parentListId,
+            },
+        });
+
         const deleteAnimation = this.animationCtrl.create()
             .addElement(containerElement)
             .duration(200)
             .easing('ease-out')
             .fromTo('height', '48px', 0);
 
-        const swipeGesture = this.gestureCtrl.create({
+        const taskGestures = this.gestureCtrl.create({
             el: itemElement,
             threshold: 0,
-            gestureName: 'swipe-delete',
+            gestureName: 'dtl-task-gestures',
             onStart: ev => {
                 startX = ev.deltaX;
+                this.longPressGestureActive = true;
+                setTimeout(() => {
+                    if(this.longPressGestureActive && !isNewTaskId(listItemId) && !this.isModalOpen) {
+                        this.isModalOpen = true;
+                        modal.present();
+                    }
+                }, 750);
             },
             onMove: ev => {
+                this.longPressGestureActive = false;
                 const currentX = ev.deltaX;
 
                 if (currentX > startX) {
@@ -42,6 +64,7 @@ export class DailyTaskListSwipeDeleteGesture {
                 }
             },
             onEnd: ev => {
+                this.longPressGestureActive = false;
                 itemElement.style.transition = '0.2s ease-out';
                 if(ev.deltaX > (windowWidth / 3.0)) {
                     this.domCtrl.write(() => {
@@ -68,7 +91,11 @@ export class DailyTaskListSwipeDeleteGesture {
                 }
             }
         }, true);
+
+        modal.onDidDismiss().finally(() => {
+            this.isModalOpen = false;
+        });
         
-        return swipeGesture;
+        return taskGestures;
     }
 }

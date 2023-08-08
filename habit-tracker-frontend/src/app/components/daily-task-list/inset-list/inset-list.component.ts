@@ -6,7 +6,7 @@ import { CdkDrag, CdkDragDrop, CdkDragMove, CdkDragRelease, CdkDropList } from '
 import { NestedDragDropService } from 'src/app/services/nested-drag-drop.service';
 import { DefaultTask } from 'src/app/models/task';
 import { isNewTask } from 'src/app/functions/is-new-task.function';
-import { DailyTaskListSwipeDeleteGesture } from 'src/app/gestures/dtl-task-swipe-delete.gesture';
+import { DailyTaskListItemGestures } from 'src/app/gestures/dtl-task.gesture';
 
 @Component({
   selector: 'daily-task-list-inset-list',
@@ -43,7 +43,7 @@ export class InsetListComponent implements OnInit {
   constructor(
     public nestedDragDropService: NestedDragDropService,
     private dailyTaskListStateFacade: DailyTaskListStateFacade,
-    private dtlSwipeDeleteGesture: DailyTaskListSwipeDeleteGesture
+    private dtlTaskGestures: DailyTaskListItemGestures
   ) { }
 
   ngOnInit() {
@@ -55,13 +55,13 @@ export class InsetListComponent implements OnInit {
       this.nestedDragDropService.register(this.dropList);
     }
 
-    this.listItemContainer.forEach((x) => {
+    this.listItemContainer.forEach(async (x) => {
       const containerElement = x.nativeElement;
       const itemElement = containerElement.childNodes[0];
       const iconRowElement = containerElement.childNodes[1];
 
-      const swipeDeleteGesture = this.dtlSwipeDeleteGesture.create(containerElement, itemElement, iconRowElement, itemElement.getAttribute('id'), this.taskList.id, true);
-      swipeDeleteGesture.enable(true);
+      const dtlTaskGestures = await this.dtlTaskGestures.create(containerElement, itemElement, iconRowElement, itemElement.getAttribute('id'), this.taskList.id, true);
+      dtlTaskGestures.enable(true);
     });
   }
 

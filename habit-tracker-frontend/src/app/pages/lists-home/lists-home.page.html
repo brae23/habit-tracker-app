@@ -1,16 +1,14 @@
-<ion-header class="ion-padding">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title size="large">Lists</ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-page-header [title]="title"></app-page-header>
 <ion-content>
-  <div class="ion-padding filter-header">
-    <ion-button color="light">
-      Filter
-      <ion-icon name="filter-outline"></ion-icon>
-    </ion-button>
+  <div class="ion-padding lp-header-container">
+    <ion-searchbar color="light"></ion-searchbar>
   </div>
+  <ng-container *ngFor="let taskList of listsList">
+    <lp-list-anchor [taskList]="taskList"></lp-list-anchor>
+  </ng-container>
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button (click)="onNewListClicked()">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

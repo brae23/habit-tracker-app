@@ -6,10 +6,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./user-profile.page.scss'],
 })
 export class UserProfilePage implements OnInit {
+  title: string;
 
   constructor() { }
 
   ngOnInit() {
+    this.title = 'User Profile';
   }
 
 }

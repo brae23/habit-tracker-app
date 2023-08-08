@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { HabitsPageRoutingModule } from './habits-routing.module';
 
 import { HabitsPage } from './habits.page';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    HabitsPageRoutingModule
+    HabitsPageRoutingModule,
+    ComponentsModule
   ],
   declarations: [HabitsPage]
 })

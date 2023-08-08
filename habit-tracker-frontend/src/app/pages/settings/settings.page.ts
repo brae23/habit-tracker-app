@@ -6,10 +6,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./settings.page.scss'],
 })
 export class SettingsPage implements OnInit {
+  title: string;
 
   constructor() { }
 
   ngOnInit() {
+    this.title = 'Settings';
   }
 
 }

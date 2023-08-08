@@ -1,0 +1,14 @@
+.lp-list-anchor-card-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.lp-list-anchor-list-title {
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
+
+.lp-list-anchor-arrow-icon {
+    grid-column-start: 4;
+    grid-column-end: 4;
+}
