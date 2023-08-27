@@ -1,5 +1,5 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { IListItem } from 'src/app/models/i-list-item';
 import { TaskList } from 'src/app/models/task-list';
 import { isList } from 'src/app/functions/is-list.function';
@@ -12,7 +12,7 @@ import { NestedDragDropService } from 'src/app/services/nested-drag-drop.service
   templateUrl: './daily-task-list.component.html',
   styleUrls: ['./daily-task-list.component.scss'],
 })
-export class DailyTaskListComponent  implements OnInit {
+export class DailyTaskListComponent implements OnInit, OnDestroy {
 
   @Input() taskList$: Observable<TaskList>;
   @Input() isEditMode: boolean;
@@ -21,6 +21,7 @@ export class DailyTaskListComponent  implements OnInit {
   currentDate: number;
   isList = isList;
   taskList: TaskList;
+  ngUnsub$: Subject<boolean> = new Subject<boolean>();
 
   allowDropPredicate = (drag: CdkDrag, drop: CdkDropList) => {
     return this.nestedDragDropService.isDropAllowed(drag, drop);
@@ -37,7 +38,12 @@ export class DailyTaskListComponent  implements OnInit {
   }
 
   ngOnInit() {
-    this.taskList$.subscribe((x) => this.taskList = x);
+    this.taskList$.pipe(takeUntil(this.ngUnsub$)).subscribe((x) => this.taskList = x);
+  }
+
+  ngOnDestroy() {
+    this.ngUnsub$.next(true);
+    this.ngUnsub$.unsubscribe();
   }
 
   ngAfterViewInit() {
