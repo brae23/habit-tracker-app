@@ -15,7 +15,7 @@ jobs:
       - name: Run npm install
         run: npm i
       - name: Install Ionic CLI
-        run: npm install -g ionic/cli@7.1.1
+        run: npm install -g @ionic/cli
       - name: Build Application
         run: ionic build --prod
   test:
