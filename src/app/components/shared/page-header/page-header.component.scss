@@ -1,0 +1,18 @@
+.page-header-grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.page-header-menu-button {
+    grid-column-start: 1;
+    grid-column-end: 2;
+}
+
+.page-header-title-box {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}

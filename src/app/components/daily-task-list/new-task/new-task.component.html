@@ -1,0 +1,14 @@
+<ion-input
+  #newTask
+  placeholder="New Task"
+  fill="outline"
+  type="text"
+  inputmode="text"
+  color="primary"
+  (ionChange)="onTextInputEnter($any($event))"
+  (ionBlur)="onFocusOut()"
+  autofocus="true"
+  maxlength="100"
+  class="new-task-input"
+>
+</ion-input>
