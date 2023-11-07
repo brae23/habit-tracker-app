@@ -8,10 +8,9 @@ import { Component, OnInit } from '@angular/core';
 export class UserProfilePage implements OnInit {
   title: string;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
     this.title = 'User Profile';
   }
-
 }

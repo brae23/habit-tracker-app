@@ -11,15 +11,16 @@ import { DefaultTask } from 'src/app/models/task';
   styleUrls: ['./daily-task-list.page.scss'],
 })
 export class DailyTaskListPage implements OnInit {
-
   @ViewChild(CdkDropList) dropList?: CdkDropList;
   testUserId: string = 'TestUserId1';
   isEditMode: boolean = false;
   listReorderingTemp: IListItem;
   title: string;
 
-  constructor(public dailyTaskListStateFacade: DailyTaskListStateFacade, private datePipe: DatePipe) {
-  }
+  constructor(
+    public dailyTaskListStateFacade: DailyTaskListStateFacade,
+    private datePipe: DatePipe,
+  ) {}
 
   ngOnInit() {
     this.dailyTaskListStateFacade.loadDailyTaskList(this.testUserId);

@@ -6,8 +6,8 @@ import { HabitStatisticsPage } from './habit-statistics.page';
 const routes: Routes = [
   {
     path: '',
-    component: HabitStatisticsPage
-  }
+    component: HabitStatisticsPage,
+  },
 ];
 
 @NgModule({

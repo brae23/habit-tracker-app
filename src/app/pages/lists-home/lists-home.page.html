@@ -4,7 +4,7 @@
     <ion-searchbar color="light"></ion-searchbar>
   </div>
   <ng-container *ngFor="let taskList of listsList">
-    <lp-list-anchor [taskList]="taskList"></lp-list-anchor>
+    <app-lp-list-anchor [taskList]="taskList"></app-lp-list-anchor>
   </ng-container>
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button (click)="onNewListClicked()">

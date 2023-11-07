@@ -15,11 +15,11 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 @NgModule({
   declarations: [AppComponent],
   imports: [
-    BrowserModule, 
-    IonicModule.forRoot(), 
+    BrowserModule,
+    IonicModule.forRoot(),
     AppRoutingModule,
     NgxsModule.forRoot([DailyTaskListState], {
-      developmentMode: !environment.production
+      developmentMode: !environment.production,
     }),
     NgxsReduxDevtoolsPluginModule.forRoot(),
     NoopAnimationsModule,

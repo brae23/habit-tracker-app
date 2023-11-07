@@ -6,8 +6,8 @@ import { ListsHomePage } from './lists-home.page';
 const routes: Routes = [
   {
     path: '',
-    component: ListsHomePage
-  }
+    component: ListsHomePage,
+  },
 ];
 
 @NgModule({

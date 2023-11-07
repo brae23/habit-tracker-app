@@ -3,11 +3,11 @@
     <ion-buttons slot="start">
       <ion-button (click)="cancelClicked()" color="danger">Cancel</ion-button>
     </ion-buttons>
-    <ion-title>
-      Edit Task
-    </ion-title>
+    <ion-title> Edit Task </ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="confirmClicked()" color="primary">Confirm</ion-button>
+      <ion-button (click)="confirmClicked()" color="primary"
+        >Confirm</ion-button
+      >
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -15,14 +15,14 @@
   <ion-item class="ion-padding">
     <ion-input
       color="primary"
-      labelPlacement="stacked" 
-      label="Task name" 
+      labelPlacement="stacked"
+      label="Task name"
       placeholder="Task Name"
       inputmode="text"
       fill="solid"
       value="{{ listItem.name }}"
       (ionInput)="setName($any($event))"
-      ></ion-input>
+    ></ion-input>
   </ion-item>
 
   <!-- Due Date Input Date Picker -->
@@ -41,22 +41,22 @@
   <ion-item class="ion-padding">
     <ion-input
       color="primary"
-      labelPlacement="stacked" 
+      labelPlacement="stacked"
       label="Created By"
       readonly="true"
       value="{{ listItem.createdByUserId }}"
-      ></ion-input>
+    ></ion-input>
   </ion-item>
   <!-- TODO: FIx spacing issue between associated users -->
   <ng-container *ngIf="listItem.associatedUserIds">
     <ion-item class="ion-padding">
       <ion-input
         color="primary"
-        labelPlacement="stacked" 
+        labelPlacement="stacked"
         label="Associated With"
         readonly="true"
         value="{{ listItem.associatedUserIds }}"
-        ></ion-input>
+      ></ion-input>
     </ion-item>
   </ng-container>
 </ion-content>

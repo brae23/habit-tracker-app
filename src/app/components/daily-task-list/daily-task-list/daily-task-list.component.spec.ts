@@ -9,8 +9,8 @@ describe('DailyTaskListComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ DailyTaskListComponent ],
-      imports: [IonicModule.forRoot()]
+      declarations: [DailyTaskListComponent],
+      imports: [IonicModule.forRoot()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(DailyTaskListComponent);

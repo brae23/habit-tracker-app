@@ -9,8 +9,8 @@ describe('ListAnchorComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ ListAnchorComponent ],
-      imports: [IonicModule.forRoot()]
+      declarations: [ListAnchorComponent],
+      imports: [IonicModule.forRoot()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ListAnchorComponent);

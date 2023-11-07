@@ -6,8 +6,8 @@ import { DailyTaskListPage } from './daily-task-list.page';
 const routes: Routes = [
   {
     path: '',
-    component: DailyTaskListPage
-  }
+    component: DailyTaskListPage,
+  },
 ];
 
 @NgModule({

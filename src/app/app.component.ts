@@ -8,21 +8,24 @@ import { Subject, takeUntil } from 'rxjs';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent implements OnInit, OnDestroy {
-
   ngUnsub$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private platform: Platform) {}
 
   ngOnInit(): void {
-    this.platform.keyboardDidShow.pipe(takeUntil(this.ngUnsub$)).subscribe((ev: any) => {
-      console.log("Keyboard did show invoked! :");
-      console.log(ev);
-    });
-    this.platform.keyboardDidHide.pipe(takeUntil(this.ngUnsub$)).subscribe((ev: any) => {
-      // Revert height to original height
-      console.log("Keyboard did hide invoked! :");
-      console.log(ev);
-    });
+    this.platform.keyboardDidShow
+      .pipe(takeUntil(this.ngUnsub$))
+      .subscribe((ev: any) => {
+        console.log('Keyboard did show invoked! :');
+        console.log(ev);
+      });
+    this.platform.keyboardDidHide
+      .pipe(takeUntil(this.ngUnsub$))
+      .subscribe((ev: any) => {
+        // Revert height to original height
+        console.log('Keyboard did hide invoked! :');
+        console.log(ev);
+      });
   }
 
   ngOnDestroy(): void {

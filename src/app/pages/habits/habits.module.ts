@@ -15,8 +15,8 @@ import { ComponentsModule } from 'src/app/components/components.module';
     FormsModule,
     IonicModule,
     HabitsPageRoutingModule,
-    ComponentsModule
+    ComponentsModule,
   ],
-  declarations: [HabitsPage]
+  declarations: [HabitsPage],
 })
 export class HabitsPageModule {}

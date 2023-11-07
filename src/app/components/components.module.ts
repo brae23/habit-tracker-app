@@ -14,26 +14,21 @@ import { ListAnchorComponent } from './lists-page/list-anchor/list-anchor.compon
 
 @NgModule({
   declarations: [
-    DailyTaskListComponent, 
-    InsetListComponent, 
-    ListItemComponent, 
+    DailyTaskListComponent,
+    InsetListComponent,
+    ListItemComponent,
     NewTaskComponent,
     EditTaskModalComponent,
     PageHeaderComponent,
-    ListAnchorComponent
+    ListAnchorComponent,
   ],
   exports: [
-    DailyTaskListComponent, 
-    EditTaskModalComponent, 
+    DailyTaskListComponent,
+    EditTaskModalComponent,
     PageHeaderComponent,
     ListAnchorComponent,
   ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    DragDropModule,
-  ],
-  providers: [DatePipe, DailyTaskListItemGestures]
+  imports: [CommonModule, FormsModule, IonicModule, DragDropModule],
+  providers: [DatePipe, DailyTaskListItemGestures],
 })
-export class ComponentsModule { }
+export class ComponentsModule {}

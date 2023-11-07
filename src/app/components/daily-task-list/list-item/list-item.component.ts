@@ -1,5 +1,13 @@
 import { CdkDragMove, CdkDragRelease } from '@angular/cdk/drag-drop';
-import { Component, ElementRef, Input, OnInit, QueryList, ViewChildren } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Input,
+  OnInit,
+  QueryList,
+  ViewChildren,
+} from '@angular/core';
 import { cloneDeep } from 'lodash';
 import { DailyTaskListStateFacade } from 'src/app/data-access/+state/daily-task-list/daily-task-list-state.facade';
 import { isList } from 'src/app/functions/is-list.function';
@@ -12,11 +20,11 @@ import { NestedDragDropService } from 'src/app/services/nested-drag-drop.service
 import { DailyTaskListItemGestures } from 'src/app/gestures/dtl-task.gesture';
 
 @Component({
-  selector: 'daily-task-list-list-item',
+  selector: 'app-daily-task-list-list-item',
   templateUrl: './list-item.component.html',
   styleUrls: ['./list-item.component.scss'],
 })
-export class ListItemComponent implements OnInit {
+export class ListItemComponent implements AfterViewInit {
   @ViewChildren('listItemContainer') listItemContainer: QueryList<ElementRef>;
   @Input() listItem: any;
   @Input() isEditMode: boolean;
@@ -28,10 +36,8 @@ export class ListItemComponent implements OnInit {
   constructor(
     private dailyTaskListStateFacade: DailyTaskListStateFacade,
     private nestedDragDropService: NestedDragDropService,
-    private dtlTaskGestures: DailyTaskListItemGestures
-  ) { }
-
-  ngOnInit() {}
+    private dtlTaskGestures: DailyTaskListItemGestures,
+  ) {}
 
   ngAfterViewInit() {
     this.listItemContainer.forEach(async (x) => {
@@ -39,7 +45,12 @@ export class ListItemComponent implements OnInit {
       const itemElement = containerElement.childNodes[0];
       const iconRowElement = containerElement.childNodes[1];
 
-      const swipeDeleteGestures = await this.dtlTaskGestures.create(containerElement, itemElement, iconRowElement, this.listItem.id);
+      const swipeDeleteGestures = await this.dtlTaskGestures.create(
+        containerElement,
+        itemElement,
+        iconRowElement,
+        this.listItem.id,
+      );
       swipeDeleteGestures.enable(true);
     });
   }
@@ -47,7 +58,7 @@ export class ListItemComponent implements OnInit {
   onListItemClickedEvent(listItem: any) {
     let tempListItem = cloneDeep(listItem);
     tempListItem.completed = !listItem.completed;
-    this.dailyTaskListStateFacade.updateListItem(tempListItem); 
+    this.dailyTaskListStateFacade.updateListItem(tempListItem);
   }
 
   dragMoved(event: CdkDragMove<IListItem>) {
@@ -69,17 +80,17 @@ export class ListItemComponent implements OnInit {
       name: $event,
       completed: false,
       createdByUserId: 'UserId1',
-    }
+    };
     this.dailyTaskListStateFacade.addListItem(newListItem);
     this.removeNewDefaultTask();
   }
 
   onNewTaskFocusOutEvent() {
-    if(!this.canCommitNewTask) {
+    if (!this.canCommitNewTask) {
       this.removeNewDefaultTask();
     }
   }
-  
+
   removeNewDefaultTask() {
     this.dailyTaskListStateFacade.removeListItem(DefaultTask.id);
   }

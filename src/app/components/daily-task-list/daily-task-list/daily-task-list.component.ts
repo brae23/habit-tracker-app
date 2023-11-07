@@ -1,4 +1,11 @@
-import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { IListItem } from 'src/app/models/i-list-item';
 import { TaskList } from 'src/app/models/task-list';
@@ -12,8 +19,9 @@ import { NestedDragDropService } from 'src/app/services/nested-drag-drop.service
   templateUrl: './daily-task-list.component.html',
   styleUrls: ['./daily-task-list.component.scss'],
 })
-export class DailyTaskListComponent implements OnInit, OnDestroy {
-
+export class DailyTaskListComponent
+  implements OnInit, OnDestroy, AfterViewInit
+{
   @Input() taskList$: Observable<TaskList>;
   @Input() isEditMode: boolean;
   @ViewChild(CdkDropList) dropList?: CdkDropList;
@@ -33,12 +41,15 @@ export class DailyTaskListComponent implements OnInit, OnDestroy {
 
   constructor(
     public dailyTaskListStateFacade: DailyTaskListStateFacade,
-    public nestedDragDropService: NestedDragDropService) {
+    public nestedDragDropService: NestedDragDropService,
+  ) {
     this.currentDate = Date.now();
   }
 
   ngOnInit() {
-    this.taskList$.pipe(takeUntil(this.ngUnsub$)).subscribe((x) => this.taskList = x);
+    this.taskList$
+      .pipe(takeUntil(this.ngUnsub$))
+      .subscribe((x) => (this.taskList = x));
   }
 
   ngOnDestroy() {
@@ -47,7 +58,7 @@ export class DailyTaskListComponent implements OnInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    if(this.dropList) {
+    if (this.dropList) {
       this.nestedDragDropService.register(this.dropList);
     }
   }

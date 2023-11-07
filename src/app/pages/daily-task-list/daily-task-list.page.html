@@ -1,12 +1,14 @@
 <app-page-header [title]="title"></app-page-header>
 <ion-content class="ion-padding">
-  <app-daily-task-list [taskList$]="dailyTaskListStateFacade.dailyTaskList$" [isEditMode]="isEditMode"></app-daily-task-list>
+  <app-daily-task-list
+    [taskList$]="dailyTaskListStateFacade.dailyTaskList$"
+    [isEditMode]="isEditMode"
+  ></app-daily-task-list>
   <ion-fab slot="fixed" vertical="bottom" horizontal="start">
-    <ion-fab-button (click)="onEditFabClicked()" >
+    <ion-fab-button (click)="onEditFabClicked()">
       <ion-icon name="pencil-outline"></ion-icon>
     </ion-fab-button>
-    <ion-fab-list>
-    </ion-fab-list>
+    <ion-fab-list> </ion-fab-list>
   </ion-fab>
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button (click)="onNewTaskClicked()">

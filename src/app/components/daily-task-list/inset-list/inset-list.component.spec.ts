@@ -9,8 +9,8 @@ describe('InsetListComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ InsetListComponent ],
-      imports: [IonicModule.forRoot()]
+      declarations: [InsetListComponent],
+      imports: [IonicModule.forRoot()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(InsetListComponent);

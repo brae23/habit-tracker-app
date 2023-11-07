@@ -1,51 +1,60 @@
 <ng-container *ngIf="isList(listItem)">
-    <daily-task-list-inset-list [taskList]="listItem" [isEditMode]="isEditMode" (listItemClicked)="onListItemClickedEvent(listItem)"></daily-task-list-inset-list>
+  <app-daily-task-list-inset-list
+    [taskList]="listItem"
+    [isEditMode]="isEditMode"
+    (listItemClicked)="onListItemClickedEvent(listItem)"
+  ></app-daily-task-list-inset-list>
 </ng-container>
 <ng-container *ngIf="!isList(listItem)">
-    <div
-        cdkDrag
-        [cdkDragData]="listItem"
-        [cdkDragDisabled]="!isEditMode"
-        (cdkDragMoved)="dragMoved($event)"
-        (cdkDragReleased)="dragReleased($event)"
-        class="list-box list-item-container"
-        #listItemContainer
-    >
-        <div class="list-item-row">
-            <ng-container *ngIf="isNewTask(listItem)">
-                <div class="new-task-input-box ion-padding">
-                    <daily-task-list-new-task
-                        (itemNameInputText)="onNewTaskNameEnterEvent($event)"
-                        (lostFocusEvent)="onNewTaskFocusOutEvent()"
-                    ></daily-task-list-new-task>
-                </div>
-            </ng-container>
-            <ng-container *ngIf="!isNewTask(listItem)">
-                <div class="dtl-list-checkbox-row">
-                    <div cdkDragHandle *ngIf="isEditMode" class="drag-handle">
-                        <ion-icon class="list-icons" name="reorder-two-outline"></ion-icon>
-                    </div>
-                    <div class="tasklist-item-box list-item-row"> 
-                        <ion-checkbox 
-                            class="list-checkbox"
-                            justify="start" 
-                            labelPlacement="end" 
-                            [checked]="listItem.completed" 
-                            (ionChange)="onListItemClickedEvent(listItem)"
-                        >
-                            {{ listItem.name }}
-                        </ion-checkbox>
-                        <div *ngIf="isEditMode" class="item-add-icon-box" slot="end" (click)="makeItemListClicked()">
-                            <ion-icon class="list-icons" name="add-outline"></ion-icon>
-                        </div>
-                    </div>
-                </div>
-            </ng-container>
+  <div
+    cdkDrag
+    [cdkDragData]="listItem"
+    [cdkDragDisabled]="!isEditMode"
+    (cdkDragMoved)="dragMoved($event)"
+    (cdkDragReleased)="dragReleased($event)"
+    class="list-box list-item-container"
+    #listItemContainer
+  >
+    <div class="list-item-row">
+      <ng-container *ngIf="isNewTask(listItem)">
+        <div class="new-task-input-box ion-padding">
+          <app-daily-task-list-new-task
+            (itemNameInputText)="onNewTaskNameEnterEvent($event)"
+            (lostFocusEvent)="onNewTaskFocusOutEvent()"
+          ></app-daily-task-list-new-task>
         </div>
-        <div class="swipe-icon-row">
-            <div class="swipe-icon-container">
-              <ion-icon name="trash" class="dtl-swipe-icon"></ion-icon>
+      </ng-container>
+      <ng-container *ngIf="!isNewTask(listItem)">
+        <div class="dtl-list-checkbox-row">
+          <div cdkDragHandle *ngIf="isEditMode" class="drag-handle">
+            <ion-icon class="list-icons" name="reorder-two-outline"></ion-icon>
+          </div>
+          <div class="tasklist-item-box list-item-row">
+            <ion-checkbox
+              class="list-checkbox"
+              justify="start"
+              labelPlacement="end"
+              [checked]="listItem.completed"
+              (ionChange)="onListItemClickedEvent(listItem)"
+            >
+              {{ listItem.name }}
+            </ion-checkbox>
+            <div
+              *ngIf="isEditMode"
+              class="item-add-icon-box"
+              slot="end"
+              (click)="makeItemListClicked()"
+            >
+              <ion-icon class="list-icons" name="add-outline"></ion-icon>
             </div>
+          </div>
         </div>
+      </ng-container>
     </div>
+    <div class="swipe-icon-row">
+      <div class="swipe-icon-container">
+        <ion-icon name="trash" class="dtl-swipe-icon"></ion-icon>
+      </div>
+    </div>
+  </div>
 </ng-container>

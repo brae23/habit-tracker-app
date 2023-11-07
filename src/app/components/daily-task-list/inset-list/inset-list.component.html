@@ -1,53 +1,80 @@
-<div 
-  cdkDrag 
-  class="list-box" 
-  (click)="onListClicked(taskList.isCollapsed)" 
+<div
+  cdkDrag
+  class="list-box"
+  (click)="onListClicked(taskList.isCollapsed)"
   [cdkDragData]="taskList"
   [cdkDragDisabled]="dragDisabled"
 >
-  <div cdkDragHandle class="drag-handle" *ngIf="isEditMode && taskList.isCollapsed">
+  <div
+    cdkDragHandle
+    class="drag-handle"
+    *ngIf="isEditMode && taskList.isCollapsed"
+  >
     <ion-icon class="list-icons" name="reorder-two-outline"></ion-icon>
   </div>
   <div class="inset-list-box">
-    <ion-checkbox class="list-disabled-checkbox list-checkbox" justify="start" labelPlacement="end" [checked]="taskList.completed">{{ taskList.name }}</ion-checkbox>
-    <ion-icon class="list-icons" name="chevron-down-outline" slot="end" *ngIf="taskList.isCollapsed"></ion-icon>
-    <ion-icon class="list-icons" name="chevron-up-outline" slot="end" *ngIf="!taskList.isCollapsed"></ion-icon>
+    <ion-checkbox
+      class="list-disabled-checkbox list-checkbox"
+      justify="start"
+      labelPlacement="end"
+      [checked]="taskList.completed"
+      >{{ taskList.name }}</ion-checkbox
+    >
+    <ion-icon
+      class="list-icons"
+      name="chevron-down-outline"
+      slot="end"
+      *ngIf="taskList.isCollapsed"
+    ></ion-icon>
+    <ion-icon
+      class="list-icons"
+      name="chevron-up-outline"
+      slot="end"
+      *ngIf="!taskList.isCollapsed"
+    ></ion-icon>
   </div>
-</div> 
+</div>
 <div
   cdkDropList
-  id="{{taskList.id}}"
+  id="{{ taskList.id }}"
   class="list-div inset-list-div"
-  *ngIf="!taskList.isCollapsed" 
+  *ngIf="!taskList.isCollapsed"
   (cdkDropListDropped)="onItemDropped($event)"
   [cdkDropListData]="taskList.listItems"
   [cdkDropListConnectedTo]="connectedLists"
-  [cdkDropListEnterPredicate]="allowDropPredicate"  
+  [cdkDropListEnterPredicate]="allowDropPredicate"
 >
-  <div 
-    cdkDrag  
-    *ngFor="let item of taskList.listItems; index as i" 
-    class="list-box inset-list-item list-item-container" 
+  <div
+    cdkDrag
+    *ngFor="let item of taskList.listItems; index as i"
+    class="list-box inset-list-item list-item-container"
     [cdkDragDisabled]="!isEditMode || isNewTask(item)"
     [cdkDragData]="item"
     (cdkDragMoved)="dragMoved($event)"
     (cdkDragReleased)="dragReleased($event)"
     #insetListItemContainer
   >
-    <div class="inset-list-item-row" id="{{item.id}}">
+    <div class="inset-list-item-row" id="{{ item.id }}">
       <div *ngIf="isNewTask(item)" class="new-task-input-box-inset">
-        <daily-task-list-new-task
+        <app-daily-task-list-new-task
           (itemNameInputText)="onNewTaskNameEnterEvent($event)"
           (lostFocusEvent)="onNewTaskFocusOutEvent()"
-        ></daily-task-list-new-task>
+        ></app-daily-task-list-new-task>
       </div>
       <ng-container *ngIf="!isNewTask(item)">
         <div class="dtl-list-checkbox-row">
           <div cdkDragHandle class="drag-handle" *ngIf="isEditMode">
             <ion-icon class="list-icons" name="reorder-two-outline"></ion-icon>
           </div>
-          <ion-checkbox class="list-checkbox" justify="start" labelPlacement="end" [checked]="item.completed" (ionChange)="listItemClickedEvent(item)">{{ item.name }}</ion-checkbox>
-        </div> 
+          <ion-checkbox
+            class="list-checkbox"
+            justify="start"
+            labelPlacement="end"
+            [checked]="item.completed"
+            (ionChange)="listItemClickedEvent(item)"
+            >{{ item.name }}</ion-checkbox
+          >
+        </div>
       </ng-container>
     </div>
     <div class="swipe-icon-row">

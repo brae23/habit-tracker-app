@@ -1,23 +1,23 @@
 .inset-list-div {
-    box-shadow: inset 0px 0px 2px 2px rgba(0, 0, 0, 0.2);
-    background: var(--ion-color-step-100);
+  box-shadow: inset 0px 0px 2px 2px rgba(0, 0, 0, 0.2);
+  background: var(--ion-color-step-100);
 }
 
 .inset-list-item {
-    padding-left: 25px;
+  padding-left: 25px;
 }
 
 .inset-list-box {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .inset-list-item-row {
-    background-color: var(--ion-color-step-100);
-    grid-column: 1;
-    grid-row: 1;
-    z-index: 2;
+  background-color: var(--ion-color-step-100);
+  grid-column: 1;
+  grid-row: 1;
+  z-index: 2;
 }

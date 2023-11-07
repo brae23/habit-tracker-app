@@ -9,8 +9,8 @@ describe('EditTaskModalComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ EditTaskModalComponent ],
-      imports: [IonicModule.forRoot()]
+      declarations: [EditTaskModalComponent],
+      imports: [IonicModule.forRoot()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(EditTaskModalComponent);

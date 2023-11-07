@@ -11,7 +11,7 @@ export class ListsHomePage implements OnInit {
   title: string;
   listsList: TaskList[];
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
     this.title = 'Lists';
@@ -30,37 +30,37 @@ export class ListsHomePage implements OnInit {
           parentListId: 'listId1',
           name: 'Task 1 Name',
           completed: false,
-          createdByUserId: 'User 1'
+          createdByUserId: 'User 1',
         },
         {
           id: 'taskId2',
           parentListId: 'listId1',
           name: 'Task 2 Name',
           completed: false,
-          createdByUserId: 'User 1'
+          createdByUserId: 'User 1',
         },
         {
           id: 'taskId3',
           parentListId: 'listId1',
           name: 'Task 3 Name',
           completed: true,
-          createdByUserId: 'User 1'
+          createdByUserId: 'User 1',
         },
         {
           id: 'taskId4',
           parentListId: 'listId1',
           name: 'Task 4 Name',
           completed: true,
-          createdByUserId: 'User 1'
+          createdByUserId: 'User 1',
         },
         {
           id: 'taskId5',
           parentListId: 'listId1',
           name: 'Task 5 Name',
           completed: false,
-          createdByUserId: 'User 1'
-        }
-      ]
+          createdByUserId: 'User 1',
+        },
+      ],
     };
 
     const testList2: TaskList = {
@@ -77,38 +77,38 @@ export class ListsHomePage implements OnInit {
           parentListId: 'listId1',
           name: 'Task 1 Name',
           completed: false,
-          createdByUserId: 'User 1'
+          createdByUserId: 'User 1',
         },
         {
           id: 'taskId2',
           parentListId: 'listId1',
           name: 'Task 2 Name',
           completed: false,
-          createdByUserId: 'User 1'
+          createdByUserId: 'User 1',
         },
         {
           id: 'taskId3',
           parentListId: 'listId1',
           name: 'Task 3 Name',
           completed: true,
-          createdByUserId: 'User 1'
+          createdByUserId: 'User 1',
         },
         {
           id: 'taskId4',
           parentListId: 'listId1',
           name: 'Task 4 Name',
           completed: true,
-          createdByUserId: 'User 1'
+          createdByUserId: 'User 1',
         },
         {
           id: 'taskId5',
           parentListId: 'listId1',
           name: 'Task 5 Name',
           completed: false,
-          createdByUserId: 'User 1'
-        }
-      ]
-    }
+          createdByUserId: 'User 1',
+        },
+      ],
+    };
 
     const testList3: TaskList = {
       id: 'listsPageList3',
@@ -124,44 +124,40 @@ export class ListsHomePage implements OnInit {
           parentListId: 'listId1',
           name: 'Task 1 Name',
           completed: false,
-          createdByUserId: 'User 1'
+          createdByUserId: 'User 1',
         },
         {
           id: 'taskId2',
           parentListId: 'listId1',
           name: 'Task 2 Name',
           completed: false,
-          createdByUserId: 'User 1'
+          createdByUserId: 'User 1',
         },
         {
           id: 'taskId3',
           parentListId: 'listId1',
           name: 'Task 3 Name',
           completed: true,
-          createdByUserId: 'User 1'
+          createdByUserId: 'User 1',
         },
         {
           id: 'taskId4',
           parentListId: 'listId1',
           name: 'Task 4 Name',
           completed: true,
-          createdByUserId: 'User 1'
+          createdByUserId: 'User 1',
         },
         {
           id: 'taskId5',
           parentListId: 'listId1',
           name: 'Task 5 Name',
           completed: false,
-          createdByUserId: 'User 1'
-        }
-      ]
-    };   
+          createdByUserId: 'User 1',
+        },
+      ],
+    };
 
-    this.listsList = [
-      testList1,
-      testList2,
-      testList3
-    ];
+    this.listsList = [testList1, testList2, testList3];
   }
 
   onNewListClicked() {

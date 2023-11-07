@@ -1,11 +1,19 @@
-import { CdkDrag, CdkDragDrop, CdkDragMove, CdkDragRelease, CdkDropList, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import {
+  CdkDrag,
+  CdkDragDrop,
+  CdkDragMove,
+  CdkDragRelease,
+  CdkDropList,
+  moveItemInArray,
+  transferArrayItem,
+} from '@angular/cdk/drag-drop';
 import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable } from '@angular/core';
 import { IListItem } from '../models/i-list-item';
 import { DailyTaskListStateFacade } from '../data-access/+state/daily-task-list/daily-task-list-state.facade';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class NestedDragDropService {
   dropLists: CdkDropList[] = [];
@@ -13,20 +21,24 @@ export class NestedDragDropService {
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
-    private dailyTaskListStateFacade: DailyTaskListStateFacade) {}
+    private dailyTaskListStateFacade: DailyTaskListStateFacade,
+  ) {}
 
   public register(dropList: CdkDropList) {
     this.dropLists.push(dropList);
   }
 
   public unregister(dropList: CdkDropList) {
-    this.dropLists.splice(this.dropLists.findIndex((x) => x.id == dropList.id), 1);
+    this.dropLists.splice(
+      this.dropLists.findIndex((x) => x.id == dropList.id),
+      1,
+    );
   }
 
   dragMoved(event: CdkDragMove<IListItem>) {
     let elementFromPoint = this.document.elementFromPoint(
       event.pointerPosition.x,
-      event.pointerPosition.y
+      event.pointerPosition.y,
     );
 
     if (!elementFromPoint) {

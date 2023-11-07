@@ -9,35 +9,50 @@ const routes: Routes = [
   },
   {
     path: 'settings',
-    loadChildren: () => import('./pages/settings/settings.module').then( m => m.SettingsPageModule)
+    loadChildren: () =>
+      import('./pages/settings/settings.module').then(
+        (m) => m.SettingsPageModule,
+      ),
   },
   {
     path: 'lists-home',
-    loadChildren: () => import('./pages/lists-home/lists-home.module').then( m => m.ListsHomePageModule)
+    loadChildren: () =>
+      import('./pages/lists-home/lists-home.module').then(
+        (m) => m.ListsHomePageModule,
+      ),
   },
   {
     path: 'daily-task-list',
-    loadChildren: () => import('./pages/daily-task-list/daily-task-list.module').then( m => m.DailyTaskListPageModule)
+    loadChildren: () =>
+      import('./pages/daily-task-list/daily-task-list.module').then(
+        (m) => m.DailyTaskListPageModule,
+      ),
   },
   {
     path: 'user-profile',
-    loadChildren: () => import('./pages/user-profile/user-profile.module').then( m => m.UserProfilePageModule)
+    loadChildren: () =>
+      import('./pages/user-profile/user-profile.module').then(
+        (m) => m.UserProfilePageModule,
+      ),
   },
   {
     path: 'habits',
-    loadChildren: () => import('./pages/habits/habits.module').then( m => m.HabitsPageModule)
+    loadChildren: () =>
+      import('./pages/habits/habits.module').then((m) => m.HabitsPageModule),
   },
   {
     path: 'habit-statistics',
-    loadChildren: () => import('./pages/habit-statistics/habit-statistics.module').then( m => m.HabitStatisticsPageModule)
+    loadChildren: () =>
+      import('./pages/habit-statistics/habit-statistics.module').then(
+        (m) => m.HabitStatisticsPageModule,
+      ),
   },
-
 ];
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
+    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules }),
   ],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

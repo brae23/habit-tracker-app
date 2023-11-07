@@ -3,7 +3,6 @@ import { InputCustomEvent, ModalController } from '@ionic/angular';
 import { cloneDeep } from 'lodash';
 import { Subject, takeUntil } from 'rxjs';
 import { DailyTaskListStateFacade } from 'src/app/data-access/+state/daily-task-list/daily-task-list-state.facade';
-import { IListItem } from 'src/app/models/i-list-item';
 import { TaskList } from 'src/app/models/task-list';
 
 @Component({
@@ -11,23 +10,33 @@ import { TaskList } from 'src/app/models/task-list';
   templateUrl: './edit-task-modal.component.html',
   styleUrls: ['./edit-task-modal.component.scss'],
 })
-export class EditTaskModalComponent  implements OnInit, OnDestroy {
-  @Input('listItemId') listItemId: string;
-  @Input('parentListItemId') parentListItemId: string;
+export class EditTaskModalComponent implements OnInit, OnDestroy {
+  @Input() listItemId: string;
+  @Input() parentListItemId: string;
   ngUnsub$: Subject<boolean> = new Subject<boolean>();
   dailyTaskList: TaskList;
   listItem: any;
 
-  constructor(private modalCtl: ModalController, private dailyTaskListStateFacade: DailyTaskListStateFacade) { }
+  constructor(
+    private modalCtl: ModalController,
+    private dailyTaskListStateFacade: DailyTaskListStateFacade,
+  ) {}
 
   ngOnInit() {
-    this.dailyTaskListStateFacade.dailyTaskList$.pipe(takeUntil(this.ngUnsub$)).subscribe((x) => this.dailyTaskList = x);
+    this.dailyTaskListStateFacade.dailyTaskList$
+      .pipe(takeUntil(this.ngUnsub$))
+      .subscribe((x) => (this.dailyTaskList = x));
 
     if (this.parentListItemId != null) {
-      this.listItem = cloneDeep(this.dailyTaskList.listItems.find((y) => y.id === this.parentListItemId)?.listItems?.find((z: any) => z.id === this.listItemId)!);
-    }
-    else {
-      this.listItem = cloneDeep(this.dailyTaskList.listItems.find((y) => y.id === this.listItemId)!);
+      this.listItem = cloneDeep(
+        this.dailyTaskList.listItems
+          .find((y) => y.id === this.parentListItemId)
+          ?.listItems?.find((z: any) => z.id === this.listItemId)!,
+      );
+    } else {
+      this.listItem = cloneDeep(
+        this.dailyTaskList.listItems.find((y) => y.id === this.listItemId)!,
+      );
     }
   }
 

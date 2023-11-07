@@ -1,6 +1,4 @@
 {
-    "git.ignoreLimitWarning": true,
-    "eslint.workingDirectories": [
-        "./habit-tracker-frontend",
-    ],
+  "git.ignoreLimitWarning": true,
+  "eslint.workingDirectories": ["./habit-tracker-frontend"]
 }

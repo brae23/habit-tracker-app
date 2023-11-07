@@ -13,9 +13,9 @@ import { ComponentsModule } from 'src/app/components/components.module';
     IonicModule,
     DailyTaskListPageRoutingModule,
     ComponentsModule,
-    DatePipe
+    DatePipe,
   ],
   declarations: [DailyTaskListPage],
-  providers: [DatePipe]
+  providers: [DatePipe],
 })
 export class DailyTaskListPageModule {}

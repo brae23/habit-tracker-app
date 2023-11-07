@@ -6,8 +6,8 @@ import { HabitsPage } from './habits.page';
 const routes: Routes = [
   {
     path: '',
-    component: HabitsPage
-  }
+    component: HabitsPage,
+  },
 ];
 
 @NgModule({

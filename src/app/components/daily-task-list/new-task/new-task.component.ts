@@ -1,20 +1,23 @@
-import { AfterViewInit, Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
-import { ViewDidEnter } from '@ionic/angular';
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Output,
+  ViewChild,
+} from '@angular/core';
 
 @Component({
-  selector: 'daily-task-list-new-task',
+  selector: 'app-daily-task-list-new-task',
   templateUrl: './new-task.component.html',
   styleUrls: ['./new-task.component.scss'],
 })
-export class NewTaskComponent  implements OnInit, AfterViewInit{
-
+export class NewTaskComponent implements AfterViewInit {
   @ViewChild('newTask') newTaskInput: any;
-  @Output() itemNameInputText: EventEmitter<string> = new EventEmitter<string>;
-  @Output() lostFocusEvent: EventEmitter<any> = new EventEmitter<any>;
+  @Output() itemNameInputText: EventEmitter<string> =
+    new EventEmitter<string>();
+  @Output() lostFocusEvent: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor() { }
-
-  ngOnInit() {}
+  constructor() {}
 
   ngAfterViewInit() {
     this.newTaskInput.setFocus();
@@ -27,5 +30,4 @@ export class NewTaskComponent  implements OnInit, AfterViewInit{
   onFocusOut() {
     this.lostFocusEvent.emit();
   }
-
 }
