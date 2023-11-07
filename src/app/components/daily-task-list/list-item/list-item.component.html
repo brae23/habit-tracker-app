@@ -1,7 +1,6 @@
 <ng-container *ngIf="isList(listItem)">
   <app-daily-task-list-inset-list
     [taskList]="listItem"
-    [isEditMode]="isEditMode"
     (listItemClicked)="onListItemClickedEvent(listItem)"
   ></app-daily-task-list-inset-list>
 </ng-container>
@@ -9,26 +8,14 @@
   <div
     cdkDrag
     [cdkDragData]="listItem"
-    [cdkDragDisabled]="!isEditMode"
     (cdkDragMoved)="dragMoved($event)"
     (cdkDragReleased)="dragReleased($event)"
     class="list-box list-item-container"
     #listItemContainer
   >
     <div class="list-item-row">
-      <ng-container *ngIf="isNewTask(listItem)">
-        <div class="new-task-input-box ion-padding">
-          <app-daily-task-list-new-task
-            (itemNameInputText)="onNewTaskNameEnterEvent($event)"
-            (lostFocusEvent)="onNewTaskFocusOutEvent()"
-          ></app-daily-task-list-new-task>
-        </div>
-      </ng-container>
-      <ng-container *ngIf="!isNewTask(listItem)">
+      <ng-container>
         <div class="dtl-list-checkbox-row">
-          <div cdkDragHandle *ngIf="isEditMode" class="drag-handle">
-            <ion-icon class="list-icons" name="reorder-two-outline"></ion-icon>
-          </div>
           <div class="tasklist-item-box list-item-row">
             <ion-checkbox
               class="list-checkbox"
@@ -40,21 +27,15 @@
               {{ listItem.name }}
             </ion-checkbox>
             <div
-              *ngIf="isEditMode"
-              class="item-add-icon-box"
+              class="item-edit-icon-box"
               slot="end"
-              (click)="makeItemListClicked()"
+              (click)="itemEditClicked()"
             >
-              <ion-icon class="list-icons" name="add-outline"></ion-icon>
+              <ion-icon class="list-icons" name="ellipsis-vertical-outline"></ion-icon>
             </div>
           </div>
         </div>
       </ng-container>
-    </div>
-    <div class="swipe-icon-row">
-      <div class="swipe-icon-container">
-        <ion-icon name="trash" class="dtl-swipe-icon"></ion-icon>
-      </div>
     </div>
   </div>
 </ng-container>

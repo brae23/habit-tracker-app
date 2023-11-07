@@ -23,7 +23,6 @@ export class DailyTaskListComponent
   implements OnInit, OnDestroy, AfterViewInit
 {
   @Input() taskList$: Observable<TaskList>;
-  @Input() isEditMode: boolean;
   @ViewChild(CdkDropList) dropList?: CdkDropList;
 
   currentDate: number;

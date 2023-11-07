@@ -13,7 +13,6 @@ import { DefaultTask } from 'src/app/models/task';
 export class DailyTaskListPage implements OnInit {
   @ViewChild(CdkDropList) dropList?: CdkDropList;
   testUserId: string = 'TestUserId1';
-  isEditMode: boolean = false;
   listReorderingTemp: IListItem;
   title: string;
 
@@ -29,9 +28,5 @@ export class DailyTaskListPage implements OnInit {
 
   onNewTaskClicked() {
     this.dailyTaskListStateFacade.addListItem(DefaultTask);
-  }
-
-  onEditFabClicked() {
-    this.isEditMode = !this.isEditMode;
   }
 }

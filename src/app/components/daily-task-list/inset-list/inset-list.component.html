@@ -5,14 +5,7 @@
   [cdkDragData]="taskList"
   [cdkDragDisabled]="dragDisabled"
 >
-  <div
-    cdkDragHandle
-    class="drag-handle"
-    *ngIf="isEditMode && taskList.isCollapsed"
-  >
-    <ion-icon class="list-icons" name="reorder-two-outline"></ion-icon>
-  </div>
-  <div class="inset-list-box">
+  <div class="inset-list-box drag-handle">
     <ion-checkbox
       class="list-disabled-checkbox list-checkbox"
       justify="start"
@@ -48,24 +41,14 @@
     cdkDrag
     *ngFor="let item of taskList.listItems; index as i"
     class="list-box inset-list-item list-item-container"
-    [cdkDragDisabled]="!isEditMode || isNewTask(item)"
     [cdkDragData]="item"
     (cdkDragMoved)="dragMoved($event)"
     (cdkDragReleased)="dragReleased($event)"
     #insetListItemContainer
   >
-    <div class="inset-list-item-row" id="{{ item.id }}">
-      <div *ngIf="isNewTask(item)" class="new-task-input-box-inset">
-        <app-daily-task-list-new-task
-          (itemNameInputText)="onNewTaskNameEnterEvent($event)"
-          (lostFocusEvent)="onNewTaskFocusOutEvent()"
-        ></app-daily-task-list-new-task>
-      </div>
-      <ng-container *ngIf="!isNewTask(item)">
+    <div class="inset-list-item-row drag-handle" id="{{ item.id }}">
+      <ng-container>
         <div class="dtl-list-checkbox-row">
-          <div cdkDragHandle class="drag-handle" *ngIf="isEditMode">
-            <ion-icon class="list-icons" name="reorder-two-outline"></ion-icon>
-          </div>
           <ion-checkbox
             class="list-checkbox"
             justify="start"
@@ -74,13 +57,15 @@
             (ionChange)="listItemClickedEvent(item)"
             >{{ item.name }}</ion-checkbox
           >
+          <div
+              class="item-edit-icon-box"
+              slot="end"
+              (click)="itemEditClicked()"
+            >
+              <ion-icon class="list-icons" name="ellipsis-vertical-outline"></ion-icon>
+            </div>
         </div>
       </ng-container>
-    </div>
-    <div class="swipe-icon-row">
-      <div class="swipe-icon-container">
-        <ion-icon name="trash" class="dtl-swipe-icon"></ion-icon>
-      </div>
     </div>
   </div>
 </div>

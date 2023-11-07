@@ -22,7 +22,6 @@ import {
 import { NestedDragDropService } from 'src/app/services/nested-drag-drop.service';
 import { DefaultTask } from 'src/app/models/task';
 import { isNewTask } from 'src/app/functions/is-new-task.function';
-import { DailyTaskListItemGestures } from 'src/app/gestures/dtl-task.gesture';
 
 @Component({
   selector: 'app-daily-task-list-inset-list',
@@ -59,7 +58,6 @@ export class InsetListComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(
     public nestedDragDropService: NestedDragDropService,
     private dailyTaskListStateFacade: DailyTaskListStateFacade,
-    private dtlTaskGestures: DailyTaskListItemGestures,
   ) {}
 
   ngOnInit() {
@@ -70,22 +68,6 @@ export class InsetListComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.dropList) {
       this.nestedDragDropService.register(this.dropList);
     }
-
-    this.listItemContainer.forEach(async (x) => {
-      const containerElement = x.nativeElement;
-      const itemElement = containerElement.childNodes[0];
-      const iconRowElement = containerElement.childNodes[1];
-
-      const dtlTaskGestures = await this.dtlTaskGestures.create(
-        containerElement,
-        itemElement,
-        iconRowElement,
-        itemElement.getAttribute('id'),
-        this.taskList.id,
-        true,
-      );
-      dtlTaskGestures.enable(true);
-    });
   }
 
   ngOnDestroy() {
@@ -135,32 +117,8 @@ export class InsetListComponent implements OnInit, OnDestroy, AfterViewInit {
     this.nestedDragDropService.dragReleased(event);
   }
 
-  onNewTaskNameEnterEvent($event: any) {
-    this.canCommitNewTask = true;
-    let newListItem: IListItem = {
-      id: $event,
-      name: $event,
-      completed: false,
-      createdByUserId: 'UserId1',
-    };
-    this.dailyTaskListStateFacade.addInsetListItem(
-      newListItem,
-      this.taskList.id,
-    );
-    this.removeNewDefaultTask();
-  }
-
-  onNewTaskFocusOutEvent() {
-    if (!this.canCommitNewTask) {
-      this.removeNewDefaultTask();
-    }
-  }
-
-  private removeNewDefaultTask() {
-    this.dailyTaskListStateFacade.removeInsetListItem(
-      DefaultTask.id,
-      this.taskList.id,
-    );
+  itemEditClicked() {
+    console.log("hi");
   }
 
   private evaluateCompletedState() {

@@ -7,7 +7,6 @@ import { ListItemComponent } from './daily-task-list/list-item/list-item.compone
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { DailyTaskListComponent } from './daily-task-list/daily-task-list/daily-task-list.component';
 import { NewTaskComponent } from './daily-task-list/new-task/new-task.component';
-import { DailyTaskListItemGestures } from '../gestures/dtl-task.gesture';
 import { EditTaskModalComponent } from './daily-task-list/edit-task-modal/edit-task-modal.component';
 import { PageHeaderComponent } from './shared/page-header/page-header.component';
 import { ListAnchorComponent } from './lists-page/list-anchor/list-anchor.component';
@@ -29,6 +28,6 @@ import { ListAnchorComponent } from './lists-page/list-anchor/list-anchor.compon
     ListAnchorComponent,
   ],
   imports: [CommonModule, FormsModule, IonicModule, DragDropModule],
-  providers: [DatePipe, DailyTaskListItemGestures],
+  providers: [DatePipe],
 })
 export class ComponentsModule {}

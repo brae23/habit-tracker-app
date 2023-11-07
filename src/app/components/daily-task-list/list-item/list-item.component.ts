@@ -1,6 +1,5 @@
 import { CdkDragMove, CdkDragRelease } from '@angular/cdk/drag-drop';
 import {
-  AfterViewInit,
   Component,
   ElementRef,
   Input,
@@ -11,48 +10,32 @@ import {
 import { cloneDeep } from 'lodash';
 import { DailyTaskListStateFacade } from 'src/app/data-access/+state/daily-task-list/daily-task-list-state.facade';
 import { isList } from 'src/app/functions/is-list.function';
-import { toList } from 'src/app/functions/to-list.function';
-import { isNewTask } from 'src/app/functions/is-new-task.function';
 import { IListItem } from 'src/app/models/i-list-item';
-import { Task } from 'src/app/models/task';
-import { DefaultTask } from 'src/app/models/task';
 import { NestedDragDropService } from 'src/app/services/nested-drag-drop.service';
-import { DailyTaskListItemGestures } from 'src/app/gestures/dtl-task.gesture';
+import { ModalController } from '@ionic/angular';
+import { EditTaskModalComponent } from '../edit-task-modal/edit-task-modal.component';
 
 @Component({
   selector: 'app-daily-task-list-list-item',
   templateUrl: './list-item.component.html',
   styleUrls: ['./list-item.component.scss'],
 })
-export class ListItemComponent implements AfterViewInit {
+export class ListItemComponent implements OnInit {
   @ViewChildren('listItemContainer') listItemContainer: QueryList<ElementRef>;
   @Input() listItem: any;
-  @Input() isEditMode: boolean;
   canCommitNewTask: boolean;
+  editTaskModal: HTMLIonModalElement;
 
   isList = isList;
-  isNewTask = isNewTask;
 
   constructor(
     private dailyTaskListStateFacade: DailyTaskListStateFacade,
     private nestedDragDropService: NestedDragDropService,
-    private dtlTaskGestures: DailyTaskListItemGestures,
+    private modalCtl: ModalController,
   ) {}
 
-  ngAfterViewInit() {
-    this.listItemContainer.forEach(async (x) => {
-      const containerElement = x.nativeElement;
-      const itemElement = containerElement.childNodes[0];
-      const iconRowElement = containerElement.childNodes[1];
-
-      const swipeDeleteGestures = await this.dtlTaskGestures.create(
-        containerElement,
-        itemElement,
-        iconRowElement,
-        this.listItem.id,
-      );
-      swipeDeleteGestures.enable(true);
-    });
+  ngOnInit(): void {
+    this.createModal();
   }
 
   onListItemClickedEvent(listItem: any) {
@@ -69,29 +52,18 @@ export class ListItemComponent implements AfterViewInit {
     this.nestedDragDropService.dragReleased(event);
   }
 
-  makeItemListClicked() {
-    this.dailyTaskListStateFacade.updateListItem(toList(this.listItem));
+  itemEditClicked() {
+    this.editTaskModal.present();
   }
 
-  onNewTaskNameEnterEvent($event: any) {
-    this.canCommitNewTask = true;
-    let newListItem: Task = {
-      id: $event,
-      name: $event,
-      completed: false,
-      createdByUserId: 'UserId1',
-    };
-    this.dailyTaskListStateFacade.addListItem(newListItem);
-    this.removeNewDefaultTask();
-  }
+  private async createModal() {
+    this.editTaskModal = await this.modalCtl.create({
+      component: EditTaskModalComponent,
 
-  onNewTaskFocusOutEvent() {
-    if (!this.canCommitNewTask) {
-      this.removeNewDefaultTask();
-    }
-  }
-
-  removeNewDefaultTask() {
-    this.dailyTaskListStateFacade.removeListItem(DefaultTask.id);
+      componentProps: {
+        ['listItemId']: this.listItem.id,
+        ['parentListItemId']: this.listItem.parentListId,
+      },
+    });
   }
 }
