@@ -5,8 +5,8 @@
     </ion-buttons>
     <ion-title> Edit Task </ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="confirmClicked()" color="primary"
-        >Confirm</ion-button
+      <ion-button (click)="saveClicked()" color="primary"
+        >Save</ion-button
       >
     </ion-buttons>
   </ion-toolbar>
@@ -47,16 +47,25 @@
       value="{{ listItem.createdByUserId }}"
     ></ion-input>
   </ion-item>
-  <!-- TODO: FIx spacing issue between associated users -->
-  <ng-container *ngIf="listItem.associatedUserIds">
-    <ion-item class="ion-padding">
-      <ion-input
-        color="primary"
-        labelPlacement="stacked"
-        label="Associated With"
-        readonly="true"
-        value="{{ listItem.associatedUserIds }}"
-      ></ion-input>
-    </ion-item>
-  </ng-container>
+  <ion-button class="ion-padding" color="primary" fill="solid" id="present-new-subtask-popup">
+    <ion-icon slot="start" name="checkbox-outline"></ion-icon>
+    Create New Subtask
+  </ion-button>
+  <ion-alert
+    trigger="present-new-subtask-popup"
+    header="{{ newSubtaskPopupHeader }}"
+    [buttons]="newSubtaskPopupButtons"
+    [inputs]="newSubtaskPopupInputs"
+    (didDismiss)="onNewTaskPopupDismissed($event)"
+  ></ion-alert>
+  <ion-button class="ion-padding" color="danger" fill="solid" id="present-delete-confirmation-popup">
+    <ion-icon slot="start" name="trash"></ion-icon>
+    Delete Task
+  </ion-button>
+  <ion-alert
+    trigger="present-delete-confirmation-popup"
+    header="{{ confirmationPopupHeader }}"
+    [buttons]="confirmationPopupButtons"
+    (didDismiss)="onDeletePopupDismissed($event)"
+  ></ion-alert>
 </ion-content>

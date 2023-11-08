@@ -3,7 +3,6 @@ import {
   Component,
   ElementRef,
   Input,
-  OnInit,
   QueryList,
   ViewChildren,
 } from '@angular/core';
@@ -20,11 +19,10 @@ import { EditTaskModalComponent } from '../edit-task-modal/edit-task-modal.compo
   templateUrl: './list-item.component.html',
   styleUrls: ['./list-item.component.scss'],
 })
-export class ListItemComponent implements OnInit {
+export class ListItemComponent {
   @ViewChildren('listItemContainer') listItemContainer: QueryList<ElementRef>;
   @Input() listItem: any;
   canCommitNewTask: boolean;
-  editTaskModal: HTMLIonModalElement;
 
   isList = isList;
 
@@ -33,10 +31,6 @@ export class ListItemComponent implements OnInit {
     private nestedDragDropService: NestedDragDropService,
     private modalCtl: ModalController,
   ) {}
-
-  ngOnInit(): void {
-    this.createModal();
-  }
 
   onListItemClickedEvent(listItem: any) {
     let tempListItem = cloneDeep(listItem);
@@ -52,18 +46,15 @@ export class ListItemComponent implements OnInit {
     this.nestedDragDropService.dragReleased(event);
   }
 
-  itemEditClicked() {
-    this.editTaskModal.present();
-  }
-
-  private async createModal() {
-    this.editTaskModal = await this.modalCtl.create({
+  async itemEditClicked() {
+    let editTaskModal = await this.modalCtl.create({
       component: EditTaskModalComponent,
 
       componentProps: {
-        ['listItemId']: this.listItem.id,
-        ['parentListItemId']: this.listItem.parentListId,
+        ['listItem']: this.listItem
       },
     });
+
+    editTaskModal.present();
   }
 }
