@@ -20,8 +20,6 @@ import {
   CdkDropList,
 } from '@angular/cdk/drag-drop';
 import { NestedDragDropService } from 'src/app/services/nested-drag-drop.service';
-import { DefaultTask } from 'src/app/models/task';
-import { isNewTask } from 'src/app/functions/is-new-task.function';
 
 @Component({
   selector: 'app-daily-task-list-inset-list',
@@ -37,7 +35,6 @@ export class InsetListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   canCommitNewTask: boolean = false;
   completedTaskCount: number = 0;
-  isNewTask = isNewTask;
 
   allowDropPredicate = (drag: CdkDrag, drop: CdkDropList) => {
     return this.nestedDragDropService.isDropAllowed(drag, drop);
@@ -84,6 +81,7 @@ export class InsetListComponent implements OnInit, OnDestroy, AfterViewInit {
         (x: IListItem) => x.id === listItem.id,
       );
       tempListItem.completed = !listItem.completed;
+
       if (tempListItem.completed) {
         this.completedTaskCount++;
       } else {
@@ -92,8 +90,10 @@ export class InsetListComponent implements OnInit, OnDestroy, AfterViewInit {
     } catch (err) {
       console.log(err);
     }
+
     tempTaskList.completed =
       this.completedTaskCount === tempTaskList.listItems.length;
+      
     this.dailyTaskListStateFacade.updateListItem(tempTaskList);
   }
 

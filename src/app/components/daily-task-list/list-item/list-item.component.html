@@ -1,7 +1,7 @@
 <ng-container *ngIf="isList(listItem)">
   <app-daily-task-list-inset-list
     [taskList]="listItem"
-    (listItemClicked)="onListItemClickedEvent(listItem)"
+    (listItemClicked)="onListItemClickedEvent()"
   ></app-daily-task-list-inset-list>
 </ng-container>
 <ng-container *ngIf="!isList(listItem)">
@@ -10,32 +10,18 @@
     [cdkDragData]="listItem"
     (cdkDragMoved)="dragMoved($event)"
     (cdkDragReleased)="dragReleased($event)"
-    class="list-box list-item-container"
+    class="list-box"
     #listItemContainer
+    (click)="onListItemClickedEvent()"
   >
-    <div class="list-item-row">
-      <ng-container>
-        <div class="dtl-list-checkbox-row">
-          <div class="tasklist-item-box list-item-row">
-            <ion-checkbox
-              class="list-checkbox"
-              justify="start"
-              labelPlacement="end"
-              [checked]="listItem.completed"
-              (ionChange)="onListItemClickedEvent(listItem)"
-            >
-              {{ listItem.name }}
-            </ion-checkbox>
-            <div
-              class="item-edit-icon-box"
-              slot="end"
-              (click)="itemEditClicked()"
-            >
-              <ion-icon class="list-icons" name="ellipsis-vertical-outline"></ion-icon>
-            </div>
-          </div>
-        </div>
-      </ng-container>
-    </div>
+    <ion-checkbox
+      class="list-checkbox"
+      justify="start"
+      labelPlacement="end"
+      [checked]="listItem.completed"
+    >
+    </ion-checkbox>
+    <p class="dtl-item-name">{{ listItem.name }}</p>
+    <ion-icon class="list-icons edit-icon" name="ellipsis-vertical-outline" (click)="itemEditClicked()"></ion-icon>
   </div>
 </ng-container>

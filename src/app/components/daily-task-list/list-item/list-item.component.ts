@@ -32,9 +32,9 @@ export class ListItemComponent {
     private modalCtl: ModalController,
   ) {}
 
-  onListItemClickedEvent(listItem: any) {
-    let tempListItem = cloneDeep(listItem);
-    tempListItem.completed = !listItem.completed;
+  onListItemClickedEvent() {
+    let tempListItem = cloneDeep(this.listItem);
+    tempListItem.completed = !this.listItem.completed;
     this.dailyTaskListStateFacade.updateListItem(tempListItem);
   }
 

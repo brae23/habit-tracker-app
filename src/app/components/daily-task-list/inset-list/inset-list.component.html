@@ -40,7 +40,7 @@
   <div
     cdkDrag
     *ngFor="let item of taskList.listItems; index as i"
-    class="list-box inset-list-item list-item-container"
+    class="list-box inset-list-item"
     [cdkDragData]="item"
     (cdkDragMoved)="dragMoved($event)"
     (cdkDragReleased)="dragReleased($event)"
@@ -48,7 +48,7 @@
   >
     <div class="inset-list-item-row drag-handle" id="{{ item.id }}">
       <ng-container>
-        <div class="dtl-list-checkbox-row">
+        <div class="dtl-checkbox-row">
           <ion-checkbox
             class="list-checkbox"
             justify="start"
