@@ -14,7 +14,7 @@ export class NewTaskModalComponent {
   constructor(
     private modalCtl: ModalController,
     private dailyTaskListStateFacade: DailyTaskListStateFacade,
-  ) { }
+  ) {}
 
   saveClicked() {
     if (this.newTaskName) {
@@ -23,14 +23,14 @@ export class NewTaskModalComponent {
         name: this.newTaskName,
         completed: false,
         isChildTask: false,
-        createdByUserId: 'User 1'
+        createdByUserId: 'User 1',
       };
       this.dailyTaskListStateFacade.addListItem(newTaskItem);
     }
 
     this.modalCtl.dismiss(null, 'confirm');
   }
-  
+
   cancelClicked() {
     this.modalCtl.dismiss(null, 'cancel');
   }

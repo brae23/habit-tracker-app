@@ -25,84 +25,80 @@
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
-
-
 // Daily Task List global styles
-  .dtl-list-box {
-    width: 100%;
-    min-height: 70px;
-    max-height: 100px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    padding: 10px 10px 10px 10px;
-    border-bottom: solid 1px var(--ion-color-step-300);
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    box-sizing: border-box;
-    font-size: 16px;
-    cursor: pointer;
-  }
+.dtl-list-box {
+  width: 100%;
+  min-height: 70px;
+  max-height: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 10px 10px 10px 10px;
+  border-bottom: solid 1px var(--ion-color-step-300);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  font-size: 16px;
+  cursor: pointer;
+}
 
-  .dtl-list-checkbox {
-    padding-left: 10px;
-    padding-right: 15px;
-  }
+.dtl-list-checkbox {
+  padding-left: 10px;
+  padding-right: 15px;
+}
 
-  .dtl-list-icons {
-    color: var(--ion-text-color);
-    height: 20px;
-    width: 20px;
-  }
+.dtl-list-icons {
+  color: var(--ion-text-color);
+  height: 20px;
+  width: 20px;
+}
 
-  .dtl-edit-icon {
-    margin-left: auto;
-    margin-right: 10px;
-    padding-left: 10px;
-    flex-shrink: 0;
-  }
+.dtl-edit-icon {
+  margin-left: auto;
+  margin-right: 10px;
+  padding-left: 10px;
+  flex-shrink: 0;
+}
 
-  .dtl-list-clickable-box {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    width: 100%;
-  }
+.dtl-list-clickable-box {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+}
 
-  button.alert-button.alert-button-delete {
-    background-color: var(--ion-color-danger);
-    color: var(--ion-color-danger-contrast);
-  }
-  
-  button.alert-button.alert-button-save {
-    background-color: var(--ion-color-primary);
-    color: var(--ion-color-primary-contrast);
-  }
+button.alert-button.alert-button-delete {
+  background-color: var(--ion-color-danger);
+  color: var(--ion-color-danger-contrast);
+}
 
-  // Daily Task List drag and drop
-  .cdk-drag-preview {
-    box-sizing: border-box;
-    border-radius: 4px;
-    box-shadow:
-      0 5px 5px -3px rgba(0, 0, 0, 0.2),
-      0 8px 10px 1px rgba(0, 0, 0, 0.14),
-      0 3px 14px 2px rgba(0, 0, 0, 0.12);
-  }
+button.alert-button.alert-button-save {
+  background-color: var(--ion-color-primary);
+  color: var(--ion-color-primary-contrast);
+}
 
-  .cdk-drag-placeholder {
-    background: var(--ion-card-background);
-    opacity: 0;
-  }
+// Daily Task List drag and drop
+.cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow:
+    0 5px 5px -3px rgba(0, 0, 0, 0.2),
+    0 8px 10px 1px rgba(0, 0, 0, 0.14),
+    0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
 
-  .cdk-drag-animating {
-    transition: transform 250ms cubic bezier(0, 0, 0.2, 1);
-  }
+.cdk-drag-placeholder {
+  background: var(--ion-card-background);
+  opacity: 0;
+}
 
-  .dtl-list-box-drag.cdk-drop-list-dragging .list-box:not(.cdk-drag-placeholder) {
-    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
-  }
+.cdk-drag-animating {
+  transition: transform 250ms cubic bezier(0, 0, 0.2, 1);
+}
 
-
+.dtl-list-box-drag.cdk-drop-list-dragging .list-box:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
 
 // New global styles here

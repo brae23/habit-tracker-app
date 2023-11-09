@@ -5,9 +5,7 @@
     </ion-buttons>
     <ion-title> Edit Task </ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="saveClicked()" color="primary"
-        >Save</ion-button
-      >
+      <ion-button (click)="saveClicked()" color="primary">Save</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -47,7 +45,13 @@
       value="{{ listItem.createdByUserId }}"
     ></ion-input>
   </ion-item>
-  <ion-button class="ion-padding" color="primary" fill="solid" id="present-new-subtask-popup" *ngIf="!listItem.isChildTask">
+  <ion-button
+    class="ion-padding"
+    color="primary"
+    fill="solid"
+    id="present-new-subtask-popup"
+    *ngIf="!listItem.isChildTask"
+  >
     <ion-icon slot="start" name="checkbox-outline"></ion-icon>
     Create New Subtask
   </ion-button>
@@ -59,7 +63,12 @@
     (didDismiss)="onNewTaskPopupDismissed($event)"
     *ngIf="!listItem.isChildTask"
   ></ion-alert>
-  <ion-button class="ion-padding" color="danger" fill="solid" id="present-delete-confirmation-popup">
+  <ion-button
+    class="ion-padding"
+    color="danger"
+    fill="solid"
+    id="present-delete-confirmation-popup"
+  >
     <ion-icon slot="start" name="trash"></ion-icon>
     Delete Task
   </ion-button>

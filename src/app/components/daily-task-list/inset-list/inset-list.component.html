@@ -4,20 +4,27 @@
   [cdkDragData]="taskList"
   [cdkDragDisabled]="dragDisabled"
 >
-  <div class="dtl-list-clickable-box" (click)="onListClicked(taskList.isCollapsed)">
+  <div
+    class="dtl-list-clickable-box"
+    (click)="onListClicked(taskList.isCollapsed)"
+  >
     <ion-icon
-    class="dtl-list-icons chevron-icon"
-    name="chevron-down-outline"
-    *ngIf="taskList.isCollapsed"
-  ></ion-icon>
-  <ion-icon
-    class="dtl-list-icons chevron-icon"
-    name="chevron-up-outline"
-    *ngIf="!taskList.isCollapsed"
-  ></ion-icon>
-  <p class="dtl-item-name">{{ taskList.name }}</p>
+      class="dtl-list-icons chevron-icon"
+      name="chevron-down-outline"
+      *ngIf="taskList.isCollapsed"
+    ></ion-icon>
+    <ion-icon
+      class="dtl-list-icons chevron-icon"
+      name="chevron-up-outline"
+      *ngIf="!taskList.isCollapsed"
+    ></ion-icon>
+    <p class="dtl-item-name">{{ taskList.name }}</p>
   </div>
-  <ion-icon class="dtl-list-icons dtl-edit-icon" name="ellipsis-vertical-outline" (click)="itemEditClicked()"></ion-icon>
+  <ion-icon
+    class="dtl-list-icons dtl-edit-icon"
+    name="ellipsis-vertical-outline"
+    (click)="itemEditClicked()"
+  ></ion-icon>
 </div>
 <div
   cdkDropList
@@ -38,15 +45,19 @@
     (cdkDragReleased)="dragReleased($event)"
     id="{{ item.id }}"
   >
-  <div class="dtl-list-clickable-box" (click)="listItemClickedEvent(item)">
-    <ion-checkbox
-      class="dtl-list-checkbox"
-      justify="start"
-      labelPlacement="end"
-      [checked]="item.completed"
+    <div class="dtl-list-clickable-box" (click)="listItemClickedEvent(item)">
+      <ion-checkbox
+        class="dtl-list-checkbox"
+        justify="start"
+        labelPlacement="end"
+        [checked]="item.completed"
       ></ion-checkbox>
-    <p class="dtl-item-name">{{ item.name }}</p>
-  </div>
-  <ion-icon class="dtl-list-icons dtl-edit-icon" name="ellipsis-vertical-outline" (click)="itemEditClicked(item)"></ion-icon>
+      <p class="dtl-item-name">{{ item.name }}</p>
+    </div>
+    <ion-icon
+      class="dtl-list-icons dtl-edit-icon"
+      name="ellipsis-vertical-outline"
+      (click)="itemEditClicked(item)"
+    ></ion-icon>
   </div>
 </div>

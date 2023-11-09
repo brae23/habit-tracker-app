@@ -13,16 +13,20 @@
     class="dtl-list-box"
     #listItemContainer
   >
-  <div class="dtl-list-clickable-box" (click)="onListItemClickedEvent()">
-    <ion-checkbox
-      class="dtl-list-checkbox"
-      justify="start"
-      labelPlacement="end"
-      [checked]="listItem.completed"
-    >
-    </ion-checkbox>
-    <p class="dtl-item-name">{{ listItem.name }}</p>
-  </div>
-  <ion-icon class="dtl-list-icons dtl-edit-icon" name="ellipsis-vertical-outline" (click)="itemEditClicked()"></ion-icon>
+    <div class="dtl-list-clickable-box" (click)="onListItemClickedEvent()">
+      <ion-checkbox
+        class="dtl-list-checkbox"
+        justify="start"
+        labelPlacement="end"
+        [checked]="listItem.completed"
+      >
+      </ion-checkbox>
+      <p class="dtl-item-name">{{ listItem.name }}</p>
+    </div>
+    <ion-icon
+      class="dtl-list-icons dtl-edit-icon"
+      name="ellipsis-vertical-outline"
+      (click)="itemEditClicked()"
+    ></ion-icon>
   </div>
 </ng-container>

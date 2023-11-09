@@ -18,9 +18,9 @@ export class EditTaskModalComponent {
 
   public newSubtaskPopupInputs = [
     {
-      placeholder: 'New Subtask Name'
-    }
-  ]
+      placeholder: 'New Subtask Name',
+    },
+  ];
   public newSubtaskPopupButtons = [
     {
       text: 'Cancel',
@@ -30,8 +30,8 @@ export class EditTaskModalComponent {
       text: 'Save',
       role: 'confirm',
       cssClass: 'alert-button-save',
-    }
-  ]
+    },
+  ];
 
   public confirmationPopupButtons = [
     {
@@ -49,7 +49,7 @@ export class EditTaskModalComponent {
     private modalCtl: ModalController,
     private dailyTaskListStateFacade: DailyTaskListStateFacade,
   ) {
-    this.newSubtaskPopupHeader = "New Subtask";
+    this.newSubtaskPopupHeader = 'New Subtask';
     this.confirmationPopupHeader = 'Are you sure?';
   }
 
@@ -63,7 +63,7 @@ export class EditTaskModalComponent {
       listItemClone.name = this.nameUpdate;
       this.dailyTaskListStateFacade.updateListItem(listItemClone);
     }
-    
+
     this.modalCtl.dismiss(null, 'confirm');
   }
 
@@ -75,11 +75,14 @@ export class EditTaskModalComponent {
     console.log(this.listItem);
     if (ev.detail.role === 'confirm') {
       if (this.listItem.isChildTask) {
-        this.dailyTaskListStateFacade.removeInsetListItem(this.listItem.id, this.listItem.parentListId!);
+        this.dailyTaskListStateFacade.removeInsetListItem(
+          this.listItem.id,
+          this.listItem.parentListId!,
+        );
       } else {
         this.dailyTaskListStateFacade.removeListItem(this.listItem.id);
       }
-       
+
       this.modalCtl.dismiss(null, 'cancel');
     }
   }
@@ -95,8 +98,11 @@ export class EditTaskModalComponent {
       let newSubtaskItem: IListItem = DefaultTask;
       newSubtaskItem.name = newSubtaskItemName;
       newSubtaskItem.isChildTask = true;
-      
-      this.dailyTaskListStateFacade.addInsetListItem(newSubtaskItem, this.listItem.id);
+
+      this.dailyTaskListStateFacade.addInsetListItem(
+        newSubtaskItem,
+        this.listItem.id,
+      );
 
       this.modalCtl.dismiss(null, 'confirm');
     }
