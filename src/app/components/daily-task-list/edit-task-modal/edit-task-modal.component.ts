@@ -72,9 +72,15 @@ export class EditTaskModalComponent {
   }
 
   onDeletePopupDismissed(ev: any) {
+    console.log(this.listItem);
     if (ev.detail.role === 'confirm') {
+      if (this.listItem.isChildTask) {
+        this.dailyTaskListStateFacade.removeInsetListItem(this.listItem.id, this.listItem.parentListId!);
+      } else {
         this.dailyTaskListStateFacade.removeListItem(this.listItem.id);
-        this.modalCtl.dismiss(null, 'cancel');
+      }
+       
+      this.modalCtl.dismiss(null, 'cancel');
     }
   }
 
@@ -88,6 +94,8 @@ export class EditTaskModalComponent {
 
       let newSubtaskItem: IListItem = DefaultTask;
       newSubtaskItem.name = newSubtaskItemName;
+      newSubtaskItem.isChildTask = true;
+      
       this.dailyTaskListStateFacade.addInsetListItem(newSubtaskItem, this.listItem.id);
 
       this.modalCtl.dismiss(null, 'confirm');

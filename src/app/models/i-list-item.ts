@@ -5,4 +5,5 @@ export interface IListItem {
   parentListId?: string;
   createdByUserId: string;
   listItems?: any[];
+  isChildTask: boolean;
 }

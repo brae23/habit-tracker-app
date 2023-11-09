@@ -5,9 +5,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  QueryList,
   ViewChild,
-  ViewChildren,
 } from '@angular/core';
 import { cloneDeep } from 'lodash';
 import { DailyTaskListStateFacade } from 'src/app/data-access/+state/daily-task-list/daily-task-list-state.facade';
@@ -20,6 +18,8 @@ import {
   CdkDropList,
 } from '@angular/cdk/drag-drop';
 import { NestedDragDropService } from 'src/app/services/nested-drag-drop.service';
+import { ModalController } from '@ionic/angular';
+import { EditTaskModalComponent } from '../edit-task-modal/edit-task-modal.component';
 
 @Component({
   selector: 'app-daily-task-list-inset-list',
@@ -30,8 +30,7 @@ export class InsetListComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() taskList: any;
   @Input() isEditMode: boolean;
   @ViewChild(CdkDropList) dropList?: CdkDropList;
-  @ViewChildren('insetListItemContainer')
-  listItemContainer: QueryList<ElementRef>;
+  @ViewChild('insetListItemContainer') insetListItemContainer: ElementRef;
 
   canCommitNewTask: boolean = false;
   completedTaskCount: number = 0;
@@ -55,6 +54,7 @@ export class InsetListComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(
     public nestedDragDropService: NestedDragDropService,
     private dailyTaskListStateFacade: DailyTaskListStateFacade,
+    private modalCtl: ModalController,
   ) {}
 
   ngOnInit() {
@@ -93,7 +93,7 @@ export class InsetListComponent implements OnInit, OnDestroy, AfterViewInit {
 
     tempTaskList.completed =
       this.completedTaskCount === tempTaskList.listItems.length;
-      
+
     this.dailyTaskListStateFacade.updateListItem(tempTaskList);
   }
 
@@ -117,8 +117,16 @@ export class InsetListComponent implements OnInit, OnDestroy, AfterViewInit {
     this.nestedDragDropService.dragReleased(event);
   }
 
-  itemEditClicked() {
-    console.log("hi");
+  async itemEditClicked(listItem: any = null) {
+    let editTaskModal = await this.modalCtl.create({
+      component: EditTaskModalComponent,
+
+      componentProps: {
+        ['listItem']: listItem ?? this.taskList,
+      },
+    });
+
+    editTaskModal.present();
   }
 
   private evaluateCompletedState() {

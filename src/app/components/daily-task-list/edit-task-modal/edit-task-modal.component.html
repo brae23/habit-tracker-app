@@ -47,7 +47,7 @@
       value="{{ listItem.createdByUserId }}"
     ></ion-input>
   </ion-item>
-  <ion-button class="ion-padding" color="primary" fill="solid" id="present-new-subtask-popup">
+  <ion-button class="ion-padding" color="primary" fill="solid" id="present-new-subtask-popup" *ngIf="!listItem.isChildTask">
     <ion-icon slot="start" name="checkbox-outline"></ion-icon>
     Create New Subtask
   </ion-button>
@@ -57,6 +57,7 @@
     [buttons]="newSubtaskPopupButtons"
     [inputs]="newSubtaskPopupInputs"
     (didDismiss)="onNewTaskPopupDismissed($event)"
+    *ngIf="!listItem.isChildTask"
   ></ion-alert>
   <ion-button class="ion-padding" color="danger" fill="solid" id="present-delete-confirmation-popup">
     <ion-icon slot="start" name="trash"></ion-icon>

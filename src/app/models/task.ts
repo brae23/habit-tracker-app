@@ -9,6 +9,7 @@ export class Task implements IListItem {
   notes?: string;
   assignedDate?: number;
   associatedUserIds?: string[];
+  isChildTask: boolean;
 }
 
 export const DefaultTask: Task = {
@@ -16,4 +17,5 @@ export const DefaultTask: Task = {
   name: 'New Task',
   completed: false,
   createdByUserId: 'System',
+  isChildTask: false,
 };

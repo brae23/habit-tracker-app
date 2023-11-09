@@ -51,7 +51,7 @@ export class ListItemComponent {
       component: EditTaskModalComponent,
 
       componentProps: {
-        ['listItem']: this.listItem
+        ['listItem']: this.listItem,
       },
     });
 

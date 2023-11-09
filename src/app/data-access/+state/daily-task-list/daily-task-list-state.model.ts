@@ -9,6 +9,7 @@ export const DefaultDailyTaskListState: DailyTaskListStateModel = {
     isCollapsed: true,
     createdByUserId: '',
     listItems: [],
+    isChildTask: false,
   },
 };
 

@@ -3,7 +3,7 @@
     <div
       cdkDropList
       id="{{ taskList.id }}"
-      class="list-div main-list-div"
+      class="dtl-list-box-drag main-list-div"
       (cdkDropListDropped)="onItemDropped($event)"
       [cdkDropListData]="(taskList$ | async)!.listItems"
       [cdkDropListConnectedTo]="connectedLists"

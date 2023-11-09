@@ -10,4 +10,5 @@ export class TaskList implements IListItem {
   createdDate: number;
   associatedUserIds?: string[];
   description?: string;
+  isChildTask: boolean;
 }

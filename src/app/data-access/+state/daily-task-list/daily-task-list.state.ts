@@ -47,6 +47,7 @@ export class DailyTaskListState {
       parentListId: 'listId1',
       createdByUserId: 'User1',
       recursOn: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      isChildTask: false,
     };
 
     const testList1: TaskList = {
@@ -57,41 +58,47 @@ export class DailyTaskListState {
       completed: false,
       isCollapsed: true,
       createdByUserId: 'User 1',
+      isChildTask: false,
       listItems: [
         {
           id: 'taskId1',
-          parentListId: 'listId1',
+          parentListId: 'insetListId1',
           name: 'Task 1 Name',
           completed: false,
           createdByUserId: 'User 1',
+          isChildTask: true,
         },
         {
           id: 'taskId2',
-          parentListId: 'listId1',
+          parentListId: 'insetListId1',
           name: 'Task 2 Name',
           completed: false,
           createdByUserId: 'User 1',
+          isChildTask: true,
         },
         {
           id: 'taskId3',
-          parentListId: 'listId1',
+          parentListId: 'insetListId1',
           name: 'Task 3 Name',
           completed: true,
           createdByUserId: 'User 1',
+          isChildTask: true,
         },
         {
           id: 'taskId4',
-          parentListId: 'listId1',
+          parentListId: 'insetListId1',
           name: 'Task 4 Name',
           completed: true,
           createdByUserId: 'User 1',
+          isChildTask: true,
         },
         {
           id: 'taskId5',
-          parentListId: 'listId1',
+          parentListId: 'insetListId1',
           name: 'Task 5 Name',
           completed: false,
           createdByUserId: 'User 1',
+          isChildTask: true,
         },
       ],
     };
@@ -104,41 +111,47 @@ export class DailyTaskListState {
       completed: false,
       isCollapsed: true,
       createdByUserId: 'User 1',
+      isChildTask: false,
       listItems: [
         {
           id: 'taskId1',
-          parentListId: 'listId1',
+          parentListId: 'insetListId2',
           name: 'Task 1 Name',
           completed: false,
           createdByUserId: 'User 1',
+          isChildTask: true,
         },
         {
           id: 'taskId2',
-          parentListId: 'listId1',
+          parentListId: 'insetListId2',
           name: 'Task 2 Name',
           completed: false,
           createdByUserId: 'User 1',
+          isChildTask: true,
         },
         {
           id: 'taskId3',
-          parentListId: 'listId1',
+          parentListId: 'insetListId2',
           name: 'Task 3 Name',
           completed: true,
           createdByUserId: 'User 1',
+          isChildTask: true,
         },
         {
           id: 'taskId4',
-          parentListId: 'listId1',
+          parentListId: 'insetListId2',
           name: 'Task 4 Name',
           completed: true,
           createdByUserId: 'User 1',
+          isChildTask: true,
         },
         {
           id: 'taskId5',
-          parentListId: 'listId1',
+          parentListId: 'insetListId2',
           name: 'Task 5 Name',
           completed: false,
           createdByUserId: 'User 1',
+          isChildTask: true,
         },
       ],
     };
@@ -154,6 +167,7 @@ export class DailyTaskListState {
       totalTaskCount: 5,
       completedTaskCount: 2,
       createdByUserId: 'User 1',
+      isChildTask: false,
       listItems: [
         {
           id: 'taskId1',
@@ -162,6 +176,7 @@ export class DailyTaskListState {
           priority: 0,
           completed: false,
           createdByUserId: 'User 1',
+          isChildTask: false,
         },
         {
           id: 'taskId2',
@@ -170,6 +185,7 @@ export class DailyTaskListState {
           priority: 1,
           completed: false,
           createdByUserId: 'User 1',
+          isChildTask: false,
         },
         {
           id: 'taskId3',
@@ -178,6 +194,7 @@ export class DailyTaskListState {
           priority: 2,
           completed: true,
           createdByUserId: 'User 1',
+          isChildTask: false,
         },
         {
           id: 'taskId4',
@@ -186,6 +203,7 @@ export class DailyTaskListState {
           priority: 3,
           completed: true,
           createdByUserId: 'User 1',
+          isChildTask: false,
         },
         testList1,
         testList2,
@@ -196,6 +214,7 @@ export class DailyTaskListState {
           priority: 5,
           completed: false,
           createdByUserId: 'User 1',
+          isChildTask: false,
         },
         habit1,
       ],
@@ -268,6 +287,8 @@ export class DailyTaskListState {
     ctx: StateContext<DailyTaskListStateModel>,
     { listItemId, parentListId }: DailyTaskListActions.RemoveInsetListItem,
   ) {
+    console.log(listItemId, parentListId);
+    console.log(ctx.getState());
     ctx.setState(
       patch<DailyTaskListStateModel>({
         DailyTaskList: patch<DailyTaskListStateModel['DailyTaskList']>({
