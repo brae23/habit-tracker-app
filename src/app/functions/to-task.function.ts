@@ -10,6 +10,7 @@ export function toTask(list: any): Task {
     dueDate: list.dueDate,
     notes: list.notes,
     assignedDate: list.assignedDate,
+    isChildTask: false,
   };
   return task;
 }

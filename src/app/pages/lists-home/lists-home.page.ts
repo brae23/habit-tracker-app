@@ -24,6 +24,7 @@ export class ListsHomePage implements OnInit {
       completed: false,
       isCollapsed: true,
       createdByUserId: 'User 1',
+      isChildTask: false,
       listItems: [
         {
           id: 'taskId1',
@@ -31,6 +32,7 @@ export class ListsHomePage implements OnInit {
           name: 'Task 1 Name',
           completed: false,
           createdByUserId: 'User 1',
+          isChildTask: true,
         },
         {
           id: 'taskId2',
@@ -38,6 +40,7 @@ export class ListsHomePage implements OnInit {
           name: 'Task 2 Name',
           completed: false,
           createdByUserId: 'User 1',
+          isChildTask: true,
         },
         {
           id: 'taskId3',
@@ -45,6 +48,7 @@ export class ListsHomePage implements OnInit {
           name: 'Task 3 Name',
           completed: true,
           createdByUserId: 'User 1',
+          isChildTask: true,
         },
         {
           id: 'taskId4',
@@ -52,6 +56,7 @@ export class ListsHomePage implements OnInit {
           name: 'Task 4 Name',
           completed: true,
           createdByUserId: 'User 1',
+          isChildTask: true,
         },
         {
           id: 'taskId5',
@@ -59,6 +64,7 @@ export class ListsHomePage implements OnInit {
           name: 'Task 5 Name',
           completed: false,
           createdByUserId: 'User 1',
+          isChildTask: true,
         },
       ],
     };
@@ -71,6 +77,7 @@ export class ListsHomePage implements OnInit {
       completed: false,
       isCollapsed: true,
       createdByUserId: 'User 1',
+      isChildTask: false,
       listItems: [
         {
           id: 'taskId1',
@@ -78,6 +85,7 @@ export class ListsHomePage implements OnInit {
           name: 'Task 1 Name',
           completed: false,
           createdByUserId: 'User 1',
+          isChildTask: true,
         },
         {
           id: 'taskId2',
@@ -85,6 +93,7 @@ export class ListsHomePage implements OnInit {
           name: 'Task 2 Name',
           completed: false,
           createdByUserId: 'User 1',
+          isChildTask: true,
         },
         {
           id: 'taskId3',
@@ -92,6 +101,7 @@ export class ListsHomePage implements OnInit {
           name: 'Task 3 Name',
           completed: true,
           createdByUserId: 'User 1',
+          isChildTask: true,
         },
         {
           id: 'taskId4',
@@ -99,6 +109,7 @@ export class ListsHomePage implements OnInit {
           name: 'Task 4 Name',
           completed: true,
           createdByUserId: 'User 1',
+          isChildTask: true,
         },
         {
           id: 'taskId5',
@@ -106,6 +117,7 @@ export class ListsHomePage implements OnInit {
           name: 'Task 5 Name',
           completed: false,
           createdByUserId: 'User 1',
+          isChildTask: true,
         },
       ],
     };
@@ -118,6 +130,7 @@ export class ListsHomePage implements OnInit {
       completed: false,
       isCollapsed: true,
       createdByUserId: 'User 1',
+      isChildTask: false,
       listItems: [
         {
           id: 'taskId1',
@@ -125,6 +138,7 @@ export class ListsHomePage implements OnInit {
           name: 'Task 1 Name',
           completed: false,
           createdByUserId: 'User 1',
+          isChildTask: true,
         },
         {
           id: 'taskId2',
@@ -132,6 +146,7 @@ export class ListsHomePage implements OnInit {
           name: 'Task 2 Name',
           completed: false,
           createdByUserId: 'User 1',
+          isChildTask: true,
         },
         {
           id: 'taskId3',
@@ -139,6 +154,7 @@ export class ListsHomePage implements OnInit {
           name: 'Task 3 Name',
           completed: true,
           createdByUserId: 'User 1',
+          isChildTask: true,
         },
         {
           id: 'taskId4',
@@ -146,6 +162,7 @@ export class ListsHomePage implements OnInit {
           name: 'Task 4 Name',
           completed: true,
           createdByUserId: 'User 1',
+          isChildTask: true,
         },
         {
           id: 'taskId5',
@@ -153,6 +170,7 @@ export class ListsHomePage implements OnInit {
           name: 'Task 5 Name',
           completed: false,
           createdByUserId: 'User 1',
+          isChildTask: true,
         },
       ],
     };

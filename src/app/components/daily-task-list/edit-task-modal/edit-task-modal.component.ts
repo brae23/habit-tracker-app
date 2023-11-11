@@ -1,64 +1,110 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { InputCustomEvent, ModalController } from '@ionic/angular';
 import { cloneDeep } from 'lodash';
-import { Subject, takeUntil } from 'rxjs';
 import { DailyTaskListStateFacade } from 'src/app/data-access/+state/daily-task-list/daily-task-list-state.facade';
-import { TaskList } from 'src/app/models/task-list';
+import { IListItem } from 'src/app/models/i-list-item';
+import { DefaultTask } from 'src/app/models/task';
 
 @Component({
   selector: 'app-edit-task-modal',
   templateUrl: './edit-task-modal.component.html',
   styleUrls: ['./edit-task-modal.component.scss'],
 })
-export class EditTaskModalComponent implements OnInit, OnDestroy {
-  @Input() listItemId: string;
-  @Input() parentListItemId: string;
-  ngUnsub$: Subject<boolean> = new Subject<boolean>();
-  dailyTaskList: TaskList;
-  listItem: any;
+export class EditTaskModalComponent {
+  @Input() listItem: IListItem;
+  newSubtaskPopupHeader: string;
+  confirmationPopupHeader: string;
+  nameUpdate: string;
+
+  public newSubtaskPopupInputs = [
+    {
+      placeholder: 'New Subtask Name',
+    },
+  ];
+  public newSubtaskPopupButtons = [
+    {
+      text: 'Cancel',
+      role: 'cancel',
+    },
+    {
+      text: 'Save',
+      role: 'confirm',
+      cssClass: 'alert-button-save',
+    },
+  ];
+
+  public confirmationPopupButtons = [
+    {
+      text: 'Cancel',
+      role: 'cancel',
+    },
+    {
+      text: 'Delete',
+      role: 'confirm',
+      cssClass: 'alert-button-delete',
+    },
+  ];
 
   constructor(
     private modalCtl: ModalController,
     private dailyTaskListStateFacade: DailyTaskListStateFacade,
-  ) {}
-
-  ngOnInit() {
-    this.dailyTaskListStateFacade.dailyTaskList$
-      .pipe(takeUntil(this.ngUnsub$))
-      .subscribe((x) => (this.dailyTaskList = x));
-
-    if (this.parentListItemId != null) {
-      this.listItem = cloneDeep(
-        this.dailyTaskList.listItems
-          .find((y) => y.id === this.parentListItemId)
-          ?.listItems?.find((z: any) => z.id === this.listItemId)!,
-      );
-    } else {
-      this.listItem = cloneDeep(
-        this.dailyTaskList.listItems.find((y) => y.id === this.listItemId)!,
-      );
-    }
-  }
-
-  ngOnDestroy() {
-    this.ngUnsub$.next(true);
-    this.ngUnsub$.unsubscribe();
+  ) {
+    this.newSubtaskPopupHeader = 'New Subtask';
+    this.confirmationPopupHeader = 'Are you sure?';
   }
 
   cancelClicked() {
-    return this.modalCtl.dismiss(null, 'cancel');
+    this.modalCtl.dismiss(null, 'cancel');
   }
 
-  confirmClicked() {
-    this.dailyTaskListStateFacade.updateListItem(this.listItem);
-    return this.modalCtl.dismiss(null, 'confirm');
+  saveClicked() {
+    if (this.nameUpdate) {
+      let listItemClone = cloneDeep(this.listItem);
+      listItemClone.name = this.nameUpdate;
+      this.dailyTaskListStateFacade.updateListItem(listItemClone);
+    }
+
+    this.modalCtl.dismiss(null, 'confirm');
   }
 
   setName(ev: InputCustomEvent) {
-    this.listItem.name = ev.detail.value!;
+    this.nameUpdate = ev.detail.value!;
   }
 
-  setDueDate(ev: InputCustomEvent) {
-    this.listItem.dueDate = ev.detail.value!;
+  onDeletePopupDismissed(ev: any) {
+    console.log(this.listItem);
+    if (ev.detail.role === 'confirm') {
+      if (this.listItem.isChildTask) {
+        this.dailyTaskListStateFacade.removeInsetListItem(
+          this.listItem.id,
+          this.listItem.parentListId!,
+        );
+      } else {
+        this.dailyTaskListStateFacade.removeListItem(this.listItem.id);
+      }
+
+      this.modalCtl.dismiss(null, 'cancel');
+    }
+  }
+
+  onNewTaskPopupDismissed(ev: any) {
+    if (ev.detail.role === 'confirm') {
+      let newSubtaskItemName = ev.detail.data.values[0];
+
+      if (newSubtaskItemName.length < 1) {
+        return;
+      }
+
+      let newSubtaskItem: IListItem = DefaultTask;
+      newSubtaskItem.name = newSubtaskItemName;
+      newSubtaskItem.isChildTask = true;
+
+      this.dailyTaskListStateFacade.addInsetListItem(
+        newSubtaskItem,
+        this.listItem.id,
+      );
+
+      this.modalCtl.dismiss(null, 'confirm');
+    }
   }
 }

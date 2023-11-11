@@ -6,29 +6,29 @@ import { InsetListComponent } from './daily-task-list/inset-list/inset-list.comp
 import { ListItemComponent } from './daily-task-list/list-item/list-item.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { DailyTaskListComponent } from './daily-task-list/daily-task-list/daily-task-list.component';
-import { NewTaskComponent } from './daily-task-list/new-task/new-task.component';
-import { DailyTaskListItemGestures } from '../gestures/dtl-task.gesture';
 import { EditTaskModalComponent } from './daily-task-list/edit-task-modal/edit-task-modal.component';
 import { PageHeaderComponent } from './shared/page-header/page-header.component';
 import { ListAnchorComponent } from './lists-page/list-anchor/list-anchor.component';
+import { NewTaskModalComponent } from './daily-task-list/new-task-modal/new-task-modal.component';
 
 @NgModule({
   declarations: [
     DailyTaskListComponent,
     InsetListComponent,
     ListItemComponent,
-    NewTaskComponent,
     EditTaskModalComponent,
     PageHeaderComponent,
     ListAnchorComponent,
+    NewTaskModalComponent,
   ],
   exports: [
     DailyTaskListComponent,
     EditTaskModalComponent,
     PageHeaderComponent,
     ListAnchorComponent,
+    NewTaskModalComponent,
   ],
   imports: [CommonModule, FormsModule, IonicModule, DragDropModule],
-  providers: [DatePipe, DailyTaskListItemGestures],
+  providers: [DatePipe],
 })
 export class ComponentsModule {}

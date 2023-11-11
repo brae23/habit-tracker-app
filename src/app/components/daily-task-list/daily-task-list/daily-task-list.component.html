@@ -1,9 +1,9 @@
-<ion-card>
-  <ion-card-content class="daily-task-list-card">
+<ion-card class="dtl-card">
+  <ion-card-content class="dtl-main-content">
     <div
       cdkDropList
       id="{{ taskList.id }}"
-      class="list-div main-list-div"
+      class="dtl-list-box-drag main-list-div"
       (cdkDropListDropped)="onItemDropped($event)"
       [cdkDropListData]="(taskList$ | async)!.listItems"
       [cdkDropListConnectedTo]="connectedLists"
@@ -13,7 +13,6 @@
         <ng-container *ngFor="let item of taskList.listItems">
           <app-daily-task-list-list-item
             [listItem]="item"
-            [isEditMode]="isEditMode"
           ></app-daily-task-list-list-item>
         </ng-container>
       </ng-container>

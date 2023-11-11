@@ -1,4 +1,4 @@
-.inset-list-div {
+.inset-list-box {
   box-shadow: inset 0px 0px 2px 2px rgba(0, 0, 0, 0.2);
   background: var(--ion-color-step-100);
 }
@@ -7,17 +7,14 @@
   padding-left: 25px;
 }
 
-.inset-list-box {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
+.chevron-icon {
+  padding-left: 10px;
+  padding-right: 15px;
 }
 
-.inset-list-item-row {
-  background-color: var(--ion-color-step-100);
-  grid-column: 1;
-  grid-row: 1;
-  z-index: 2;
+.dtl-item-name {
+  color: var(--ion-text-color);
+  font-size: 16px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }

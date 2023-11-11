@@ -13,4 +13,5 @@ export class Habit implements Task, IListItem {
   notes?: string;
   assignedDate?: number;
   recursOn: string[];
+  isChildTask: boolean;
 }

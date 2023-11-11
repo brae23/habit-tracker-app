@@ -5,9 +5,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  QueryList,
   ViewChild,
-  ViewChildren,
 } from '@angular/core';
 import { cloneDeep } from 'lodash';
 import { DailyTaskListStateFacade } from 'src/app/data-access/+state/daily-task-list/daily-task-list-state.facade';
@@ -20,9 +18,8 @@ import {
   CdkDropList,
 } from '@angular/cdk/drag-drop';
 import { NestedDragDropService } from 'src/app/services/nested-drag-drop.service';
-import { DefaultTask } from 'src/app/models/task';
-import { isNewTask } from 'src/app/functions/is-new-task.function';
-import { DailyTaskListItemGestures } from 'src/app/gestures/dtl-task.gesture';
+import { ModalController } from '@ionic/angular';
+import { EditTaskModalComponent } from '../edit-task-modal/edit-task-modal.component';
 
 @Component({
   selector: 'app-daily-task-list-inset-list',
@@ -33,12 +30,10 @@ export class InsetListComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() taskList: any;
   @Input() isEditMode: boolean;
   @ViewChild(CdkDropList) dropList?: CdkDropList;
-  @ViewChildren('insetListItemContainer')
-  listItemContainer: QueryList<ElementRef>;
+  @ViewChild('insetListItemContainer') insetListItemContainer: ElementRef;
 
   canCommitNewTask: boolean = false;
   completedTaskCount: number = 0;
-  isNewTask = isNewTask;
 
   allowDropPredicate = (drag: CdkDrag, drop: CdkDropList) => {
     return this.nestedDragDropService.isDropAllowed(drag, drop);
@@ -59,7 +54,7 @@ export class InsetListComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(
     public nestedDragDropService: NestedDragDropService,
     private dailyTaskListStateFacade: DailyTaskListStateFacade,
-    private dtlTaskGestures: DailyTaskListItemGestures,
+    private modalCtl: ModalController,
   ) {}
 
   ngOnInit() {
@@ -70,22 +65,6 @@ export class InsetListComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.dropList) {
       this.nestedDragDropService.register(this.dropList);
     }
-
-    this.listItemContainer.forEach(async (x) => {
-      const containerElement = x.nativeElement;
-      const itemElement = containerElement.childNodes[0];
-      const iconRowElement = containerElement.childNodes[1];
-
-      const dtlTaskGestures = await this.dtlTaskGestures.create(
-        containerElement,
-        itemElement,
-        iconRowElement,
-        itemElement.getAttribute('id'),
-        this.taskList.id,
-        true,
-      );
-      dtlTaskGestures.enable(true);
-    });
   }
 
   ngOnDestroy() {
@@ -102,6 +81,7 @@ export class InsetListComponent implements OnInit, OnDestroy, AfterViewInit {
         (x: IListItem) => x.id === listItem.id,
       );
       tempListItem.completed = !listItem.completed;
+
       if (tempListItem.completed) {
         this.completedTaskCount++;
       } else {
@@ -110,8 +90,10 @@ export class InsetListComponent implements OnInit, OnDestroy, AfterViewInit {
     } catch (err) {
       console.log(err);
     }
+
     tempTaskList.completed =
       this.completedTaskCount === tempTaskList.listItems.length;
+
     this.dailyTaskListStateFacade.updateListItem(tempTaskList);
   }
 
@@ -135,32 +117,16 @@ export class InsetListComponent implements OnInit, OnDestroy, AfterViewInit {
     this.nestedDragDropService.dragReleased(event);
   }
 
-  onNewTaskNameEnterEvent($event: any) {
-    this.canCommitNewTask = true;
-    let newListItem: IListItem = {
-      id: $event,
-      name: $event,
-      completed: false,
-      createdByUserId: 'UserId1',
-    };
-    this.dailyTaskListStateFacade.addInsetListItem(
-      newListItem,
-      this.taskList.id,
-    );
-    this.removeNewDefaultTask();
-  }
+  async itemEditClicked(listItem: any = null) {
+    let editTaskModal = await this.modalCtl.create({
+      component: EditTaskModalComponent,
 
-  onNewTaskFocusOutEvent() {
-    if (!this.canCommitNewTask) {
-      this.removeNewDefaultTask();
-    }
-  }
+      componentProps: {
+        ['listItem']: listItem ?? this.taskList,
+      },
+    });
 
-  private removeNewDefaultTask() {
-    this.dailyTaskListStateFacade.removeInsetListItem(
-      DefaultTask.id,
-      this.taskList.id,
-    );
+    editTaskModal.present();
   }
 
   private evaluateCompletedState() {
