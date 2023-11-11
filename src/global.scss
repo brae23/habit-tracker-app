@@ -97,7 +97,7 @@ button.alert-button.alert-button-save {
   transition: transform 250ms cubic bezier(0, 0, 0.2, 1);
 }
 
-.dtl-list-box-drag.cdk-drop-list-dragging .list-box:not(.cdk-drag-placeholder) {
+.dtl-list-box-drag.cdk-drop-list-dragging .dtl-list-box:not(.cdk-drag-placeholder) {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 

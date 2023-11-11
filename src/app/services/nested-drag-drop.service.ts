@@ -4,8 +4,6 @@ import {
   CdkDragMove,
   CdkDragRelease,
   CdkDropList,
-  moveItemInArray,
-  transferArrayItem,
 } from '@angular/cdk/drag-drop';
 import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable } from '@angular/core';

@@ -1,13 +1,15 @@
 .main-list-div {
   border: solid 1px var(--ion-color-step-300);
-  border-radius: 4px;
+  border-radius: 8px;
 }
 
 .dtl-card {
   margin-top: 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 4rem;
   margin-left: 2rem;
   margin-right: 2rem;
+  border-radius: 8px;
+  box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.2);
 }
 
 .dtl-main-content {
