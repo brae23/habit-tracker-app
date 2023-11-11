@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { InputCustomEvent, ModalController } from '@ionic/angular';
 import { cloneDeep } from 'lodash';
-import { DailyTaskListStateFacade } from 'src/app/data-access/+state/daily-task-list/daily-task-list-state.facade';
+import { DailyTaskListState } from 'src/app/data-access/+state/daily-task-list/daily-task-list.state';
 import { IListItem } from 'src/app/models/i-list-item';
 import { DefaultTask } from 'src/app/models/task';
 
@@ -47,7 +47,7 @@ export class EditTaskModalComponent {
 
   constructor(
     private modalCtl: ModalController,
-    private dailyTaskListStateFacade: DailyTaskListStateFacade,
+    private state: DailyTaskListState,
   ) {
     this.newSubtaskPopupHeader = 'New Subtask';
     this.confirmationPopupHeader = 'Are you sure?';
@@ -61,7 +61,7 @@ export class EditTaskModalComponent {
     if (this.nameUpdate) {
       let listItemClone = cloneDeep(this.listItem);
       listItemClone.name = this.nameUpdate;
-      this.dailyTaskListStateFacade.updateListItem(listItemClone);
+      this.state.updateListItem(listItemClone);
     }
 
     this.modalCtl.dismiss(null, 'confirm');
@@ -75,12 +75,12 @@ export class EditTaskModalComponent {
     console.log(this.listItem);
     if (ev.detail.role === 'confirm') {
       if (this.listItem.isChildTask) {
-        this.dailyTaskListStateFacade.removeInsetListItem(
+        this.state.removeListItem(
           this.listItem.id,
           this.listItem.parentListId!,
         );
       } else {
-        this.dailyTaskListStateFacade.removeListItem(this.listItem.id);
+        this.state.removeListItem(this.listItem.id);
       }
 
       this.modalCtl.dismiss(null, 'cancel');
@@ -99,7 +99,7 @@ export class EditTaskModalComponent {
       newSubtaskItem.name = newSubtaskItemName;
       newSubtaskItem.isChildTask = true;
 
-      this.dailyTaskListStateFacade.addInsetListItem(
+      this.state.addListItem(
         newSubtaskItem,
         this.listItem.id,
       );

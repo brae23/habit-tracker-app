@@ -1,44 +1,137 @@
-import { Action, Selector, State, StateContext } from '@ngxs/store';
-import {
-  DailyTaskListStateModel,
-  DefaultDailyTaskListState,
-} from './daily-task-list-state.model';
-import { Injectable } from '@angular/core';
-import * as DailyTaskListActions from './daily-task-list-state.action';
+import { Injectable, OnInit, Signal, WritableSignal, signal } from '@angular/core';
 import { Habit } from 'src/app/models/habit';
 import { TaskList } from 'src/app/models/task-list';
 import { IListItem } from 'src/app/models/i-list-item';
-import {
-  insertItem,
-  patch,
-  removeItem,
-  updateItem,
-} from '@ngxs/store/operators';
-import { moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { cloneDeep } from 'lodash';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { findListItemArray } from 'src/app/functions/find-list.function';
 import { toTask } from 'src/app/functions/to-task.function';
 
-@State<DailyTaskListStateModel>({
-  name: 'dailytasklist',
-  defaults: DefaultDailyTaskListState,
+@Injectable({
+  providedIn: 'root',
 })
-@Injectable()
-export class DailyTaskListState {
+export class DailyTaskListState implements OnInit {
+
+  public dailyTaskList: WritableSignal<TaskList>;
+
   constructor() {}
 
-  // Selectors
-  @Selector()
-  static getDailyTaskList(state: DailyTaskListStateModel) {
-    return state.DailyTaskList;
+  ngOnInit(): void {
+    this.dailyTaskList = signal(this.getMockDailyTaskListState());
   }
 
-  // Actions
-  @Action(DailyTaskListActions.LoadDailyTaskList)
-  loadDailyTaskList(
-    ctx: StateContext<DailyTaskListStateModel>,
-    { userId }: DailyTaskListActions.LoadDailyTaskList,
-  ) {
+  updateListItemCompletedState(
+    listItemId: string,
+    parentListId: string | undefined = undefined,
+    completed: boolean,
+  ): void {
+    if (parentListId) {
+      this.dailyTaskList.update(taskList => {
+        let parentList = taskList.listItems.find(x => x.id === parentListId);
+        let listItem = parentList?.listItems?.find(x => x.id === listItemId);
+        listItem.completed = completed;
+        return taskList;
+      })
+    } else {
+      this.dailyTaskList.update(taskList => {
+        let listItem = taskList.listItems.find(x => x.id === listItemId);
+        listItem!.completed = completed;
+        return taskList;
+      });
+    }
+  }
+
+  updateListItem(
+    updatedListItem: IListItem,
+    parentListId: string | undefined = undefined,
+  ): void {
+    if (parentListId) {
+      this.dailyTaskList.update(taskList => {
+        let parentList: IListItem = taskList.listItems.find(x => x.id === parentListId)!;
+        let oldListItemIndex: number = parentList?.listItems?.findIndex(x => x.id === updatedListItem.id)!;
+        parentList?.listItems?.splice(oldListItemIndex, 1, updatedListItem);
+        return taskList;
+      })
+    } else {
+      this.dailyTaskList.update(taskList => {
+        let oldListItemIndex: number = taskList.listItems.findIndex(x => x.id === updatedListItem.id)!;
+        taskList.listItems.splice(oldListItemIndex, 1, updatedListItem);
+        return taskList;
+      });
+    }
+  }
+
+  addListItem(
+    listItem: IListItem,
+    parentListId: string | undefined = undefined,
+  ): void {
+    if (parentListId) {
+      this.dailyTaskList.update(taskList => {
+        let parentList = taskList.listItems.find(x => x.id === parentListId);
+        parentList?.listItems?.push(listItem);
+        return taskList;
+      })
+    } else {
+      this.dailyTaskList.update(taskList => {
+        taskList.listItems.push(listItem)
+        return taskList;
+      })
+    }
+  }
+
+  removeListItem(
+    listItemId: string,
+    parentListId: string | undefined = undefined,
+  ): void {
+    if (parentListId) {
+      this.dailyTaskList.update(taskList => {
+        let parentList = taskList.listItems.find(x => x.id === parentListId);
+        parentList?.listItems?.filter(x => x.id !== listItemId);
+        return taskList;
+      })
+    } else {
+      this.dailyTaskList.update(taskList => {
+        taskList.listItems.filter(x => x.id !== listItemId);
+        return taskList;
+      })
+    }
+  }
+
+  handleItemIndexReorder(
+    ev: CdkDragDrop<IListItem[]>,
+  ): void {
+    let listId = ev.container.id;
+    let previousListId = ev.previousContainer.id;
+
+    this.dailyTaskList.update(taskList => {
+      if (ev.previousContainer === ev.container) {
+        moveItemInArray(
+          findListItemArray(taskList, listId)!,
+          ev.previousIndex,
+          ev.currentIndex,
+        );
+      } else {
+        let previousList = findListItemArray(
+          taskList,
+          previousListId,
+        );
+        transferArrayItem(
+          previousList!,
+          findListItemArray(taskList, listId)!,
+          ev.previousIndex,
+          ev.currentIndex,
+        );
+        if (previousList!.length == 0) {
+          taskList.listItems.map((x) =>
+            x.id == previousListId ? toTask(previousList) : x,
+          );
+        }
+      }
+
+      return taskList;
+    });
+  }
+
+  private getMockDailyTaskListState(): TaskList {
     const habit1: Habit = {
       id: 'habitId1',
       name: 'Habit 1 Name',
@@ -219,164 +312,7 @@ export class DailyTaskListState {
         habit1,
       ],
     };
-    ctx.patchState({ DailyTaskList: dailyTaskList });
-  }
-
-  @Action(DailyTaskListActions.UpdateListItem)
-  updateListItem(
-    ctx: StateContext<DailyTaskListStateModel>,
-    { listItem }: DailyTaskListActions.UpdateListItem,
-  ) {
-    ctx.setState(
-      patch<DailyTaskListStateModel>({
-        DailyTaskList: patch<DailyTaskListStateModel['DailyTaskList']>({
-          listItems: updateItem((x) => x.id === listItem.id, listItem),
-        }),
-      }),
-    );
-  }
-
-  @Action(DailyTaskListActions.AddListItem)
-  addListItem(
-    ctx: StateContext<DailyTaskListStateModel>,
-    { listItem }: DailyTaskListActions.AddListItem,
-  ) {
-    let newListItemIndex = ctx.getState().DailyTaskList.listItems.length + 1;
-    ctx.setState(
-      patch<DailyTaskListStateModel>({
-        DailyTaskList: patch<DailyTaskListStateModel['DailyTaskList']>({
-          listItems: insertItem<IListItem>(listItem, newListItemIndex),
-        }),
-      }),
-    );
-  }
-
-  @Action(DailyTaskListActions.AddInsetListItem)
-  addInsetListItem(
-    ctx: StateContext<DailyTaskListStateModel>,
-    { listItem, parentListId }: DailyTaskListActions.AddInsetListItem,
-  ) {
-    ctx.setState(
-      patch<DailyTaskListStateModel>({
-        DailyTaskList: patch<DailyTaskListStateModel['DailyTaskList']>({
-          listItems: updateItem<any>(
-            (x) => x.id === parentListId,
-            patch({ listItems: insertItem(listItem) }),
-          ),
-        }),
-      }),
-    );
-  }
-
-  @Action(DailyTaskListActions.RemoveListItem)
-  removeListItem(
-    ctx: StateContext<DailyTaskListStateModel>,
-    { listItemId }: DailyTaskListActions.RemoveListItem,
-  ) {
-    ctx.setState(
-      patch<DailyTaskListStateModel>({
-        DailyTaskList: patch<DailyTaskListStateModel['DailyTaskList']>({
-          listItems: removeItem((x) => x.id === listItemId),
-        }),
-      }),
-    );
-  }
-
-  @Action(DailyTaskListActions.RemoveInsetListItem)
-  removeInsetListItem(
-    ctx: StateContext<DailyTaskListStateModel>,
-    { listItemId, parentListId }: DailyTaskListActions.RemoveInsetListItem,
-  ) {
-    console.log(listItemId, parentListId);
-    console.log(ctx.getState());
-    ctx.setState(
-      patch<DailyTaskListStateModel>({
-        DailyTaskList: patch<DailyTaskListStateModel['DailyTaskList']>({
-          listItems: updateItem<any>(
-            (x) => x.id === parentListId,
-            patch({ listItems: removeItem<any>((x) => x.id === listItemId) }),
-          ),
-        }),
-      }),
-    );
-  }
-
-  @Action(DailyTaskListActions.UpdateListCollapsedState)
-  updateListCollapsedState(
-    ctx: StateContext<DailyTaskListStateModel>,
-    {
-      listItemId,
-      collapsedState,
-    }: DailyTaskListActions.UpdateListCollapsedState,
-  ) {
-    ctx.setState(
-      patch<DailyTaskListStateModel>({
-        DailyTaskList: patch<DailyTaskListStateModel['DailyTaskList']>({
-          listItems: updateItem<any>(
-            (x) => x.id === listItemId,
-            patch({ isCollapsed: collapsedState }),
-          ),
-        }),
-      }),
-    );
-  }
-
-  @Action(DailyTaskListActions.UpdateListCompletedState)
-  updateListCompletedState(
-    ctx: StateContext<DailyTaskListStateModel>,
-    {
-      listItemId,
-      completedState,
-    }: DailyTaskListActions.UpdateListCompletedState,
-  ) {
-    ctx.setState(
-      patch<DailyTaskListStateModel>({
-        DailyTaskList: patch<DailyTaskListStateModel['DailyTaskList']>({
-          listItems: updateItem<any>(
-            (x) => x.id === listItemId,
-            patch({ completed: completedState }),
-          ),
-        }),
-      }),
-    );
-  }
-
-  @Action(DailyTaskListActions.HandleItemIndexReorder)
-  handleItemIndexReorder(
-    ctx: StateContext<DailyTaskListStateModel>,
-    { ev }: DailyTaskListActions.HandleItemIndexReorder,
-  ) {
-    let dailyTaskListState = cloneDeep(ctx.getState().DailyTaskList);
-    let previousList = findListItemArray(
-      dailyTaskListState,
-      ev.previousContainer.id,
-    );
-    let listId = ev.container.id;
-
-    if (ev.previousContainer === ev.container) {
-      moveItemInArray(
-        findListItemArray(dailyTaskListState, listId)!,
-        ev.previousIndex,
-        ev.currentIndex,
-      );
-    } else {
-      transferArrayItem(
-        previousList!,
-        findListItemArray(dailyTaskListState, listId)!,
-        ev.previousIndex,
-        ev.currentIndex,
-      );
-      if (previousList!.length == 0) {
-        dailyTaskListState.listItems.map((x) =>
-          x.id == ev.previousContainer.id ? toTask(previousList) : x,
-        );
-      }
-    }
-
-    ctx.setState(
-      patch<DailyTaskListStateModel>({
-        DailyTaskList: dailyTaskListState,
-      }),
-    );
+    
+    return dailyTaskList;
   }
 }

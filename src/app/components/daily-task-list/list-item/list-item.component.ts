@@ -6,13 +6,12 @@ import {
   QueryList,
   ViewChildren,
 } from '@angular/core';
-import { cloneDeep } from 'lodash';
-import { DailyTaskListStateFacade } from 'src/app/data-access/+state/daily-task-list/daily-task-list-state.facade';
 import { isList } from 'src/app/functions/is-list.function';
 import { IListItem } from 'src/app/models/i-list-item';
 import { NestedDragDropService } from 'src/app/services/nested-drag-drop.service';
 import { ModalController } from '@ionic/angular';
 import { EditTaskModalComponent } from '../edit-task-modal/edit-task-modal.component';
+import { DailyTaskListState } from 'src/app/data-access/+state/daily-task-list/daily-task-list.state';
 
 @Component({
   selector: 'app-daily-task-list-list-item',
@@ -21,21 +20,19 @@ import { EditTaskModalComponent } from '../edit-task-modal/edit-task-modal.compo
 })
 export class ListItemComponent {
   @ViewChildren('listItemContainer') listItemContainer: QueryList<ElementRef>;
-  @Input() listItem: any;
+  @Input() listItem: IListItem;
   canCommitNewTask: boolean;
 
   isList = isList;
 
   constructor(
-    private dailyTaskListStateFacade: DailyTaskListStateFacade,
+    private state: DailyTaskListState,
     private nestedDragDropService: NestedDragDropService,
     private modalCtl: ModalController,
   ) {}
 
   onListItemClickedEvent() {
-    let tempListItem = cloneDeep(this.listItem);
-    tempListItem.completed = !this.listItem.completed;
-    this.dailyTaskListStateFacade.updateListItem(tempListItem);
+    this.state.updateListItemCompletedState(this.listItem.id, undefined, this.listItem.completed);
   }
 
   dragMoved(event: CdkDragMove<IListItem>) {
