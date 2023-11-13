@@ -18,7 +18,7 @@
       placeholder="Task Name"
       inputmode="text"
       fill="solid"
-      value="{{ listItem.name }}"
+      value="{{ listItem().name }}"
       (ionInput)="setName($any($event))"
     ></ion-input>
   </ion-item>
@@ -42,7 +42,7 @@
       labelPlacement="stacked"
       label="Created By"
       readonly="true"
-      value="{{ listItem.createdByUserId }}"
+      value="{{ listItem().createdByUserId }}"
     ></ion-input>
   </ion-item>
   <ion-button
@@ -50,7 +50,7 @@
     color="primary"
     fill="solid"
     id="present-new-subtask-popup"
-    *ngIf="!listItem.isChildTask"
+    *ngIf="!listItem().isChildTask"
   >
     <ion-icon slot="start" name="checkbox-outline"></ion-icon>
     Create New Subtask
@@ -61,7 +61,7 @@
     [buttons]="newSubtaskPopupButtons"
     [inputs]="newSubtaskPopupInputs"
     (didDismiss)="onNewTaskPopupDismissed($event)"
-    *ngIf="!listItem.isChildTask"
+    *ngIf="!listItem().isChildTask"
   ></ion-alert>
   <ion-button
     class="ion-padding"

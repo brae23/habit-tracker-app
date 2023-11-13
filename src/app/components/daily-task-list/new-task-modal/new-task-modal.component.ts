@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { InputCustomEvent, ModalController } from '@ionic/angular';
-import { DailyTaskListState } from 'src/app/data-access/+state/daily-task-list/daily-task-list.state';
 import { IListItem } from 'src/app/models/i-list-item';
+import { DailyTaskListService } from 'src/app/services/daily-task-list.service';
 
 @Component({
   selector: 'app-new-task-modal',
@@ -13,7 +13,7 @@ export class NewTaskModalComponent {
 
   constructor(
     private modalCtl: ModalController,
-    private state: DailyTaskListState,
+    private dailyTaskListService: DailyTaskListService,
   ) {}
 
   saveClicked() {
@@ -25,7 +25,7 @@ export class NewTaskModalComponent {
         isChildTask: false,
         createdByUserId: 'User 1',
       };
-      this.state.addListItem(newTaskItem);
+      this.dailyTaskListService.addListItem(newTaskItem);
     }
 
     this.modalCtl.dismiss(null, 'confirm');

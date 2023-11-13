@@ -12,7 +12,7 @@
       <ng-container *ngIf="taskList!.listItems.length > 0">
         <ng-container *ngFor="let item of taskList!.listItems">
           <app-daily-task-list-list-item
-            [listItem]="item"
+            [listItemId]="item.id"
           ></app-daily-task-list-list-item>
         </ng-container>
       </ng-container>

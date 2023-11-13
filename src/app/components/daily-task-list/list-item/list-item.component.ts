@@ -3,36 +3,45 @@ import {
   Component,
   ElementRef,
   Input,
+  OnInit,
   QueryList,
+  Signal,
   ViewChildren,
+  computed,
 } from '@angular/core';
 import { isList } from 'src/app/functions/is-list.function';
 import { IListItem } from 'src/app/models/i-list-item';
 import { NestedDragDropService } from 'src/app/services/nested-drag-drop.service';
 import { ModalController } from '@ionic/angular';
 import { EditTaskModalComponent } from '../edit-task-modal/edit-task-modal.component';
-import { DailyTaskListState } from 'src/app/data-access/+state/daily-task-list/daily-task-list.state';
+import { DailyTaskListService } from 'src/app/services/daily-task-list.service';
 
 @Component({
   selector: 'app-daily-task-list-list-item',
   templateUrl: './list-item.component.html',
   styleUrls: ['./list-item.component.scss'],
 })
-export class ListItemComponent {
+export class ListItemComponent implements OnInit {
   @ViewChildren('listItemContainer') listItemContainer: QueryList<ElementRef>;
-  @Input() listItem: IListItem;
-  canCommitNewTask: boolean;
+  @Input() listItemId: string;
+  listItem: Signal<IListItem>;
+  isListItemCompleted: Signal<boolean>;
 
   isList = isList;
 
   constructor(
-    private state: DailyTaskListState,
+    private dailyTaskListService: DailyTaskListService,
     private nestedDragDropService: NestedDragDropService,
     private modalCtl: ModalController,
   ) {}
 
+  ngOnInit(): void {
+    this.listItem = this.dailyTaskListService.getListItem(this.listItemId);
+    this.isListItemCompleted = computed(() => this.listItem().completed);
+  }
+
   onListItemClickedEvent() {
-    this.state.updateListItemCompletedState(this.listItem.id, undefined, this.listItem.completed);
+    this.dailyTaskListService.updateListItemCompletedState(this.listItemId, undefined, !this.isListItemCompleted());
   }
 
   dragMoved(event: CdkDragMove<IListItem>) {

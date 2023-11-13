@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   Component,
   Input,
+  OnInit,
   ViewChild,
 } from '@angular/core';
 import { IListItem } from 'src/app/models/i-list-item';
@@ -9,7 +10,7 @@ import { TaskList } from 'src/app/models/task-list';
 import { isList } from 'src/app/functions/is-list.function';
 import { CdkDrag, CdkDragDrop, CdkDropList } from '@angular/cdk/drag-drop';
 import { NestedDragDropService } from 'src/app/services/nested-drag-drop.service';
-import { DailyTaskListState } from 'src/app/data-access/+state/daily-task-list/daily-task-list.state';
+import { DailyTaskListService } from 'src/app/services/daily-task-list.service';
 
 @Component({
   selector: 'app-daily-task-list',
@@ -17,11 +18,11 @@ import { DailyTaskListState } from 'src/app/data-access/+state/daily-task-list/d
   styleUrls: ['./daily-task-list.component.scss'],
 })
 export class DailyTaskListComponent
-  implements AfterViewInit
+  implements OnInit, AfterViewInit
 {
-  @Input() taskList: TaskList;
   @ViewChild(CdkDropList) dropList?: CdkDropList;
 
+  taskList: TaskList;
   currentDate: number;
   isList = isList;
 
@@ -34,19 +35,23 @@ export class DailyTaskListComponent
   }
 
   constructor(
-    public state: DailyTaskListState,
+    public dailyTaskListService: DailyTaskListService,
     public nestedDragDropService: NestedDragDropService,
   ) {
     this.currentDate = Date.now();
   }
 
-  ngAfterViewInit() {
+  ngOnInit(): void {
+    this.taskList = this.dailyTaskListService.dailyTaskList$();
+  }
+
+  ngAfterViewInit(): void {
     if (this.dropList) {
       this.nestedDragDropService.register(this.dropList);
     }
   }
 
-  onItemDropped(ev: CdkDragDrop<IListItem[]>) {
+  onItemDropped(ev: CdkDragDrop<IListItem[]>): void {
     this.nestedDragDropService.drop(ev);
   }
 }

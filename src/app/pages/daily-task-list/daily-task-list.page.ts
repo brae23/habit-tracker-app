@@ -3,7 +3,6 @@ import { DatePipe } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { NewTaskModalComponent } from 'src/app/components/daily-task-list/new-task-modal/new-task-modal.component';
-import { DailyTaskListState } from 'src/app/data-access/+state/daily-task-list/daily-task-list.state';
 import { IListItem } from 'src/app/models/i-list-item';
 
 @Component({
@@ -19,14 +18,12 @@ export class DailyTaskListPage implements OnInit {
   dailyTaskList: any;
 
   constructor(
-    public state: DailyTaskListState,
     private modalCtl: ModalController,
     private datePipe: DatePipe,
   ) {}
 
   ngOnInit() {
     this.title = this.datePipe.transform(Date.now(), 'mediumDate')!;
-    this.dailyTaskList = this.state.dailyTaskList();
   }
 
   async onNewTaskClicked() {

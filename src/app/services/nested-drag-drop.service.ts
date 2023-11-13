@@ -8,7 +8,7 @@ import {
 import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable } from '@angular/core';
 import { IListItem } from '../models/i-list-item';
-import { DailyTaskListState } from '../data-access/+state/daily-task-list/daily-task-list.state';
+import { DailyTaskListService } from './daily-task-list.service';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +19,7 @@ export class NestedDragDropService {
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
-    private state: DailyTaskListState,
+    private dailyTaskListService: DailyTaskListService,
   ) {}
 
   public register(dropList: CdkDropList) {
@@ -69,6 +69,6 @@ export class NestedDragDropService {
   }
 
   drop(event: CdkDragDrop<IListItem[]>) {
-    this.state.handleItemIndexReorder(event);
+    this.dailyTaskListService.handleItemIndexReorder(event);
   }
 }

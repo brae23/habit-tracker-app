@@ -1,4 +1,4 @@
-import { Injectable, OnInit, Signal, WritableSignal, signal } from '@angular/core';
+import { Injectable, Signal, WritableSignal, computed, signal } from '@angular/core';
 import { Habit } from 'src/app/models/habit';
 import { TaskList } from 'src/app/models/task-list';
 import { IListItem } from 'src/app/models/i-list-item';
@@ -9,14 +9,18 @@ import { toTask } from 'src/app/functions/to-task.function';
 @Injectable({
   providedIn: 'root',
 })
-export class DailyTaskListState implements OnInit {
+export class DailyTaskListService {
 
-  public dailyTaskList: WritableSignal<TaskList>;
+  public dailyTaskList$: WritableSignal<TaskList>;
 
-  constructor() {}
+  constructor() {
+    this.dailyTaskList$ = signal(this.getMockDailyTaskListState());
+  }
 
-  ngOnInit(): void {
-    this.dailyTaskList = signal(this.getMockDailyTaskListState());
+  getListItem(
+    listItemId: string,
+  ): Signal<IListItem> {
+    return computed(() => this.dailyTaskList$().listItems.find((item) => item.id === listItemId)!);
   }
 
   updateListItemCompletedState(
@@ -25,14 +29,14 @@ export class DailyTaskListState implements OnInit {
     completed: boolean,
   ): void {
     if (parentListId) {
-      this.dailyTaskList.update(taskList => {
+      this.dailyTaskList$.update(taskList => {
         let parentList = taskList.listItems.find(x => x.id === parentListId);
         let listItem = parentList?.listItems?.find(x => x.id === listItemId);
         listItem.completed = completed;
         return taskList;
       })
     } else {
-      this.dailyTaskList.update(taskList => {
+      this.dailyTaskList$.update(taskList => {
         let listItem = taskList.listItems.find(x => x.id === listItemId);
         listItem!.completed = completed;
         return taskList;
@@ -45,14 +49,14 @@ export class DailyTaskListState implements OnInit {
     parentListId: string | undefined = undefined,
   ): void {
     if (parentListId) {
-      this.dailyTaskList.update(taskList => {
+      this.dailyTaskList$.update(taskList => {
         let parentList: IListItem = taskList.listItems.find(x => x.id === parentListId)!;
         let oldListItemIndex: number = parentList?.listItems?.findIndex(x => x.id === updatedListItem.id)!;
         parentList?.listItems?.splice(oldListItemIndex, 1, updatedListItem);
         return taskList;
       })
     } else {
-      this.dailyTaskList.update(taskList => {
+      this.dailyTaskList$.update(taskList => {
         let oldListItemIndex: number = taskList.listItems.findIndex(x => x.id === updatedListItem.id)!;
         taskList.listItems.splice(oldListItemIndex, 1, updatedListItem);
         return taskList;
@@ -65,13 +69,13 @@ export class DailyTaskListState implements OnInit {
     parentListId: string | undefined = undefined,
   ): void {
     if (parentListId) {
-      this.dailyTaskList.update(taskList => {
+      this.dailyTaskList$.update(taskList => {
         let parentList = taskList.listItems.find(x => x.id === parentListId);
         parentList?.listItems?.push(listItem);
         return taskList;
       })
     } else {
-      this.dailyTaskList.update(taskList => {
+      this.dailyTaskList$.update(taskList => {
         taskList.listItems.push(listItem)
         return taskList;
       })
@@ -83,13 +87,13 @@ export class DailyTaskListState implements OnInit {
     parentListId: string | undefined = undefined,
   ): void {
     if (parentListId) {
-      this.dailyTaskList.update(taskList => {
+      this.dailyTaskList$.update(taskList => {
         let parentList = taskList.listItems.find(x => x.id === parentListId);
         parentList?.listItems?.filter(x => x.id !== listItemId);
         return taskList;
       })
     } else {
-      this.dailyTaskList.update(taskList => {
+      this.dailyTaskList$.update(taskList => {
         taskList.listItems.filter(x => x.id !== listItemId);
         return taskList;
       })
@@ -102,7 +106,7 @@ export class DailyTaskListState implements OnInit {
     let listId = ev.container.id;
     let previousListId = ev.previousContainer.id;
 
-    this.dailyTaskList.update(taskList => {
+    this.dailyTaskList$.update(taskList => {
       if (ev.previousContainer === ev.container) {
         moveItemInArray(
           findListItemArray(taskList, listId)!,

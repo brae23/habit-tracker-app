@@ -6,7 +6,11 @@ import {
   OnChanges,
   OnDestroy,
   OnInit,
+  Signal,
   ViewChild,
+  WritableSignal,
+  computed,
+  signal,
 } from '@angular/core';
 import { IListItem } from 'src/app/models/i-list-item';
 import {
@@ -19,7 +23,7 @@ import {
 import { NestedDragDropService } from 'src/app/services/nested-drag-drop.service';
 import { ModalController } from '@ionic/angular';
 import { EditTaskModalComponent } from '../edit-task-modal/edit-task-modal.component';
-import { DailyTaskListState } from 'src/app/data-access/+state/daily-task-list/daily-task-list.state';
+import { DailyTaskListService } from 'src/app/services/daily-task-list.service';
 
 @Component({
   selector: 'app-daily-task-list-inset-list',
@@ -27,12 +31,15 @@ import { DailyTaskListState } from 'src/app/data-access/+state/daily-task-list/d
   styleUrls: ['./inset-list.component.scss'],
 })
 export class InsetListComponent implements OnInit, OnDestroy, AfterViewInit, OnChanges {
-  @Input() taskList: any;
+  @Input() listItemId: string;
   @Input() isEditMode: boolean;
   @ViewChild(CdkDropList) dropList?: CdkDropList;
   @ViewChild('insetListItemContainer') insetListItemContainer: ElementRef;
 
-  completedTaskCount: number = 0;
+  taskList: Signal<IListItem>;
+  isCollapsed: boolean = true;
+  completedTaskCount: Signal<number>;
+  listLength: Signal<number>;
 
   allowDropPredicate = (drag: CdkDrag, drop: CdkDropList) => {
     return this.nestedDragDropService.isDropAllowed(drag, drop);
@@ -43,7 +50,7 @@ export class InsetListComponent implements OnInit, OnDestroy, AfterViewInit, OnC
   }
 
   public get dragDisabled() {
-    if (!this.taskList.isCollapsed) {
+    if (!this.isCollapsed) {
       return true;
     } else {
       return !this.isEditMode;
@@ -52,11 +59,14 @@ export class InsetListComponent implements OnInit, OnDestroy, AfterViewInit, OnC
 
   constructor(
     public nestedDragDropService: NestedDragDropService,
-    private state: DailyTaskListState,
+    private dailyTaskListService: DailyTaskListService,
     private modalCtl: ModalController,
   ) {}
 
   ngOnInit(): void {
+    this.taskList = this.dailyTaskListService.getListItem(this.listItemId);
+    this.listLength = computed(() => this.taskList().listItems?.length!);
+    this.completedTaskCount = signal(0);
     this.evaluateCompletedState();
   }
 
@@ -64,40 +74,40 @@ export class InsetListComponent implements OnInit, OnDestroy, AfterViewInit, OnC
     this.evaluateCompletedState();
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     if (this.dropList) {
       this.nestedDragDropService.register(this.dropList);
     }
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     if (this.dropList) {
       this.nestedDragDropService.unregister(this.dropList);
     }
   }
 
-  listItemClickedEvent(listItem: IListItem) {
-    this.state.updateListItemCompletedState(listItem.id, this.taskList.id, !listItem.completed);
+  listItemClickedEvent(listItem: IListItem): void {
+    this.dailyTaskListService.updateListItemCompletedState(listItem.id, this.taskList().id, !listItem.completed);
   }
 
-  onListClicked(currentVal: boolean) {
-    this.taskList.isCollapsed = !currentVal;
+  onListClicked(currentVal: boolean): void {
+    this.isCollapsed = !currentVal;
   }
 
-  onItemDropped(ev: CdkDragDrop<IListItem[]>) {
+  onItemDropped(ev: any): void {
     this.nestedDragDropService.drop(ev);
     this.evaluateCompletedState();
   }
 
-  dragMoved(event: CdkDragMove<IListItem>) {
+  dragMoved(event: CdkDragMove<IListItem>): void {
     this.nestedDragDropService.dragMoved(event);
   }
 
-  dragReleased(event: CdkDragRelease) {
+  dragReleased(event: CdkDragRelease): void {
     this.nestedDragDropService.dragReleased(event);
   }
 
-  async itemEditClicked(listItem: any = null) {
+  async itemEditClicked(listItem: any = null): Promise<void> {
     let editTaskModal = await this.modalCtl.create({
       component: EditTaskModalComponent,
 
@@ -109,20 +119,15 @@ export class InsetListComponent implements OnInit, OnDestroy, AfterViewInit, OnC
     editTaskModal.present();
   }
 
-  private evaluateCompletedState() {
-    let completed = false;
-    this.taskList.listItems.map((x: IListItem) => {
-      if (x.completed) {
-        this.completedTaskCount++;
-      }
-    });
-    if (this.completedTaskCount == this.taskList.listItems.length) {
-      completed = true;
-    }
-    this.state.updateListItemCompletedState(
-      this.taskList.id,
-      undefined,
-      completed,
-    );
+  private evaluateCompletedState(): void {
+    this.completedTaskCount = computed(() => {
+      let completedTaskCount: number = 0;
+      this.taskList().listItems?.forEach((item: IListItem) => {
+        if (item.completed) {
+          completedTaskCount++
+        }
+      })
+      return completedTaskCount;
+    })    
   }
 }
