@@ -41,7 +41,11 @@ export class ListItemComponent implements OnInit {
   }
 
   onListItemClickedEvent() {
-    this.dailyTaskListService.updateListItemCompletedState(this.listItemId, undefined, !this.isListItemCompleted());
+    this.dailyTaskListService.updateListItemCompletedState(
+      this.listItemId,
+      undefined,
+      !this.isListItemCompleted(),
+    );
   }
 
   dragMoved(event: CdkDragMove<IListItem>) {

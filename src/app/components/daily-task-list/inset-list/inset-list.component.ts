@@ -28,13 +28,15 @@ import { DailyTaskListService } from 'src/app/services/daily-task-list.service';
   templateUrl: './inset-list.component.html',
   styleUrls: ['./inset-list.component.scss'],
 })
-export class InsetListComponent implements OnInit, OnDestroy, AfterViewInit, OnChanges {
+export class InsetListComponent
+  implements OnInit, OnDestroy, AfterViewInit, OnChanges
+{
   @Input() listItemId: string;
   @ViewChild(CdkDropList) set dropList(list: CdkDropList) {
     if (list) {
       this.nestedDragDropService.register(list);
     }
-  };
+  }
   @ViewChild('insetListItemContainer') insetListItemContainer: ElementRef;
 
   taskList: Signal<IListItem>;
@@ -79,7 +81,11 @@ export class InsetListComponent implements OnInit, OnDestroy, AfterViewInit, OnC
   };
 
   listItemClickedEvent(listItem: IListItem): void {
-    this.dailyTaskListService.updateListItemCompletedState(listItem.id, this.taskList().id, !listItem.completed);
+    this.dailyTaskListService.updateListItemCompletedState(
+      listItem.id,
+      this.taskList().id,
+      !listItem.completed,
+    );
   }
 
   onListClicked(): void {
@@ -116,10 +122,10 @@ export class InsetListComponent implements OnInit, OnDestroy, AfterViewInit, OnC
       let completedTaskCount: number = 0;
       this.taskList().listItems?.forEach((item: IListItem) => {
         if (item.completed) {
-          completedTaskCount++
+          completedTaskCount++;
         }
-      })
+      });
       return completedTaskCount;
-    })    
+    });
   }
 }

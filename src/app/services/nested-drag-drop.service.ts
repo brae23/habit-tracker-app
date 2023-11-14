@@ -14,7 +14,7 @@ import { DailyTaskListService } from './daily-task-list.service';
   providedIn: 'root',
 })
 export class NestedDragDropService {
-  public dropLists$: WritableSignal<CdkDropList<any>[]>
+  public dropLists$: WritableSignal<CdkDropList<any>[]>;
   private _currentHoverDropListId?: string;
 
   constructor(

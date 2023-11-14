@@ -18,9 +18,7 @@ import { DailyTaskListService } from 'src/app/services/daily-task-list.service';
   templateUrl: './daily-task-list.component.html',
   styleUrls: ['./daily-task-list.component.scss'],
 })
-export class DailyTaskListComponent
-  implements OnInit, AfterViewInit
-{
+export class DailyTaskListComponent implements OnInit, AfterViewInit {
   @ViewChild(CdkDropList) dropList?: CdkDropList;
 
   taskList: TaskList;
@@ -48,7 +46,7 @@ export class DailyTaskListComponent
 
   allowDropPredicate = (drag: CdkDrag, drop: CdkDropList): boolean => {
     return this.nestedDragDropService.isDropAllowed(drag, drop);
-  }
+  };
 
   onItemDropped(ev: CdkDragDrop<IListItem[]>): void {
     this.nestedDragDropService.drop(ev);

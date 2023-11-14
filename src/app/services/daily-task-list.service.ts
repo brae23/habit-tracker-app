@@ -1,8 +1,18 @@
-import { Injectable, Signal, WritableSignal, computed, signal } from '@angular/core';
+import {
+  Injectable,
+  Signal,
+  WritableSignal,
+  computed,
+  signal,
+} from '@angular/core';
 import { Habit } from 'src/app/models/habit';
 import { TaskList } from 'src/app/models/task-list';
 import { IListItem } from 'src/app/models/i-list-item';
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import {
+  CdkDragDrop,
+  moveItemInArray,
+  transferArrayItem,
+} from '@angular/cdk/drag-drop';
 import { findListItemArray } from 'src/app/functions/find-list.function';
 import { toTask } from 'src/app/functions/to-task.function';
 
@@ -10,17 +20,17 @@ import { toTask } from 'src/app/functions/to-task.function';
   providedIn: 'root',
 })
 export class DailyTaskListService {
-
   public dailyTaskList$: WritableSignal<TaskList>;
 
   constructor() {
     this.dailyTaskList$ = signal(this.getMockDailyTaskListState());
   }
 
-  getListItem(
-    listItemId: string,
-  ): Signal<IListItem> {
-    return computed(() => this.dailyTaskList$().listItems.find((item) => item.id === listItemId)!);
+  getListItem(listItemId: string): Signal<IListItem> {
+    return computed(
+      () =>
+        this.dailyTaskList$().listItems.find((item) => item.id === listItemId)!,
+    );
   }
 
   updateListItemCompletedState(
@@ -29,15 +39,15 @@ export class DailyTaskListService {
     completed: boolean,
   ): void {
     if (parentListId) {
-      this.dailyTaskList$.update(taskList => {
-        let parentList = taskList.listItems.find(x => x.id === parentListId);
-        let listItem = parentList?.listItems?.find(x => x.id === listItemId);
+      this.dailyTaskList$.update((taskList) => {
+        let parentList = taskList.listItems.find((x) => x.id === parentListId);
+        let listItem = parentList?.listItems?.find((x) => x.id === listItemId);
         listItem.completed = completed;
         return taskList;
-      })
+      });
     } else {
-      this.dailyTaskList$.update(taskList => {
-        let listItem = taskList.listItems.find(x => x.id === listItemId);
+      this.dailyTaskList$.update((taskList) => {
+        let listItem = taskList.listItems.find((x) => x.id === listItemId);
         listItem!.completed = completed;
         return taskList;
       });
@@ -49,15 +59,21 @@ export class DailyTaskListService {
     parentListId: string | undefined = undefined,
   ): void {
     if (parentListId) {
-      this.dailyTaskList$.update(taskList => {
-        let parentList: IListItem = taskList.listItems.find(x => x.id === parentListId)!;
-        let oldListItemIndex: number = parentList?.listItems?.findIndex(x => x.id === updatedListItem.id)!;
+      this.dailyTaskList$.update((taskList) => {
+        let parentList: IListItem = taskList.listItems.find(
+          (x) => x.id === parentListId,
+        )!;
+        let oldListItemIndex: number = parentList?.listItems?.findIndex(
+          (x) => x.id === updatedListItem.id,
+        )!;
         parentList?.listItems?.splice(oldListItemIndex, 1, updatedListItem);
         return taskList;
-      })
+      });
     } else {
-      this.dailyTaskList$.update(taskList => {
-        let oldListItemIndex: number = taskList.listItems.findIndex(x => x.id === updatedListItem.id)!;
+      this.dailyTaskList$.update((taskList) => {
+        let oldListItemIndex: number = taskList.listItems.findIndex(
+          (x) => x.id === updatedListItem.id,
+        )!;
         taskList.listItems.splice(oldListItemIndex, 1, updatedListItem);
         return taskList;
       });
@@ -69,16 +85,16 @@ export class DailyTaskListService {
     parentListId: string | undefined = undefined,
   ): void {
     if (parentListId) {
-      this.dailyTaskList$.update(taskList => {
-        let parentList = taskList.listItems.find(x => x.id === parentListId);
+      this.dailyTaskList$.update((taskList) => {
+        let parentList = taskList.listItems.find((x) => x.id === parentListId);
         parentList?.listItems?.push(listItem);
         return taskList;
-      })
+      });
     } else {
-      this.dailyTaskList$.update(taskList => {
-        taskList.listItems.push(listItem)
+      this.dailyTaskList$.update((taskList) => {
+        taskList.listItems.push(listItem);
         return taskList;
-      })
+      });
     }
   }
 
@@ -87,26 +103,24 @@ export class DailyTaskListService {
     parentListId: string | undefined = undefined,
   ): void {
     if (parentListId) {
-      this.dailyTaskList$.update(taskList => {
-        let parentList = taskList.listItems.find(x => x.id === parentListId);
-        parentList?.listItems?.filter(x => x.id !== listItemId);
+      this.dailyTaskList$.update((taskList) => {
+        let parentList = taskList.listItems.find((x) => x.id === parentListId);
+        parentList?.listItems?.filter((x) => x.id !== listItemId);
         return taskList;
-      })
+      });
     } else {
-      this.dailyTaskList$.update(taskList => {
-        taskList.listItems.filter(x => x.id !== listItemId);
+      this.dailyTaskList$.update((taskList) => {
+        taskList.listItems.filter((x) => x.id !== listItemId);
         return taskList;
-      })
+      });
     }
   }
 
-  handleItemIndexReorder(
-    ev: CdkDragDrop<IListItem[]>,
-  ): void {
+  handleItemIndexReorder(ev: CdkDragDrop<IListItem[]>): void {
     let listId = ev.container.id;
     let previousListId = ev.previousContainer.id;
 
-    this.dailyTaskList$.update(taskList => {
+    this.dailyTaskList$.update((taskList) => {
       if (ev.previousContainer === ev.container) {
         moveItemInArray(
           findListItemArray(taskList, listId)!,
@@ -114,10 +128,7 @@ export class DailyTaskListService {
           ev.currentIndex,
         );
       } else {
-        let previousList = findListItemArray(
-          taskList,
-          previousListId,
-        );
+        let previousList = findListItemArray(taskList, previousListId);
         transferArrayItem(
           previousList!,
           findListItemArray(taskList, listId)!,
@@ -316,7 +327,7 @@ export class DailyTaskListService {
         habit1,
       ],
     };
-    
+
     return dailyTaskList;
   }
 }

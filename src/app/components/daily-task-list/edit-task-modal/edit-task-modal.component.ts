@@ -99,10 +99,7 @@ export class EditTaskModalComponent {
       newSubtaskItem.name = newSubtaskItemName;
       newSubtaskItem.isChildTask = true;
 
-      this.dailyTaskListService.addListItem(
-        newSubtaskItem,
-        this.listItem().id,
-      );
+      this.dailyTaskListService.addListItem(newSubtaskItem, this.listItem().id);
 
       this.modalCtl.dismiss(null, 'confirm');
     }
