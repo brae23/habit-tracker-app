@@ -18,10 +18,10 @@ import {
   CdkDragRelease,
   CdkDropList,
 } from '@angular/cdk/drag-drop';
-import { NestedDragDropService } from 'src/app/services/nested-drag-drop.service';
+import { NestedDragDropService } from 'src/app/services/nested-drag-drop/nested-drag-drop.service';
 import { ModalController } from '@ionic/angular';
 import { EditTaskModalComponent } from '../edit-task-modal/edit-task-modal.component';
-import { DailyTaskListService } from 'src/app/services/daily-task-list.service';
+import { DailyTaskListService } from 'src/app/services/daily-task-list/daily-task-list.service';
 
 @Component({
   selector: 'app-daily-task-list-inset-list',

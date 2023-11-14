@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { InputCustomEvent, ModalController } from '@ionic/angular';
 import { IListItem } from 'src/app/models/i-list-item';
-import { DailyTaskListService } from 'src/app/services/daily-task-list.service';
+import { DailyTaskListService } from 'src/app/services/daily-task-list/daily-task-list.service';
 
 @Component({
   selector: 'app-new-task-modal',

@@ -11,10 +11,10 @@ import {
 } from '@angular/core';
 import { isList } from 'src/app/functions/is-list.function';
 import { IListItem } from 'src/app/models/i-list-item';
-import { NestedDragDropService } from 'src/app/services/nested-drag-drop.service';
+import { NestedDragDropService } from 'src/app/services/nested-drag-drop/nested-drag-drop.service';
 import { ModalController } from '@ionic/angular';
 import { EditTaskModalComponent } from '../edit-task-modal/edit-task-modal.component';
-import { DailyTaskListService } from 'src/app/services/daily-task-list.service';
+import { DailyTaskListService } from 'src/app/services/daily-task-list/daily-task-list.service';
 
 @Component({
   selector: 'app-daily-task-list-list-item',

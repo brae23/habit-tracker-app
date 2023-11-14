@@ -7,8 +7,8 @@ import {
 } from '@angular/cdk/drag-drop';
 import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable, WritableSignal, signal } from '@angular/core';
-import { IListItem } from '../models/i-list-item';
-import { DailyTaskListService } from './daily-task-list.service';
+import { IListItem } from '../../models/i-list-item';
+import { DailyTaskListService } from '../daily-task-list/daily-task-list.service';
 
 @Injectable({
   providedIn: 'root',

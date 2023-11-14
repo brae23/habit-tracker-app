@@ -11,5 +11,6 @@ export function toList(listItem: any): TaskList {
     createdByUserId: 'UserId1',
     description: 'New List',
     listItems: [DefaultTask],
+    isChildTask: false,
   };
 }
