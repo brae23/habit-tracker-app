@@ -1,26 +1,23 @@
 <div
   cdkDrag
   class="dtl-list-box inset-list-header"
-  [cdkDragData]="taskList"
-  [cdkDragDisabled]="dragDisabled"
+  [cdkDragData]="taskList()"
+  [cdkDragDisabled]="!isCollapsed"
 >
-  <div
-    class="dtl-list-clickable-box"
-    (click)="onListClicked(taskList.isCollapsed)"
-  >
+  <div class="dtl-list-clickable-box" (click)="onListClicked()">
     <ion-icon
       class="dtl-list-icons chevron-icon"
       name="chevron-down-outline"
-      *ngIf="taskList.isCollapsed"
+      *ngIf="isCollapsed"
     ></ion-icon>
     <ion-icon
       class="dtl-list-icons chevron-icon"
       name="chevron-up-outline"
-      *ngIf="!taskList.isCollapsed"
+      *ngIf="!isCollapsed"
     ></ion-icon>
-    <p class="dtl-item-name">{{ taskList.name }}</p>
+    <p class="dtl-item-name">{{ taskList().name }}</p>
   </div>
-  <p>{{ completedTaskCount }}/{{ taskList.listItems.length }}</p>
+  <p>{{ completedTaskCount() }}/{{ listLength() }}</p>
   <ion-icon
     class="dtl-list-icons dtl-edit-icon"
     name="ellipsis-vertical-outline"
@@ -29,17 +26,17 @@
 </div>
 <div
   cdkDropList
-  id="{{ taskList.id }}"
+  id="{{ taskList().id }}"
   class="dtl-list-box-drag inset-list-box"
-  *ngIf="!taskList.isCollapsed"
+  *ngIf="!isCollapsed"
   (cdkDropListDropped)="onItemDropped($event)"
-  [cdkDropListData]="taskList.listItems"
+  [cdkDropListData]="taskList().listItems!"
   [cdkDropListConnectedTo]="connectedLists"
   [cdkDropListEnterPredicate]="allowDropPredicate"
 >
   <div
     cdkDrag
-    *ngFor="let item of taskList.listItems; index as i"
+    *ngFor="let item of taskList().listItems; index as i"
     class="dtl-list-box inset-list-item"
     [cdkDragData]="item"
     (cdkDragMoved)="dragMoved($event)"

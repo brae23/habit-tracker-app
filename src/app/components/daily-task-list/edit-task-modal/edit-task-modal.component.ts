@@ -1,9 +1,9 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Signal } from '@angular/core';
 import { InputCustomEvent, ModalController } from '@ionic/angular';
 import { cloneDeep } from 'lodash';
-import { DailyTaskListStateFacade } from 'src/app/data-access/+state/daily-task-list/daily-task-list-state.facade';
 import { IListItem } from 'src/app/models/i-list-item';
 import { DefaultTask } from 'src/app/models/task';
+import { DailyTaskListService } from 'src/app/services/daily-task-list/daily-task-list.service';
 
 @Component({
   selector: 'app-edit-task-modal',
@@ -11,7 +11,7 @@ import { DefaultTask } from 'src/app/models/task';
   styleUrls: ['./edit-task-modal.component.scss'],
 })
 export class EditTaskModalComponent {
-  @Input() listItem: IListItem;
+  @Input() listItem: Signal<IListItem>;
   newSubtaskPopupHeader: string;
   confirmationPopupHeader: string;
   nameUpdate: string;
@@ -47,7 +47,7 @@ export class EditTaskModalComponent {
 
   constructor(
     private modalCtl: ModalController,
-    private dailyTaskListStateFacade: DailyTaskListStateFacade,
+    private dailyTaskListService: DailyTaskListService,
   ) {
     this.newSubtaskPopupHeader = 'New Subtask';
     this.confirmationPopupHeader = 'Are you sure?';
@@ -59,9 +59,9 @@ export class EditTaskModalComponent {
 
   saveClicked() {
     if (this.nameUpdate) {
-      let listItemClone = cloneDeep(this.listItem);
+      let listItemClone = cloneDeep(this.listItem());
       listItemClone.name = this.nameUpdate;
-      this.dailyTaskListStateFacade.updateListItem(listItemClone);
+      this.dailyTaskListService.updateListItem(listItemClone);
     }
 
     this.modalCtl.dismiss(null, 'confirm');
@@ -74,13 +74,13 @@ export class EditTaskModalComponent {
   onDeletePopupDismissed(ev: any) {
     console.log(this.listItem);
     if (ev.detail.role === 'confirm') {
-      if (this.listItem.isChildTask) {
-        this.dailyTaskListStateFacade.removeInsetListItem(
-          this.listItem.id,
-          this.listItem.parentListId!,
+      if (this.listItem().isChildTask) {
+        this.dailyTaskListService.removeListItem(
+          this.listItem().id,
+          this.listItem().parentListId!,
         );
       } else {
-        this.dailyTaskListStateFacade.removeListItem(this.listItem.id);
+        this.dailyTaskListService.removeListItem(this.listItem().id);
       }
 
       this.modalCtl.dismiss(null, 'cancel');
@@ -99,10 +99,7 @@ export class EditTaskModalComponent {
       newSubtaskItem.name = newSubtaskItemName;
       newSubtaskItem.isChildTask = true;
 
-      this.dailyTaskListStateFacade.addInsetListItem(
-        newSubtaskItem,
-        this.listItem.id,
-      );
+      this.dailyTaskListService.addListItem(newSubtaskItem, this.listItem().id);
 
       this.modalCtl.dismiss(null, 'confirm');
     }

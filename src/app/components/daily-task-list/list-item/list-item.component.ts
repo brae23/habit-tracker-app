@@ -3,39 +3,49 @@ import {
   Component,
   ElementRef,
   Input,
+  OnInit,
   QueryList,
+  Signal,
   ViewChildren,
+  computed,
 } from '@angular/core';
-import { cloneDeep } from 'lodash';
-import { DailyTaskListStateFacade } from 'src/app/data-access/+state/daily-task-list/daily-task-list-state.facade';
 import { isList } from 'src/app/functions/is-list.function';
 import { IListItem } from 'src/app/models/i-list-item';
-import { NestedDragDropService } from 'src/app/services/nested-drag-drop.service';
+import { NestedDragDropService } from 'src/app/services/nested-drag-drop/nested-drag-drop.service';
 import { ModalController } from '@ionic/angular';
 import { EditTaskModalComponent } from '../edit-task-modal/edit-task-modal.component';
+import { DailyTaskListService } from 'src/app/services/daily-task-list/daily-task-list.service';
 
 @Component({
   selector: 'app-daily-task-list-list-item',
   templateUrl: './list-item.component.html',
   styleUrls: ['./list-item.component.scss'],
 })
-export class ListItemComponent {
+export class ListItemComponent implements OnInit {
   @ViewChildren('listItemContainer') listItemContainer: QueryList<ElementRef>;
-  @Input() listItem: any;
-  canCommitNewTask: boolean;
+  @Input() listItemId: string;
+  listItem: Signal<IListItem>;
+  isListItemCompleted: Signal<boolean>;
 
   isList = isList;
 
   constructor(
-    private dailyTaskListStateFacade: DailyTaskListStateFacade,
+    private dailyTaskListService: DailyTaskListService,
     private nestedDragDropService: NestedDragDropService,
     private modalCtl: ModalController,
   ) {}
 
+  ngOnInit(): void {
+    this.listItem = this.dailyTaskListService.getListItem(this.listItemId);
+    this.isListItemCompleted = computed(() => this.listItem().completed);
+  }
+
   onListItemClickedEvent() {
-    let tempListItem = cloneDeep(this.listItem);
-    tempListItem.completed = !this.listItem.completed;
-    this.dailyTaskListStateFacade.updateListItem(tempListItem);
+    this.dailyTaskListService.updateListItemCompletedState(
+      this.listItemId,
+      undefined,
+      !this.isListItemCompleted(),
+    );
   }
 
   dragMoved(event: CdkDragMove<IListItem>) {
