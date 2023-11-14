@@ -24,12 +24,14 @@ describe('InsetListComponent', () => {
 
     dailyTaskListServiceMock = {
       dailyTaskList$: dailyTaskListMock,
-      getListItem: jasmine.createSpy('getListItem').and.returnValue(signal(dailyTaskListMock().listItems[0])),
-    }
+      getListItem: jasmine
+        .createSpy('getListItem')
+        .and.returnValue(signal(dailyTaskListMock().listItems[0])),
+    };
 
     nestedDragDropServiceMock = {
       dropLists$: dropListMock,
-    }
+    };
 
     TestBed.configureTestingModule({
       declarations: [InsetListComponent],

@@ -17,8 +17,8 @@ describe('ListAnchorComponent', () => {
     fixture = TestBed.createComponent(ListAnchorComponent);
     component = fixture.componentInstance;
 
-    component.taskList = {name: ''} as TaskList;
-    
+    component.taskList = { name: '' } as TaskList;
+
     fixture.detectChanges();
   }));
 

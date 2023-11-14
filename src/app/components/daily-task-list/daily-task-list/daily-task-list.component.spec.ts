@@ -23,11 +23,11 @@ describe('DailyTaskListComponent', () => {
 
     dailyTaskListServiceMock = {
       dailyTaskList$: dailyTaskListMock,
-    }
+    };
 
     nestedDragDropServiceMock = {
       dropLists$: dropListsMock,
-    }
+    };
 
     TestBed.configureTestingModule({
       declarations: [DailyTaskListComponent],

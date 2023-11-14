@@ -12,15 +12,15 @@ describe('DailyTaskListPage', () => {
   beforeEach(waitForAsync(() => {
     datePipeMock = {
       transform: jasmine.createSpy('transform').and.returnValue(Date.now()),
-    }
+    };
 
     TestBed.configureTestingModule({
-      declarations: [ DailyTaskListPage ],
+      declarations: [DailyTaskListPage],
       imports: [],
       providers: [
         { provide: ModalController, useValue: modalControllerMock },
         { provide: DatePipe, useValue: datePipeMock },
-      ]
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(DailyTaskListPage);

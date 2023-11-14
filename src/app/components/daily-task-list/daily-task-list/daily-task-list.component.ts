@@ -1,9 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { IListItem } from 'src/app/models/i-list-item';
 import { TaskList } from 'src/app/models/task-list';
 import { isList } from 'src/app/functions/is-list.function';

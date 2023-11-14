@@ -19,7 +19,7 @@ describe('EditTaskModalComponent', () => {
 
     dailyTaskListServiceMock = {
       dailyTaskList$: dailyTaskListMock,
-    }
+    };
 
     TestBed.configureTestingModule({
       declarations: [EditTaskModalComponent],

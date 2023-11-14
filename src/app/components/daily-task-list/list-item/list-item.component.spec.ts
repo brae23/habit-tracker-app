@@ -21,8 +21,10 @@ describe('ListItemComponent', () => {
 
     dailyTaskListServiceMock = {
       dailyTaskList$: dailyTaskListMock,
-      getListItem: jasmine.createSpy('getListItem').and.returnValue(signal(dailyTaskListMock().listItems[0])),
-    }
+      getListItem: jasmine
+        .createSpy('getListItem')
+        .and.returnValue(signal(dailyTaskListMock().listItems[0])),
+    };
 
     TestBed.configureTestingModule({
       declarations: [ListItemComponent],
