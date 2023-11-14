@@ -8,14 +8,12 @@ import {
   OnInit,
   Signal,
   ViewChild,
-  WritableSignal,
   computed,
   signal,
 } from '@angular/core';
 import { IListItem } from 'src/app/models/i-list-item';
 import {
   CdkDrag,
-  CdkDragDrop,
   CdkDragMove,
   CdkDragRelease,
   CdkDropList,
@@ -32,30 +30,19 @@ import { DailyTaskListService } from 'src/app/services/daily-task-list.service';
 })
 export class InsetListComponent implements OnInit, OnDestroy, AfterViewInit, OnChanges {
   @Input() listItemId: string;
-  @Input() isEditMode: boolean;
-  @ViewChild(CdkDropList) dropList?: CdkDropList;
+  @ViewChild(CdkDropList) set dropList(list: CdkDropList) {
+    if (list) {
+      this.nestedDragDropService.register(list);
+    }
+  };
   @ViewChild('insetListItemContainer') insetListItemContainer: ElementRef;
 
   taskList: Signal<IListItem>;
   isCollapsed: boolean = true;
   completedTaskCount: Signal<number>;
   listLength: Signal<number>;
-
-  allowDropPredicate = (drag: CdkDrag, drop: CdkDropList) => {
-    return this.nestedDragDropService.isDropAllowed(drag, drop);
-  };
-
-  public get connectedLists() {
-    return this.nestedDragDropService.dropLists;
-  }
-
-  public get dragDisabled() {
-    if (!this.isCollapsed) {
-      return true;
-    } else {
-      return !this.isEditMode;
-    }
-  }
+  connectedLists: CdkDropList<any>[];
+  private _droplist: CdkDropList;
 
   constructor(
     public nestedDragDropService: NestedDragDropService,
@@ -67,6 +54,7 @@ export class InsetListComponent implements OnInit, OnDestroy, AfterViewInit, OnC
     this.taskList = this.dailyTaskListService.getListItem(this.listItemId);
     this.listLength = computed(() => this.taskList().listItems?.length!);
     this.completedTaskCount = signal(0);
+    this.connectedLists = this.nestedDragDropService.dropLists$();
     this.evaluateCompletedState();
   }
 
@@ -86,12 +74,16 @@ export class InsetListComponent implements OnInit, OnDestroy, AfterViewInit, OnC
     }
   }
 
+  allowDropPredicate = (drag: CdkDrag, drop: CdkDropList) => {
+    return this.nestedDragDropService.isDropAllowed(drag, drop);
+  };
+
   listItemClickedEvent(listItem: IListItem): void {
     this.dailyTaskListService.updateListItemCompletedState(listItem.id, this.taskList().id, !listItem.completed);
   }
 
-  onListClicked(currentVal: boolean): void {
-    this.isCollapsed = !currentVal;
+  onListClicked(): void {
+    this.isCollapsed = !this.isCollapsed;
   }
 
   onItemDropped(ev: any): void {

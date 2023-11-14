@@ -2,11 +2,11 @@
   cdkDrag
   class="dtl-list-box inset-list-header"
   [cdkDragData]="taskList()"
-  [cdkDragDisabled]="dragDisabled"
+  [cdkDragDisabled]="!isCollapsed"
 >
   <div
     class="dtl-list-clickable-box"
-    (click)="onListClicked(isCollapsed)"
+    (click)="onListClicked()"
   >
     <ion-icon
       class="dtl-list-icons chevron-icon"
@@ -33,13 +33,13 @@
   class="dtl-list-box-drag inset-list-box"
   *ngIf="!isCollapsed"
   (cdkDropListDropped)="onItemDropped($event)"
-  [cdkDropListData]="taskList().listItems"
+  [cdkDropListData]="taskList().listItems!"
   [cdkDropListConnectedTo]="connectedLists"
   [cdkDropListEnterPredicate]="allowDropPredicate"
 >
   <div
     cdkDrag
-    *ngFor="let item of taskList().listItems!; index as i"
+    *ngFor="let item of taskList().listItems; index as i"
     class="dtl-list-box inset-list-item"
     [cdkDragData]="item"
     (cdkDragMoved)="dragMoved($event)"

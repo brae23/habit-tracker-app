@@ -148,7 +148,7 @@ export class DailyTaskListService {
     };
 
     const testList1: TaskList = {
-      id: 'insetListId1',
+      id: 'uniqueInsetListId1',
       name: 'Test Inset List 1',
       description: 'Mock Description',
       createdDate: Date.now(),

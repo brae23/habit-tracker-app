@@ -3,6 +3,7 @@ import {
   Component,
   Input,
   OnInit,
+  Signal,
   ViewChild,
 } from '@angular/core';
 import { IListItem } from 'src/app/models/i-list-item';
@@ -25,14 +26,7 @@ export class DailyTaskListComponent
   taskList: TaskList;
   currentDate: number;
   isList = isList;
-
-  allowDropPredicate = (drag: CdkDrag, drop: CdkDropList) => {
-    return this.nestedDragDropService.isDropAllowed(drag, drop);
-  };
-
-  public get connectedLists() {
-    return this.nestedDragDropService.dropLists;
-  }
+  connectedLists: CdkDropList<any>[];
 
   constructor(
     public dailyTaskListService: DailyTaskListService,
@@ -43,12 +37,17 @@ export class DailyTaskListComponent
 
   ngOnInit(): void {
     this.taskList = this.dailyTaskListService.dailyTaskList$();
+    this.connectedLists = this.nestedDragDropService.dropLists$();
   }
 
   ngAfterViewInit(): void {
     if (this.dropList) {
       this.nestedDragDropService.register(this.dropList);
     }
+  }
+
+  allowDropPredicate = (drag: CdkDrag, drop: CdkDropList): boolean => {
+    return this.nestedDragDropService.isDropAllowed(drag, drop);
   }
 
   onItemDropped(ev: CdkDragDrop<IListItem[]>): void {
