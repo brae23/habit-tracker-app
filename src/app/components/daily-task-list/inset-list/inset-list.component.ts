@@ -44,7 +44,6 @@ export class InsetListComponent
   completedTaskCount: Signal<number>;
   listLength: Signal<number>;
   connectedLists: CdkDropList<any>[];
-  private _droplist: CdkDropList;
 
   constructor(
     public nestedDragDropService: NestedDragDropService,

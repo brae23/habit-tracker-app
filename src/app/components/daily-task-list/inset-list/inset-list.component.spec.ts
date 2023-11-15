@@ -31,6 +31,7 @@ describe('InsetListComponent', () => {
 
     nestedDragDropServiceMock = {
       dropLists$: dropListMock,
+      register: jasmine.createSpy('register'),
     };
 
     TestBed.configureTestingModule({
@@ -50,5 +51,34 @@ describe('InsetListComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should register droplist if ViewChild droplist exists', () => {
+    // Act
+    let dropList = {} as CdkDropList;
+    component.dropList = dropList;
+
+    // Assert
+    expect(nestedDragDropServiceMock.register).toHaveBeenCalledOnceWith(
+      dropList,
+    );
+  });
+
+  it('should setup data on init', () => {
+    // Arrange
+    let listLength = dailyTaskListMock().listItems.length;
+    let completedCount = 0;
+    dailyTaskListMock().listItems.forEach((item) => {
+      if (item.completed) {
+        completedCount++;
+      }
+    });
+
+    // Act
+    component.ngOnInit();
+
+    // Assert
+    expect(component.completedTaskCount()).toEqual(completedCount);
+    expect(component.listLength()).toEqual(listLength);
   });
 });
