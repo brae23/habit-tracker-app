@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { IListItem } from 'src/app/models/i-list-item';
 import { TaskList } from 'src/app/models/task-list';
 import { isList } from 'src/app/functions/is-list.function';
@@ -11,8 +17,12 @@ import { DailyTaskListService } from 'src/app/services/daily-task-list/daily-tas
   templateUrl: './daily-task-list.component.html',
   styleUrls: ['./daily-task-list.component.scss'],
 })
-export class DailyTaskListComponent implements OnInit, AfterViewInit {
-  @ViewChild(CdkDropList) dropList?: CdkDropList;
+export class DailyTaskListComponent implements OnInit, OnDestroy {
+  @ViewChild(CdkDropList) set dropList(list: CdkDropList) {
+    if (list) {
+      this.nestedDragDropService.register(list);
+    }
+  }
 
   taskList: TaskList;
   currentDate: number;
@@ -31,9 +41,9 @@ export class DailyTaskListComponent implements OnInit, AfterViewInit {
     this.connectedLists = this.nestedDragDropService.dropLists$();
   }
 
-  ngAfterViewInit(): void {
+  ngOnDestroy(): void {
     if (this.dropList) {
-      this.nestedDragDropService.register(this.dropList);
+      this.nestedDragDropService.unregister(this.dropList);
     }
   }
 

@@ -51,29 +51,15 @@ describe('DailyTaskListComponent', () => {
   });
 
   describe('Drag and Drop', () => {
-    it('should register droplist if droplist exists on view init', () => {
-      // Arrange
+    it('should register droplist if ViewChild droplist exists', () => {
+      // Act
       let dropList = {} as CdkDropList;
       component.dropList = dropList;
-
-      // Act
-      component.ngAfterViewInit();
 
       // Assert
       expect(nestedDragDropServiceMock.register).toHaveBeenCalledOnceWith(
         dropList,
       );
-    });
-
-    it('should not register a droplist if droplist does not exist on view init', () => {
-      // Arrange
-      component.dropList = undefined;
-
-      // Act
-      component.ngAfterViewInit();
-
-      // Assert
-      expect(nestedDragDropServiceMock.register).toHaveBeenCalledTimes(0);
     });
 
     it('should call cdk drop on item dropped', () => {

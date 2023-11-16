@@ -39,8 +39,8 @@
     *ngFor="let item of taskList().listItems; index as i"
     class="dtl-list-box inset-list-item"
     [cdkDragData]="item"
-    (cdkDragMoved)="dragMoved($event)"
-    (cdkDragReleased)="dragReleased($event)"
+    (cdkDragMoved)="nestedDragDropService.dragMoved($event)"
+    (cdkDragReleased)="nestedDragDropService.dragReleased($event)"
     id="{{ item.id }}"
   >
     <div class="dtl-list-clickable-box" (click)="listItemClickedEvent(item)">
