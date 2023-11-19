@@ -1,4 +1,4 @@
-# habit-tracker-app - Official name TBD
+# doitdone.io - habit tracker application
 
 This habit tracker mobile application is written in typescript using Angular as the front end framework.
 The application uses the Ionic framework on top of Angular, which uses Capacitor to build the application code directly into native binaries for both Apple and Android devices.
