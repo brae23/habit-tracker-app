@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { IListItem } from 'src/app/models/i-list-item';
 import { TaskList } from 'src/app/models/task-list';
-import { isList } from 'src/app/functions/is-list.function';
+import { isList } from 'src/app/functions/is-list/is-list.function';
 import { CdkDrag, CdkDragDrop, CdkDropList } from '@angular/cdk/drag-drop';
 import { NestedDragDropService } from 'src/app/services/nested-drag-drop/nested-drag-drop.service';
 import { DailyTaskListService } from 'src/app/services/daily-task-list/daily-task-list.service';

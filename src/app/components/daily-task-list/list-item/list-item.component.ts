@@ -9,7 +9,7 @@ import {
   ViewChildren,
   computed,
 } from '@angular/core';
-import { isList } from 'src/app/functions/is-list.function';
+import { isList } from 'src/app/functions/is-list/is-list.function';
 import { IListItem } from 'src/app/models/i-list-item';
 import { NestedDragDropService } from 'src/app/services/nested-drag-drop/nested-drag-drop.service';
 import { ModalController } from '@ionic/angular';

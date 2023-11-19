@@ -13,8 +13,8 @@ import {
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
-import { findListItemArray } from 'src/app/functions/find-list.function';
-import { toTask } from 'src/app/functions/to-task.function';
+import { findListItemArray } from 'src/app/functions/find-list/find-list.function';
+import { toTask } from 'src/app/functions/to-task/to-task.function';
 
 @Injectable({
   providedIn: 'root',

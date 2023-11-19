@@ -1,15 +1,12 @@
-import { Task } from '../models/task';
+import { IListItem } from 'src/app/models/i-list-item';
 
-export function toTask(list: any): Task {
-  let task: Task = {
+export function toTask(list: any): IListItem {
+  let task: IListItem = {
     id: list.id,
     name: list.name,
     completed: list.completed,
     createdByUserId: list.createdByUserId,
     parentListId: list.parentListId,
-    dueDate: list.dueDate,
-    notes: list.notes,
-    assignedDate: list.assignedDate,
     isChildTask: false,
   };
   return task;
