@@ -28,9 +28,7 @@ import { DailyTaskListService } from 'src/app/services/daily-task-list/daily-tas
   templateUrl: './inset-list.component.html',
   styleUrls: ['./inset-list.component.scss'],
 })
-export class InsetListComponent
-  implements OnInit, OnDestroy, AfterViewInit, OnChanges
-{
+export class InsetListComponent implements OnInit, OnDestroy, OnChanges {
   @Input() listItemId: string;
   @ViewChild(CdkDropList) set dropList(list: CdkDropList) {
     if (list) {
@@ -44,7 +42,6 @@ export class InsetListComponent
   completedTaskCount: Signal<number>;
   listLength: Signal<number>;
   connectedLists: CdkDropList<any>[];
-  private _droplist: CdkDropList;
 
   constructor(
     public nestedDragDropService: NestedDragDropService,
@@ -62,12 +59,6 @@ export class InsetListComponent
 
   ngOnChanges(): void {
     this.evaluateCompletedState();
-  }
-
-  ngAfterViewInit(): void {
-    if (this.dropList) {
-      this.nestedDragDropService.register(this.dropList);
-    }
   }
 
   ngOnDestroy(): void {
@@ -95,14 +86,6 @@ export class InsetListComponent
   onItemDropped(ev: any): void {
     this.nestedDragDropService.drop(ev);
     this.evaluateCompletedState();
-  }
-
-  dragMoved(event: CdkDragMove<IListItem>): void {
-    this.nestedDragDropService.dragMoved(event);
-  }
-
-  dragReleased(event: CdkDragRelease): void {
-    this.nestedDragDropService.dragReleased(event);
   }
 
   async itemEditClicked(listItem: any = null): Promise<void> {

@@ -9,7 +9,7 @@ import { DailyTaskListService } from 'src/app/services/daily-task-list/daily-tas
   styleUrls: ['./new-task-modal.component.scss'],
 })
 export class NewTaskModalComponent {
-  newTaskName: string;
+  newTaskName: string | undefined;
 
   constructor(
     private modalCtl: ModalController,
@@ -17,7 +17,7 @@ export class NewTaskModalComponent {
   ) {}
 
   saveClicked() {
-    if (this.newTaskName) {
+    if (this.newTaskName && this.newTaskName.length > 0) {
       let newTaskItem: IListItem = {
         id: this.newTaskName,
         name: this.newTaskName,

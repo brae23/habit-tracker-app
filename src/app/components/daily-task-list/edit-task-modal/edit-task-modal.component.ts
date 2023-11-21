@@ -14,7 +14,7 @@ export class EditTaskModalComponent {
   @Input() listItem: Signal<IListItem>;
   newSubtaskPopupHeader: string;
   confirmationPopupHeader: string;
-  nameUpdate: string;
+  nameUpdate: string | undefined;
 
   public newSubtaskPopupInputs = [
     {
@@ -53,12 +53,12 @@ export class EditTaskModalComponent {
     this.confirmationPopupHeader = 'Are you sure?';
   }
 
-  cancelClicked() {
+  cancelClicked(): void {
     this.modalCtl.dismiss(null, 'cancel');
   }
 
-  saveClicked() {
-    if (this.nameUpdate) {
+  saveClicked(): void {
+    if (this.nameUpdate && this.nameUpdate !== this.listItem().name) {
       let listItemClone = cloneDeep(this.listItem());
       listItemClone.name = this.nameUpdate;
       this.dailyTaskListService.updateListItem(listItemClone);
@@ -67,12 +67,11 @@ export class EditTaskModalComponent {
     this.modalCtl.dismiss(null, 'confirm');
   }
 
-  setName(ev: InputCustomEvent) {
+  setName(ev: InputCustomEvent): void {
     this.nameUpdate = ev.detail.value!;
   }
 
-  onDeletePopupDismissed(ev: any) {
-    console.log(this.listItem);
+  onDeletePopupDismissed(ev: any): void {
     if (ev.detail.role === 'confirm') {
       if (this.listItem().isChildTask) {
         this.dailyTaskListService.removeListItem(
@@ -83,11 +82,11 @@ export class EditTaskModalComponent {
         this.dailyTaskListService.removeListItem(this.listItem().id);
       }
 
-      this.modalCtl.dismiss(null, 'cancel');
+      this.modalCtl.dismiss(null, 'confirm');
     }
   }
 
-  onNewTaskPopupDismissed(ev: any) {
+  onNewTaskPopupDismissed(ev: any): void {
     if (ev.detail.role === 'confirm') {
       let newSubtaskItemName = ev.detail.data.values[0];
 

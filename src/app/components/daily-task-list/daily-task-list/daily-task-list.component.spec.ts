@@ -5,9 +5,10 @@ import { DailyTaskListComponent } from './daily-task-list.component';
 import { DailyTaskListService } from 'src/app/services/daily-task-list/daily-task-list.service';
 import { NestedDragDropService } from 'src/app/services/nested-drag-drop/nested-drag-drop.service';
 import { WritableSignal, signal } from '@angular/core';
-import { CdkDropList } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, CdkDropList } from '@angular/cdk/drag-drop';
 import { TaskList } from 'src/app/models/task-list';
 import { getMockDailyTaskList } from 'src/test/daily-task-list.service.utils';
+import { IListItem } from 'src/app/models/i-list-item';
 
 describe('DailyTaskListComponent', () => {
   let component: DailyTaskListComponent;
@@ -27,6 +28,8 @@ describe('DailyTaskListComponent', () => {
 
     nestedDragDropServiceMock = {
       dropLists$: dropListsMock,
+      register: jasmine.createSpy('register'),
+      drop: jasmine.createSpy('drop'),
     };
 
     TestBed.configureTestingModule({
@@ -45,5 +48,29 @@ describe('DailyTaskListComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('Drag and Drop', () => {
+    it('should register droplist if ViewChild droplist exists', () => {
+      // Act
+      let dropList = {} as CdkDropList;
+      component.dropList = dropList;
+
+      // Assert
+      expect(nestedDragDropServiceMock.register).toHaveBeenCalledOnceWith(
+        dropList,
+      );
+    });
+
+    it('should call cdk drop on item dropped', () => {
+      // Arrange
+      let event = {} as CdkDragDrop<IListItem[]>;
+
+      // Act
+      component.onItemDropped(event);
+
+      // Assert
+      expect(nestedDragDropServiceMock.drop).toHaveBeenCalledOnceWith(event);
+    });
   });
 });

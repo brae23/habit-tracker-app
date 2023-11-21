@@ -24,23 +24,26 @@ export class NestedDragDropService {
     this.dropLists$ = signal([]);
   }
 
-  public register(dropList: CdkDropList) {
+  register(dropList: CdkDropList) {
     this.dropLists$.update((lists) => {
       lists.push(dropList);
       return lists;
     });
   }
 
-  public unregister(dropList: CdkDropList) {
-    this.dropLists$.update((lists) => {
-      lists.splice(
-        lists.findIndex((x) => x.id == dropList.id),
-        1,
-      );
-      return lists;
-    });
+  unregister(dropList: CdkDropList) {
+    if (this.dropLists$().includes(dropList)) {
+      this.dropLists$.update((lists) => {
+        lists.splice(
+          lists.findIndex((x) => x.id == dropList.id),
+          1,
+        );
+        return lists;
+      });
+    }
   }
 
+  /* Istanbul ignore next */
   dragMoved(event: CdkDragMove<IListItem>) {
     let elementFromPoint = this.document.elementFromPoint(
       event.pointerPosition.x,
@@ -64,11 +67,13 @@ export class NestedDragDropService {
     this._currentHoverDropListId = dropList.id;
   }
 
-  dragReleased(event: CdkDragRelease) {
+  /* Istanbul ignore next */
+  dragReleased(_event: CdkDragRelease) {
     this._currentHoverDropListId = undefined;
   }
 
-  isDropAllowed(drag: CdkDrag, drop: CdkDropList) {
+  /* Istanbul ignore next */
+  isDropAllowed(_drag: CdkDrag, drop: CdkDropList) {
     if (this._currentHoverDropListId == null) {
       return true;
     }

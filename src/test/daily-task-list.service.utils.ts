@@ -1,6 +1,8 @@
 import { Habit } from 'src/app/models/habit';
+import { IListItem } from 'src/app/models/i-list-item';
 import { TaskList } from 'src/app/models/task-list';
 
+/* Istanbul ignore next */
 export function getMockDailyTaskList(): TaskList {
   const habit1: Habit = {
     id: 'habitId1',
@@ -184,4 +186,68 @@ export function getMockDailyTaskList(): TaskList {
   };
 
   return dailyTaskList;
+}
+
+/* Istanbul ignore next */
+export function getMockListItem(shouldBeList: boolean): IListItem {
+  if (shouldBeList) {
+    return {
+      id: 'uniqueInsetListId1',
+      name: 'Test Inset List 1',
+      completed: false,
+      createdByUserId: 'User 1',
+      isChildTask: false,
+      listItems: [
+        {
+          id: 'taskId1',
+          parentListId: 'insetListId1',
+          name: 'Task 1 Name',
+          completed: false,
+          createdByUserId: 'User 1',
+          isChildTask: true,
+        },
+        {
+          id: 'taskId2',
+          parentListId: 'insetListId1',
+          name: 'Task 2 Name',
+          completed: false,
+          createdByUserId: 'User 1',
+          isChildTask: true,
+        },
+        {
+          id: 'taskId3',
+          parentListId: 'insetListId1',
+          name: 'Task 3 Name',
+          completed: true,
+          createdByUserId: 'User 1',
+          isChildTask: true,
+        },
+        {
+          id: 'taskId4',
+          parentListId: 'insetListId1',
+          name: 'Task 4 Name',
+          completed: true,
+          createdByUserId: 'User 1',
+          isChildTask: true,
+        },
+        {
+          id: 'taskId5',
+          parentListId: 'insetListId1',
+          name: 'Task 5 Name',
+          completed: false,
+          createdByUserId: 'User 1',
+          isChildTask: true,
+        },
+      ],
+    };
+  } else {
+    return {
+      id: 'taskId5',
+      parentListId: 'insetListId1',
+      name: 'Task 5 Name',
+      completed: false,
+      createdByUserId: 'User 1',
+      isChildTask: true,
+    };
+  }
 }
