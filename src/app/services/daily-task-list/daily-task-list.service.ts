@@ -16,6 +16,7 @@ import {
 import { findListItemArray } from 'src/app/functions/find-list/find-list.function';
 import { toTask } from 'src/app/functions/to-task/to-task.function';
 
+/* Istanbul ignore next */
 @Injectable({
   providedIn: 'root',
 })
