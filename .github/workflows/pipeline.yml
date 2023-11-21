@@ -1,7 +1,7 @@
 name: habit-tracker-app
 on: [push]
 jobs:
-  build:
+  build + test:
     name: Build
     runs-on: ubuntu-latest
     steps:
@@ -15,20 +15,8 @@ jobs:
         run: npm i
       - name: Build Application
         run: npm run build-prod
-  # test:
-  #   name: Test
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Check out repository code
-  #       uses: actions/checkout@v3
-  #     - name: Setup Node
-  #       uses: actions/setup-node@v3
-  #       with:
-  #         node-version: '18.12.1'
-  #     - name: Run npm install
-  #       run: npm i
-  #     - name: Run tests
-  #       run: npm run test
+      - name: Run Tests
+        run: npm run test
   lint:
     name: Lint
     runs-on: ubuntu-latest
