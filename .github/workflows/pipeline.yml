@@ -16,7 +16,7 @@ jobs:
       - name: Build Application
         run: npm run build-prod
       - name: Run Tests
-        run: npm run test
+        run: npm run test:ci
   lint:
     name: Lint
     runs-on: ubuntu-latest
