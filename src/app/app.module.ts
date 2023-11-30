@@ -22,8 +22,12 @@ import { AddOptionsInterceptor } from './utils/add-options.interceptor';
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true},
-    { provide: HTTP_INTERCEPTORS, useClass: AddOptionsInterceptor, multi: true},
+    { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AddOptionsInterceptor,
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent],
 })

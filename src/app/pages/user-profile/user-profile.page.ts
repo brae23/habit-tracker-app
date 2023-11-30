@@ -27,7 +27,8 @@ export class UserProfilePage implements OnInit, OnDestroy {
   }
 
   logoutClicked(): void {
-    this.authService.logout()
+    this.authService
+      .logout()
       .pipe(takeUntil(this.ngUnsub$))
       .subscribe((res) => {
         if (res) {

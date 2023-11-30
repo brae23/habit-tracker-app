@@ -10,8 +10,8 @@ const config: CapacitorConfig = {
   plugins: {
     CapacitorHttp: {
       enabled: true,
-    }
-  }
+    },
+  },
 };
 
 export default config;

@@ -17,6 +17,6 @@ import { ComponentsModule } from 'src/app/components/components.module';
     LoginPageRoutingModule,
     ComponentsModule,
   ],
-  declarations: [LoginPage]
+  declarations: [LoginPage],
 })
 export class LoginPageModule {}

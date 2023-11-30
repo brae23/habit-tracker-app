@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { InputCustomEvent } from '@ionic/angular';
 import { Subject, takeUntil } from 'rxjs';
@@ -9,7 +9,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
-export class LoginPage {
+export class LoginPage implements OnDestroy {
   title: string;
   username: string | undefined;
   password: string | undefined;
@@ -19,7 +19,7 @@ export class LoginPage {
     private authService: AuthService,
     private router: Router,
   ) {
-    this.title = "Login";
+    this.title = 'Login';
   }
 
   ngOnDestroy(): void {
@@ -37,7 +37,8 @@ export class LoginPage {
 
   loginClicked(): void {
     if (this.username && this.password) {
-      this.authService.login(this.username, this.password)
+      this.authService
+        .login(this.username, this.password)
         .pipe(takeUntil(this.ngUnsub$))
         .subscribe((res) => {
           if (res) {

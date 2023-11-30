@@ -88,7 +88,9 @@ export class InsetListComponent implements OnInit, OnDestroy, OnChanges {
     this.evaluateCompletedState();
   }
 
-  async itemEditClicked(listItem: IListItem | undefined = undefined): Promise<void> {
+  async itemEditClicked(
+    listItem: IListItem | undefined = undefined,
+  ): Promise<void> {
     let editTaskModal = await this.modalCtl.create({
       component: EditTaskModalComponent,
 
