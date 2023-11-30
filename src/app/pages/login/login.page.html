@@ -1,0 +1,27 @@
+<app-page-header [title]="title" [hideMenu]="true"></app-page-header>
+<ion-content>
+  <div class="input-box">
+    <ion-item class="item-box">
+      <ion-input
+        label="Username"
+        labelPlacement="floating"
+        (ionInput)="setUsername($any($event))"
+      ></ion-input>
+    </ion-item>
+    <ion-item class="item-box">
+      <ion-input
+        label="Password"
+        labelPlacement="floating"
+        type="password"
+        (ionInput)="setPassword($any($event))"
+      ></ion-input>
+    </ion-item>
+    <ion-button 
+      color="primary"
+      fill="solid"
+      (click)="loginClicked()"
+    >
+      Login
+    </ion-button>
+  </div>
+</ion-content>

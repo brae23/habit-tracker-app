@@ -1,6 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { Subject, takeUntil } from 'rxjs';
+import { AuthService } from './services/auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -8,11 +10,23 @@ import { Subject, takeUntil } from 'rxjs';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent implements OnInit, OnDestroy {
-  ngUnsub$: Subject<boolean> = new Subject<boolean>();
+  ngUnsub$: Subject<void> = new Subject<void>();
 
-  constructor(private platform: Platform) {}
+  constructor(
+    private platform: Platform,
+    private authService: AuthService,
+    private router: Router,
+  ) {}
 
   ngOnInit(): void {
+    this.authService.userLoggedIn$
+      .pipe(takeUntil(this.ngUnsub$))
+      .subscribe((loggedIn) => {
+        if (!loggedIn) {
+          this.router.navigate(['/login']);
+        }
+      });
+
     this.platform.keyboardDidShow
       .pipe(takeUntil(this.ngUnsub$))
       .subscribe((ev: any) => {
@@ -29,7 +43,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.ngUnsub$.next(true);
-    this.ngUnsub$.unsubscribe();
+    this.ngUnsub$.next();
+    this.ngUnsub$.complete();
   }
 }

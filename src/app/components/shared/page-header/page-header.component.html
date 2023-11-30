@@ -1,9 +1,11 @@
 <ion-header>
   <ion-toolbar>
     <div class="page-header-grid-container">
-      <ion-buttons class="page-header-menu-button">
-        <ion-menu-button></ion-menu-button>
-      </ion-buttons>
+      <ng-container *ngIf="!hideMenu">
+        <ion-buttons class="page-header-menu-button">
+          <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+      </ng-container>
       <div class="page-header-title-box">
         <ion-title size="large">{{ title }}</ion-title>
       </div>

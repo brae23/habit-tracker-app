@@ -7,6 +7,9 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HttpErrorInterceptor } from './utils/error.interceptor';
+import { AddOptionsInterceptor } from './utils/add-options.interceptor';
 
 @NgModule({
   declarations: [AppComponent],
@@ -15,8 +18,13 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
     IonicModule.forRoot(),
     AppRoutingModule,
     NoopAnimationsModule,
+    HttpClientModule,
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true},
+    { provide: HTTP_INTERCEPTORS, useClass: AddOptionsInterceptor, multi: true},
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

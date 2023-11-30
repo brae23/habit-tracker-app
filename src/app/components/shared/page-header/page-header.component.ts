@@ -7,6 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class PageHeaderComponent {
   @Input() title: string;
+  @Input() hideMenu: boolean = false;
 
   constructor() {}
 }
