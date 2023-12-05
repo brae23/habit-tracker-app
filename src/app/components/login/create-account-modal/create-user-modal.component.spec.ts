@@ -9,8 +9,8 @@ describe('CreateUserModalComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ CreateUserModalComponent ],
-      imports: [IonicModule.forRoot()]
+      declarations: [CreateUserModalComponent],
+      imports: [IonicModule.forRoot()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(CreateUserModalComponent);

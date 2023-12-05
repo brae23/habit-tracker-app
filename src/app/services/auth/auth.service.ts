@@ -39,19 +39,23 @@ export class AuthService {
     );
   }
 
-  createUser(username: string, email: string, password: string): Observable<User> {
+  createUser(
+    username: string,
+    email: string,
+    password: string,
+  ): Observable<User> {
     let uri = `${environment.baseUrl}/api/auth/createuser`;
     let body = {
       user_name: username,
       email: email,
-      password: password
+      password: password,
     };
 
     return this.httpClient.post<User>(uri, body).pipe(
       tap((user) => {
         this.userLoggedIn$.next(true);
         this.user$.next(user);
-      })
-    )
+      }),
+    );
   }
 }

@@ -27,8 +27,8 @@ export class CreateUserModalComponent implements OnDestroy {
     private router: Router,
     private modalCtl: ModalController,
   ) {
-    this.usernameValueText = "Username is empty!";
-    this.emailValueText = "Email is empty!";
+    this.usernameValueText = 'Username is empty!';
+    this.emailValueText = 'Email is empty!';
   }
 
   ngOnDestroy(): void {
@@ -57,20 +57,16 @@ export class CreateUserModalComponent implements OnDestroy {
     let emailIsValid = this.emailInputIsValid();
     let passwordIsValid = this.passwordInputIsValid();
 
-    if (
-      userIsValid &&
-      emailIsValid &&
-      passwordIsValid
-    ) {
+    if (userIsValid && emailIsValid && passwordIsValid) {
       this.authService
-      .createUser(this.username!, this.email!, this.password!)
-      .pipe(takeUntil(this.ngUnsub$))
-      .subscribe((res) => {
-        if (res) {
-          this.modalCtl.dismiss();
-          this.router.navigate(['/daily-task-list']);
-        }
-      });
+        .createUser(this.username!, this.email!, this.password!)
+        .pipe(takeUntil(this.ngUnsub$))
+        .subscribe((res) => {
+          if (res) {
+            this.modalCtl.dismiss();
+            this.router.navigate(['/daily-task-list']);
+          }
+        });
     }
   }
 
@@ -96,15 +92,16 @@ export class CreateUserModalComponent implements OnDestroy {
 
   private passwordInputIsValid(): boolean {
     if (this.password == undefined || this.password.length < 1) {
-      this.passwordsMustMatchText = "Password is empty!";
+      this.passwordsMustMatchText = 'Password is empty!';
       this.shouldShowPasswordMatchText = true;
       return false;
     } else if (this.password.length < 12 || this.password.length > 128) {
-      this.passwordsMustMatchText = "Password must be between 12 and 128 characters!";
+      this.passwordsMustMatchText =
+        'Password must be between 12 and 128 characters!';
       this.shouldShowPasswordMatchText = true;
       return false;
     } else if (this.passwordVerify != this.password) {
-      this.passwordsMustMatchText = "Passwords must match!";
+      this.passwordsMustMatchText = 'Passwords must match!';
       this.shouldShowPasswordMatchText = true;
       return false;
     } else {

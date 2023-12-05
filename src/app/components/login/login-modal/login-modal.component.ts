@@ -9,7 +9,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
   templateUrl: './login-modal.component.html',
   styleUrls: ['./login-modal.component.scss'],
 })
-export class LoginModalComponent  implements OnDestroy {
+export class LoginModalComponent implements OnDestroy {
   username: string | undefined;
   password: string | undefined;
   ngUnsub$: Subject<boolean> = new Subject<boolean>();

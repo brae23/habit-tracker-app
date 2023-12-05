@@ -9,24 +9,21 @@ import { LoginModalComponent } from 'src/app/components/login/login-modal/login-
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage {
+  constructor(private modalCtl: ModalController) {}
 
- constructor(
-  private modalCtl: ModalController
- ){}
+  async openLoginModal() {
+    let loginModal = await this.modalCtl.create({
+      component: LoginModalComponent,
+    });
 
- async openLoginModal() {
-  let loginModal = await this.modalCtl.create({
-    component: LoginModalComponent
-  });
+    loginModal.present();
+  }
 
-  loginModal.present();
- }
+  async openSignupModal() {
+    let signupModal = await this.modalCtl.create({
+      component: CreateUserModalComponent,
+    });
 
- async openSignupModal() {
-  let signupModal = await this.modalCtl.create({
-    component: CreateUserModalComponent
-  });
-
-  signupModal.present();
- }
+    signupModal.present();
+  }
 }

@@ -29,12 +29,11 @@ const retryConfig: RetryConfig = {
 };
 
 export class HttpErrorInterceptor implements HttpInterceptor {
-
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler,
   ): Observable<HttpEvent<any>> {
-    let toastCtl: ToastController = new ToastController;
+    let toastCtl: ToastController = new ToastController();
 
     return next.handle(req).pipe(
       retry(retryConfig),
@@ -42,17 +41,19 @@ export class HttpErrorInterceptor implements HttpInterceptor {
         let errorMessage = '';
 
         console.log(error);
-        if(error.status == 400) {
-          toastCtl.create({
-            header: 'Error',
-            message: error.error.error_message,
-            animated: true,
-            duration: 5000,
-            color: 'danger',
-            position: 'top',
-          }).then((toast) => {
-            toast.present();
-          });
+        if (error.status == 400) {
+          toastCtl
+            .create({
+              header: 'Error',
+              message: error.error.error_message,
+              animated: true,
+              duration: 5000,
+              color: 'danger',
+              position: 'top',
+            })
+            .then((toast) => {
+              toast.present();
+            });
         }
 
         if (error.error instanceof ErrorEvent) {

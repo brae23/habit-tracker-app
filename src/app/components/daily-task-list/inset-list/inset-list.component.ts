@@ -11,10 +11,7 @@ import {
   signal,
 } from '@angular/core';
 import { IListItem } from 'src/app/models/i-list-item';
-import {
-  CdkDrag,
-  CdkDropList,
-} from '@angular/cdk/drag-drop';
+import { CdkDrag, CdkDropList } from '@angular/cdk/drag-drop';
 import { NestedDragDropService } from 'src/app/services/nested-drag-drop/nested-drag-drop.service';
 import { ModalController } from '@ionic/angular';
 import { EditTaskModalComponent } from '../edit-task-modal/edit-task-modal.component';

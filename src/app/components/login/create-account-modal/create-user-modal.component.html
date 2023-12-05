@@ -44,15 +44,26 @@
     ></ion-input>
   </ion-item>
   <ng-container *ngIf="shouldShowUsernameValueText">
-    <ion-text color="danger" class="login-password-text">{{ usernameValueText }}</ion-text>
+    <ion-text color="danger" class="login-password-text">{{
+      usernameValueText
+    }}</ion-text>
   </ng-container>
   <ng-container *ngIf="shouldShowEmailValueText">
-    <ion-text color="danger" class="login-password-text">{{ emailValueText }}</ion-text>
+    <ion-text color="danger" class="login-password-text">{{
+      emailValueText
+    }}</ion-text>
   </ng-container>
   <ng-container *ngIf="shouldShowPasswordMatchText">
-    <ion-text color="danger" class="login-password-text">{{ passwordsMustMatchText }}</ion-text>
+    <ion-text color="danger" class="login-password-text">{{
+      passwordsMustMatchText
+    }}</ion-text>
   </ng-container>
-  <ion-button color="primary" fill="solid" shape="round" (click)="signupClicked()">
+  <ion-button
+    color="primary"
+    fill="solid"
+    shape="round"
+    (click)="signupClicked()"
+  >
     Sign Up
   </ion-button>
 </div>
