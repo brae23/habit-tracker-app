@@ -1,0 +1,23 @@
+<div class="login-input-box">
+  <h3 class="login-header">Login</h3>
+  <ion-item class="login-item-box login-username-input">
+    <ion-input
+      shape="round"
+      label="Username"
+      labelPlacement="floating"
+      (ionInput)="setUsername($any($event))"
+    ></ion-input>
+  </ion-item>
+  <ion-item class="login-item-box">
+    <ion-input
+      shape="round"
+      label="Password"
+      labelPlacement="floating"
+      type="password"
+      (ionInput)="setPassword($any($event))"
+    ></ion-input>
+  </ion-item>
+  <ion-button color="primary" fill="solid" shape="round" (click)="loginClicked()">
+    Login
+  </ion-button>
+</div>

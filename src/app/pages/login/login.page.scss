@@ -1,10 +1,17 @@
-.input-box {
+.main-div {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
 }
 
-.item-box {
-  margin: 10px 10px 10px 10px;
+.welcome-header {
+  margin-bottom: 50px;
+}
+
+.button {
+  width: 50%;
+  max-width: 300px;
 }

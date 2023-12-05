@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   Component,
   ElementRef,
   Input,
@@ -14,8 +13,6 @@ import {
 import { IListItem } from 'src/app/models/i-list-item';
 import {
   CdkDrag,
-  CdkDragMove,
-  CdkDragRelease,
   CdkDropList,
 } from '@angular/cdk/drag-drop';
 import { NestedDragDropService } from 'src/app/services/nested-drag-drop/nested-drag-drop.service';

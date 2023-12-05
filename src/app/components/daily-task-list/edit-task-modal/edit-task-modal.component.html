@@ -9,73 +9,74 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-<ion-content class="ion-padding ion-text-center">
-  <ion-item class="ion-padding">
-    <ion-input
+<ion-content class="ion-text-center">
+  <div class="content-box">
+    <ion-item class="input-box">
+      <ion-input
+        labelPlacement="stacked"
+        label="Task name"
+        placeholder="Task Name"
+        inputmode="text"
+        fill="solid"
+        value="{{ listItem().name }}"
+        (ionInput)="setName($any($event))"
+      ></ion-input>
+    </ion-item>
+  
+    <!-- Due Date Input Date Picker -->
+    <!-- Commented out until due date functionality is implemented -->
+  
+    <!-- <ion-item class="ion-padding">
+      <ion-label position="stacked">Due Date</ion-label>
+      <ion-input value="{{ listItem.dueDate | date: 'dd MMM yyyy' }}" id="date"></ion-input>
+      <ion-popover trigger="date" >
+          <ng-template>
+              <ion-datetime presentation="datetime" [(ngModel)]="listItem.dueDate" locale="en-US"></ion-datetime>
+          </ng-template>
+      </ion-popover>
+    </ion-item> -->
+  
+    <ion-item class="input-box">
+      <ion-input
+        color="primary"
+        labelPlacement="stacked"
+        label="Created By"
+        readonly="true"
+        value="{{ listItem().createdByUserId }}"
+      ></ion-input>
+    </ion-item>
+    <ion-button
       color="primary"
-      labelPlacement="stacked"
-      label="Task name"
-      placeholder="Task Name"
-      inputmode="text"
       fill="solid"
-      value="{{ listItem().name }}"
-      (ionInput)="setName($any($event))"
-    ></ion-input>
-  </ion-item>
-
-  <!-- Due Date Input Date Picker -->
-  <!-- Commented out until due date functionality is implemented -->
-
-  <!-- <ion-item class="ion-padding">
-    <ion-label position="stacked">Due Date</ion-label>
-    <ion-input value="{{ listItem.dueDate | date: 'dd MMM yyyy' }}" id="date"></ion-input>
-    <ion-popover trigger="date" >
-        <ng-template>
-            <ion-datetime presentation="datetime" [(ngModel)]="listItem.dueDate" locale="en-US"></ion-datetime>
-        </ng-template>
-    </ion-popover>
-  </ion-item> -->
-
-  <ion-item class="ion-padding">
-    <ion-input
-      color="primary"
-      labelPlacement="stacked"
-      label="Created By"
-      readonly="true"
-      value="{{ listItem().createdByUserId }}"
-    ></ion-input>
-  </ion-item>
-  <ion-button
-    class="ion-padding"
-    color="primary"
-    fill="solid"
-    id="present-new-subtask-popup"
-    *ngIf="!listItem().isChildTask"
-  >
-    <ion-icon slot="start" name="checkbox-outline"></ion-icon>
-    Create New Subtask
-  </ion-button>
-  <ion-alert
-    trigger="present-new-subtask-popup"
-    header="{{ newSubtaskPopupHeader }}"
-    [buttons]="newSubtaskPopupButtons"
-    [inputs]="newSubtaskPopupInputs"
-    (didDismiss)="onNewTaskPopupDismissed($event)"
-    *ngIf="!listItem().isChildTask"
-  ></ion-alert>
-  <ion-button
-    class="ion-padding"
-    color="danger"
-    fill="solid"
-    id="present-delete-confirmation-popup"
-  >
-    <ion-icon slot="start" name="trash"></ion-icon>
-    Delete Task
-  </ion-button>
-  <ion-alert
-    trigger="present-delete-confirmation-popup"
-    header="{{ confirmationPopupHeader }}"
-    [buttons]="confirmationPopupButtons"
-    (didDismiss)="onDeletePopupDismissed($event)"
-  ></ion-alert>
+      class="modal-button"
+      id="present-new-subtask-popup"
+      *ngIf="!listItem().isChildTask"
+    >
+      <ion-icon slot="start" name="checkbox-outline"></ion-icon>
+      Create New Subtask
+    </ion-button>
+    <ion-alert
+      trigger="present-new-subtask-popup"
+      header="{{ newSubtaskPopupHeader }}"
+      [buttons]="newSubtaskPopupButtons"
+      [inputs]="newSubtaskPopupInputs"
+      (didDismiss)="onNewTaskPopupDismissed($event)"
+      *ngIf="!listItem().isChildTask"
+    ></ion-alert>
+    <ion-button
+      color="danger"
+      fill="solid"
+      class="modal-button"
+      id="present-delete-confirmation-popup"
+    >
+      <ion-icon slot="start" name="trash"></ion-icon>
+      Delete Task
+    </ion-button>
+    <ion-alert
+      trigger="present-delete-confirmation-popup"
+      header="{{ confirmationPopupHeader }}"
+      [buttons]="confirmationPopupButtons"
+      (didDismiss)="onDeletePopupDismissed($event)"
+    ></ion-alert>
+  </div>
 </ion-content>

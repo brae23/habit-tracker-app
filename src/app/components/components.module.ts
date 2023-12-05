@@ -10,6 +10,8 @@ import { EditTaskModalComponent } from './daily-task-list/edit-task-modal/edit-t
 import { PageHeaderComponent } from './shared/page-header/page-header.component';
 import { ListAnchorComponent } from './lists-page/list-anchor/list-anchor.component';
 import { NewTaskModalComponent } from './daily-task-list/new-task-modal/new-task-modal.component';
+import { LoginModalComponent } from './login/login-modal/login-modal.component';
+import { CreateUserModalComponent } from './login/create-account-modal/create-user-modal.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +22,8 @@ import { NewTaskModalComponent } from './daily-task-list/new-task-modal/new-task
     PageHeaderComponent,
     ListAnchorComponent,
     NewTaskModalComponent,
+    LoginModalComponent,
+    CreateUserModalComponent,
   ],
   exports: [
     DailyTaskListComponent,
@@ -27,6 +31,8 @@ import { NewTaskModalComponent } from './daily-task-list/new-task-modal/new-task
     PageHeaderComponent,
     ListAnchorComponent,
     NewTaskModalComponent,
+    LoginModalComponent,
+    CreateUserModalComponent,
   ],
   imports: [CommonModule, FormsModule, IonicModule, DragDropModule],
   providers: [DatePipe],

@@ -1,50 +1,32 @@
-import { Component, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
-import { InputCustomEvent } from '@ionic/angular';
-import { Subject, takeUntil } from 'rxjs';
-import { AuthService } from 'src/app/services/auth/auth.service';
+import { Component } from '@angular/core';
+import { ModalController } from '@ionic/angular';
+import { CreateUserModalComponent } from 'src/app/components/login/create-account-modal/create-user-modal.component';
+import { LoginModalComponent } from 'src/app/components/login/login-modal/login-modal.component';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
-export class LoginPage implements OnDestroy {
-  title: string;
-  username: string | undefined;
-  password: string | undefined;
-  ngUnsub$: Subject<boolean> = new Subject<boolean>();
+export class LoginPage {
 
-  constructor(
-    private authService: AuthService,
-    private router: Router,
-  ) {
-    this.title = 'Login';
-  }
+ constructor(
+  private modalCtl: ModalController
+ ){}
 
-  ngOnDestroy(): void {
-    this.ngUnsub$.next(true);
-    this.ngUnsub$.complete();
-  }
+ async openLoginModal() {
+  let loginModal = await this.modalCtl.create({
+    component: LoginModalComponent
+  });
 
-  setUsername(ev: InputCustomEvent): void {
-    this.username = ev.detail.value!;
-  }
+  loginModal.present();
+ }
 
-  setPassword(ev: InputCustomEvent): void {
-    this.password = ev.detail.value!;
-  }
+ async openSignupModal() {
+  let signupModal = await this.modalCtl.create({
+    component: CreateUserModalComponent
+  });
 
-  loginClicked(): void {
-    if (this.username && this.password) {
-      this.authService
-        .login(this.username, this.password)
-        .pipe(takeUntil(this.ngUnsub$))
-        .subscribe((res) => {
-          if (res) {
-            this.router.navigate(['/daily-task-list']);
-          }
-        });
-    }
-  }
+  signupModal.present();
+ }
 }

@@ -102,4 +102,28 @@ button.alert-button.alert-button-save {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 
-// New global styles here
+// Login modal
+
+.login-input-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-item-box {
+  margin: 10px 10px 10px 10px;
+}
+
+.login-header {
+  padding-top: 40px;
+}
+
+.login-username-input {
+  padding-top: 20px;
+}
+  
+.login-password-text {
+  padding-top: 5px;
+  padding-bottom: 15px;
+}

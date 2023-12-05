@@ -1,23 +1,23 @@
-<app-page-header [title]="title" [hideMenu]="true"></app-page-header>
 <ion-content>
-  <div class="input-box">
-    <ion-item class="item-box">
-      <ion-input
-        label="Username"
-        labelPlacement="floating"
-        (ionInput)="setUsername($any($event))"
-      ></ion-input>
-    </ion-item>
-    <ion-item class="item-box">
-      <ion-input
-        label="Password"
-        labelPlacement="floating"
-        type="password"
-        (ionInput)="setPassword($any($event))"
-      ></ion-input>
-    </ion-item>
-    <ion-button color="primary" fill="solid" (click)="loginClicked()">
+  <div class="main-div">
+    <h3 class="welcome-header">Welcome!</h3>
+    <ion-button
+      class="button"
+      color="primary"
+      fill="solid"
+      expand="block"
+      shape="round"
+      (click)="openLoginModal()"
+    >
       Login
+    </ion-button>
+    <ion-button
+      color="primary"
+      fill="clear"
+      shape="round"
+      (click)="openSignupModal()"
+    >
+      Sign up
     </ion-button>
   </div>
 </ion-content>
