@@ -18,7 +18,7 @@ jobs:
       - name: Run Tests
         run: npm run test:ci
   lint:
-    name: Lint
+    name: Lint + Style Check
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
@@ -31,17 +31,5 @@ jobs:
         run: npm i
       - name: Lint code
         run: npm run lint
-  style-check:
-    name: Style Check
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out repository code
-        uses: actions/checkout@v3
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: "18.12.1"
-      - name: Run npm install
-        run: npm i
       - name: Style check code
         run: npm run style-check

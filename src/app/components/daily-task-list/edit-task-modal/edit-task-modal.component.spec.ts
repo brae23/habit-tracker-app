@@ -4,7 +4,7 @@ import { InputCustomEvent, IonicModule, ModalController } from '@ionic/angular';
 import { EditTaskModalComponent } from './edit-task-modal.component';
 import { DailyTaskListService } from 'src/app/services/daily-task-list/daily-task-list.service';
 import { getMockDailyTaskList } from 'src/test/daily-task-list.service.utils';
-import { Signal, WritableSignal, signal } from '@angular/core';
+import { WritableSignal, signal } from '@angular/core';
 import { TaskList } from 'src/app/models/task-list';
 import { IListItem } from 'src/app/models/i-list-item';
 import { cloneDeep } from 'lodash';

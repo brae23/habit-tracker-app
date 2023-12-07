@@ -162,10 +162,11 @@ describe('InsetListComponent', () => {
     it('should create modal with list item data if list item provided', async () => {
       // Arrange
       let listItem = { id: 'test' } as IListItem;
+      let listItemSignal = signal(listItem);
       let expectedModalData = {
         component: EditTaskModalComponent,
         componentProps: {
-          ['listItem']: listItem,
+          ['listItem']: listItemSignal,
         },
       };
       spyOn<any>(editModalMock, 'present');

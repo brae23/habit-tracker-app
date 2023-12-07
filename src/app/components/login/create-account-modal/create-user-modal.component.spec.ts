@@ -1,16 +1,23 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ModalController } from '@ionic/angular';
 
 import { CreateUserModalComponent } from './create-user-modal.component';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 describe('CreateUserModalComponent', () => {
   let component: CreateUserModalComponent;
   let fixture: ComponentFixture<CreateUserModalComponent>;
+  let authServiceMock: Partial<AuthService>;
+  let modalCtlMock: Partial<ModalController>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [CreateUserModalComponent],
       imports: [IonicModule.forRoot()],
+      providers: [
+        { provide: AuthService, useValue: authServiceMock },
+        { provide: ModalController, useValue: modalCtlMock },
+      ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(CreateUserModalComponent);
