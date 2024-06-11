@@ -3,7 +3,7 @@ export interface IListItem {
   name: string;
   completed: boolean;
   parentListId?: string;
-  createdByUserId: string;
+  createdByUserName: string;
   listItems?: any[];
   isChildTask: boolean;
 }

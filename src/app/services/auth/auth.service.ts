@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, WritableSignal, signal } from '@angular/core';
 import { BehaviorSubject, Observable, Subject, tap } from 'rxjs';
 import { User } from 'src/app/models/user';
 import { environment } from 'src/environments/environment';
@@ -9,10 +9,11 @@ import { environment } from 'src/environments/environment';
 })
 export class AuthService {
   userLoggedIn$: BehaviorSubject<boolean> = new BehaviorSubject(false);
-  user$: Subject<User | undefined> = new Subject();
+  user$: WritableSignal<User | undefined>;
 
   constructor(private httpClient: HttpClient) {
     this.userLoggedIn$.next(false);
+    this.user$ = signal(undefined);
   }
 
   login(username: string, password: string): Observable<User> {
@@ -24,7 +25,7 @@ export class AuthService {
     return this.httpClient.post<User>(uri, body).pipe(
       tap((user) => {
         this.userLoggedIn$.next(true);
-        this.user$.next(user);
+        this.user$.set(user);
       }),
     );
   }
@@ -34,7 +35,7 @@ export class AuthService {
     return this.httpClient.post<boolean>(uri, null).pipe(
       tap((_res) => {
         this.userLoggedIn$.next(false);
-        this.user$.next(undefined);
+        this.user$.set(undefined);
       }),
     );
   }
@@ -44,9 +45,9 @@ export class AuthService {
     email: string,
     password: string,
   ): Observable<User> {
-    let uri = `${environment.baseUrl}/api/auth/createuser`;
+    let uri = `${environment.baseUrl}/api/auth/createUser`;
     let body = {
-      user_name: username,
+      username: username,
       email: email,
       password: password,
     };
@@ -54,7 +55,7 @@ export class AuthService {
     return this.httpClient.post<User>(uri, body).pipe(
       tap((user) => {
         this.userLoggedIn$.next(true);
-        this.user$.next(user);
+        this.user$.set(user);
       }),
     );
   }

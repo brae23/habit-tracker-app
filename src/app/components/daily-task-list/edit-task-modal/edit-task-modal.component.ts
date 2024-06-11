@@ -1,6 +1,7 @@
-import { Component, Input, Signal } from '@angular/core';
+import { AfterContentInit, AfterViewInit, Component, Input, Signal } from '@angular/core';
 import { InputCustomEvent, ModalController } from '@ionic/angular';
 import { cloneDeep } from 'lodash';
+import { isList } from 'src/app/functions/is-list/is-list.function';
 import { IListItem } from 'src/app/models/i-list-item';
 import { DefaultTask } from 'src/app/models/task';
 import { DailyTaskListService } from 'src/app/services/daily-task-list/daily-task-list.service';
@@ -10,11 +11,12 @@ import { DailyTaskListService } from 'src/app/services/daily-task-list/daily-tas
   templateUrl: './edit-task-modal.component.html',
   styleUrls: ['./edit-task-modal.component.scss'],
 })
-export class EditTaskModalComponent {
+export class EditTaskModalComponent implements AfterContentInit {
   @Input() listItem: Signal<IListItem>;
   newSubtaskPopupHeader: string;
   confirmationPopupHeader: string;
   nameUpdate: string | undefined;
+  headerTitle: string = '';
 
   public newSubtaskPopupInputs = [
     {
@@ -51,6 +53,11 @@ export class EditTaskModalComponent {
   ) {
     this.newSubtaskPopupHeader = 'New Subtask';
     this.confirmationPopupHeader = 'Are you sure?';
+  }
+
+  ngAfterContentInit(): void {
+    
+    this.headerTitle = isList(this.listItem()) ? 'Edit List' : 'Edit Task';
   }
 
   cancelClicked(): void {

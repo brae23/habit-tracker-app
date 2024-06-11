@@ -5,7 +5,7 @@ export function toTask(list: any): IListItem {
     id: list.id,
     name: list.name,
     completed: list.completed,
-    createdByUserId: list.createdByUserId,
+    createdByUserName: list.createdByUserName,
     parentListId: list.parentListId,
     isChildTask: false,
   };

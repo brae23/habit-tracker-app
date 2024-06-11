@@ -154,7 +154,7 @@ export class DailyTaskListService {
       priority: 6,
       completed: false,
       parentListId: 'listId1',
-      createdByUserId: 'User1',
+      createdByUserName: 'User1',
       recursOn: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
       isChildTask: false,
     };
@@ -166,7 +166,7 @@ export class DailyTaskListService {
       createdDate: Date.now(),
       completed: false,
       isCollapsed: true,
-      createdByUserId: 'User 1',
+      createdByUserName: 'User 1',
       isChildTask: false,
       listItems: [
         {
@@ -174,7 +174,7 @@ export class DailyTaskListService {
           parentListId: 'insetListId1',
           name: 'Task 1 Name',
           completed: false,
-          createdByUserId: 'User 1',
+          createdByUserName: 'User 1',
           isChildTask: true,
         },
         {
@@ -182,7 +182,7 @@ export class DailyTaskListService {
           parentListId: 'insetListId1',
           name: 'Task 2 Name',
           completed: false,
-          createdByUserId: 'User 1',
+          createdByUserName: 'User 1',
           isChildTask: true,
         },
         {
@@ -190,7 +190,7 @@ export class DailyTaskListService {
           parentListId: 'insetListId1',
           name: 'Task 3 Name',
           completed: true,
-          createdByUserId: 'User 1',
+          createdByUserName: 'User 1',
           isChildTask: true,
         },
         {
@@ -198,7 +198,7 @@ export class DailyTaskListService {
           parentListId: 'insetListId1',
           name: 'Task 4 Name',
           completed: true,
-          createdByUserId: 'User 1',
+          createdByUserName: 'User 1',
           isChildTask: true,
         },
         {
@@ -206,7 +206,7 @@ export class DailyTaskListService {
           parentListId: 'insetListId1',
           name: 'Task 5 Name',
           completed: false,
-          createdByUserId: 'User 1',
+          createdByUserName: 'User 1',
           isChildTask: true,
         },
       ],
@@ -219,7 +219,7 @@ export class DailyTaskListService {
       createdDate: Date.now(),
       completed: false,
       isCollapsed: true,
-      createdByUserId: 'User 1',
+      createdByUserName: 'User 1',
       isChildTask: false,
       listItems: [
         {
@@ -227,7 +227,7 @@ export class DailyTaskListService {
           parentListId: 'insetListId2',
           name: 'Task 1 Name',
           completed: false,
-          createdByUserId: 'User 1',
+          createdByUserName: 'User 1',
           isChildTask: true,
         },
         {
@@ -235,7 +235,7 @@ export class DailyTaskListService {
           parentListId: 'insetListId2',
           name: 'Task 2 Name',
           completed: false,
-          createdByUserId: 'User 1',
+          createdByUserName: 'User 1',
           isChildTask: true,
         },
         {
@@ -243,7 +243,7 @@ export class DailyTaskListService {
           parentListId: 'insetListId2',
           name: 'Task 3 Name',
           completed: true,
-          createdByUserId: 'User 1',
+          createdByUserName: 'User 1',
           isChildTask: true,
         },
         {
@@ -251,7 +251,7 @@ export class DailyTaskListService {
           parentListId: 'insetListId2',
           name: 'Task 4 Name',
           completed: true,
-          createdByUserId: 'User 1',
+          createdByUserName: 'User 1',
           isChildTask: true,
         },
         {
@@ -259,7 +259,7 @@ export class DailyTaskListService {
           parentListId: 'insetListId2',
           name: 'Task 5 Name',
           completed: false,
-          createdByUserId: 'User 1',
+          createdByUserName: 'User 1',
           isChildTask: true,
         },
       ],
@@ -275,7 +275,7 @@ export class DailyTaskListService {
       priority: 0,
       totalTaskCount: 5,
       completedTaskCount: 2,
-      createdByUserId: 'User 1',
+      createdByUserName: 'User 1',
       isChildTask: false,
       listItems: [
         {
@@ -284,7 +284,7 @@ export class DailyTaskListService {
           name: 'Task 1 Name',
           priority: 0,
           completed: false,
-          createdByUserId: 'User 1',
+          createdByUserName: 'User 1',
           isChildTask: false,
         },
         {
@@ -293,7 +293,7 @@ export class DailyTaskListService {
           name: 'Task 2 Name',
           priority: 1,
           completed: false,
-          createdByUserId: 'User 1',
+          createdByUserName: 'User 1',
           isChildTask: false,
         },
         {
@@ -302,7 +302,7 @@ export class DailyTaskListService {
           name: 'Task 3 Name',
           priority: 2,
           completed: true,
-          createdByUserId: 'User 1',
+          createdByUserName: 'User 1',
           isChildTask: false,
         },
         {
@@ -311,7 +311,7 @@ export class DailyTaskListService {
           name: 'Task 4 Name',
           priority: 3,
           completed: true,
-          createdByUserId: 'User 1',
+          createdByUserName: 'User 1',
           isChildTask: false,
         },
         testList1,
@@ -322,7 +322,7 @@ export class DailyTaskListService {
           name: 'Task 5 Name',
           priority: 5,
           completed: false,
-          createdByUserId: 'User 1',
+          createdByUserName: 'User 1',
           isChildTask: false,
         },
         habit1,

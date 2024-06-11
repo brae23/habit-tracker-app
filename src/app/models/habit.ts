@@ -6,7 +6,7 @@ export class Habit implements Task, IListItem {
   name: string;
   priority: number;
   completed: boolean;
-  createdByUserId: string;
+  createdByUserName: string;
   parentTaskId?: string;
   parentListId?: string;
   dueDate?: number;

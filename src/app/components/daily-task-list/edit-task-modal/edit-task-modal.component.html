@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-button (click)="cancelClicked()" color="danger">Cancel</ion-button>
     </ion-buttons>
-    <ion-title> Edit Task </ion-title>
+    <ion-title>{{ headerTitle }}</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="saveClicked()" color="primary">Save</ion-button>
     </ion-buttons>
@@ -42,7 +42,7 @@
         labelPlacement="stacked"
         label="Created By"
         readonly="true"
-        value="{{ listItem().createdByUserId }}"
+        value="{{ listItem().createdByUserName }}"
       ></ion-input>
     </ion-item>
     <ion-button
