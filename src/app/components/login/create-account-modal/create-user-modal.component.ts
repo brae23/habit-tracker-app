@@ -53,30 +53,22 @@ export class CreateUserModalComponent implements OnDestroy {
   }
 
   signupClicked(): void {
-    let userIsValid = this.usernameInputIsValid();
     let emailIsValid = this.emailInputIsValid();
     let passwordIsValid = this.passwordInputIsValid();
 
-    if (userIsValid && emailIsValid && passwordIsValid) {
+    if (emailIsValid && passwordIsValid) {
       this.authService
-        .createUser(this.username!, this.email!, this.password!)
+        .register(this.email!, this.password!)
         .pipe(takeUntil(this.ngUnsub$))
-        .subscribe((res) => {
-          if (res) {
+        .subscribe({
+          next: (_res) => {
             this.modalCtl.dismiss();
-            this.router.navigate(['/daily-task-list']);
+            this.router.navigate(['/login']);
+          },
+          error: (err) => {
+            console.error('Login failed:', err);
           }
-        });
-    }
-  }
-
-  private usernameInputIsValid(): boolean {
-    if (this.username == undefined || this.username.length < 1) {
-      this.shouldShowUsernameValueText = true;
-      return false;
-    } else {
-      this.shouldShowUsernameValueText = false;
-      return true;
+      });
     }
   }
 
@@ -95,9 +87,9 @@ export class CreateUserModalComponent implements OnDestroy {
       this.passwordsMustMatchText = 'Password is empty!';
       this.shouldShowPasswordMatchText = true;
       return false;
-    } else if (this.password.length < 12 || this.password.length > 128) {
+    } else if (this.password.length < 8 || this.password.length > 128) {
       this.passwordsMustMatchText =
-        'Password must be between 12 and 128 characters!';
+        'Password must be between 8 and 128 characters!';
       this.shouldShowPasswordMatchText = true;
       return false;
     } else if (this.passwordVerify != this.password) {

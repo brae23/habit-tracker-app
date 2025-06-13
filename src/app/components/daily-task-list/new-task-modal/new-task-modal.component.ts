@@ -25,7 +25,7 @@ export class NewTaskModalComponent {
         name: this.newTaskName,
         completed: false,
         isChildTask: false,
-        createdByUserName: this.authService.user$()?.userName!,
+        createdByUserName: "testUser", // Replace with actual user name from authService when implemented
       };
       this.dailyTaskListService.addListItem(newTaskItem);
     }

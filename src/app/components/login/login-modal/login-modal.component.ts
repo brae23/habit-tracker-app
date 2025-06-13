@@ -10,7 +10,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
   styleUrls: ['./login-modal.component.scss'],
 })
 export class LoginModalComponent implements OnDestroy {
-  username: string | undefined;
+  email: string | undefined;
   password: string | undefined;
   ngUnsub$: Subject<boolean> = new Subject<boolean>();
 
@@ -25,8 +25,8 @@ export class LoginModalComponent implements OnDestroy {
     this.ngUnsub$.complete();
   }
 
-  setUsername(ev: InputCustomEvent): void {
-    this.username = ev.detail.value!;
+  setEmail(ev: InputCustomEvent): void {
+    this.email = ev.detail.value!;
   }
 
   setPassword(ev: InputCustomEvent): void {
@@ -34,16 +34,19 @@ export class LoginModalComponent implements OnDestroy {
   }
 
   loginClicked(): void {
-    if (this.username && this.password) {
+    if (this.email && this.password) {
       this.authService
-        .login(this.username, this.password)
+        .login(this.email, this.password)
         .pipe(takeUntil(this.ngUnsub$))
-        .subscribe((res) => {
-          if (res) {
+        .subscribe({
+          next: (_res) => {
             this.modalCtl.dismiss();
             this.router.navigate(['/daily-task-list']);
+          },
+          error: (err) => {
+            console.error('Login failed:', err);
           }
-        });
+      });
     }
   }
 }

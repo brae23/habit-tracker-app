@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, WritableSignal, signal } from '@angular/core';
-import { BehaviorSubject, Observable, Subject, tap } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { User } from 'src/app/models/user';
 import { environment } from 'src/environments/environment';
 
@@ -9,54 +10,44 @@ import { environment } from 'src/environments/environment';
 })
 export class AuthService {
   userLoggedIn$: BehaviorSubject<boolean> = new BehaviorSubject(false);
-  user$: WritableSignal<User | undefined>;
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient, private router: Router) {
     this.userLoggedIn$.next(false);
-    this.user$ = signal(undefined);
   }
 
-  login(username: string, password: string): Observable<User> {
+  login(email: string, password: string): Observable<User> {
     let uri = `${environment.baseUrl}/api/auth/login`;
     let body = {
-      username: username,
+      email: email,
       password: password,
     };
     return this.httpClient.post<User>(uri, body).pipe(
-      tap((user) => {
-        this.userLoggedIn$.next(true);
-        this.user$.set(user);
-      }),
-    );
-  }
-
-  logout(): Observable<boolean> {
-    let uri = `${environment.baseUrl}/api/auth/logout`;
-    return this.httpClient.post<boolean>(uri, null).pipe(
       tap((_res) => {
-        this.userLoggedIn$.next(false);
-        this.user$.set(undefined);
+        this.userLoggedIn$.next(true);
       }),
     );
   }
 
-  createUser(
-    username: string,
+  register(
     email: string,
     password: string,
   ): Observable<User> {
-    let uri = `${environment.baseUrl}/api/auth/createUser`;
+    let uri = `${environment.baseUrl}/api/auth/register`;
     let body = {
-      username: username,
       email: email,
       password: password,
     };
 
     return this.httpClient.post<User>(uri, body).pipe(
-      tap((user) => {
-        this.userLoggedIn$.next(true);
-        this.user$.set(user);
+      tap((_res) => {
+        console.log('User registered successfully');
+        //TODO: add toast or notification for successful registration
       }),
     );
+  }
+
+  logout(): void {
+    document.cookie = 'HabitTracker.Application=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    this.userLoggedIn$.next(false);
   }
 }

@@ -27,13 +27,6 @@ export class UserProfilePage implements OnInit, OnDestroy {
   }
 
   logoutClicked(): void {
-    this.authService
-      .logout()
-      .pipe(takeUntil(this.ngUnsub$))
-      .subscribe((res) => {
-        if (res) {
-          this.router.navigate(['/login']);
-        }
-      });
+    this.authService.logout();
   }
 }
