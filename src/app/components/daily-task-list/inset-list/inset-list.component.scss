@@ -18,3 +18,14 @@
   padding-top: 10px;
   padding-bottom: 10px;
 }
+
+.collapsible-content {
+  max-height: 1000px; // Large enough for your content
+  overflow: hidden;
+  transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.collapsible-content.collapsed {
+  max-height: 0;
+  transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
