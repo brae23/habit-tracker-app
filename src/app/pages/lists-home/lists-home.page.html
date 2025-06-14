@@ -1,7 +1,7 @@
 <app-page-header [title]="title"></app-page-header>
 <ion-content>
-  <div class="ion-padding lp-header-container">
-    <ion-searchbar color="light"></ion-searchbar>
+  <div class="lp-search-box">
+    <ion-icon name="search-outline" class="lp-search-icon"></ion-icon>
   </div>
   <ng-container *ngFor="let taskList of listsList">
     <app-lp-list-anchor [taskList]="taskList"></app-lp-list-anchor>

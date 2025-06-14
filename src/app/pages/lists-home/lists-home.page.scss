@@ -1,15 +1,20 @@
-.lp-header-container {
-  height: 10%;
+.lp-search-box {
   display: flex;
   flex-direction: row;
-  align-content: center;
+  align-items: center;
+  height: 40px;
+  width: 80%;
+  max-width: 600px;
+  margin: 30px auto;
+  background-color: var(--ion-card-background);
+  border: 2px solid var(--ion-border-color);
+  border-radius: 20px;
 }
 
-.lp-header-filter-button {
-  justify-items: flex-start;
-  padding-left: 5px;
+.lp-search-icon {
+  margin-left: 10px;
+  color: var(--ion-text-color);
+  font-size: 24px;
 }
 
-.lp-header-searchbar-box {
-  justify-items: auto;
-}
+
