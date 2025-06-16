@@ -29,6 +29,7 @@ export class DailyTaskListPage implements OnInit {
   async onNewTaskClicked() {
     let editTaskModal = await this.modalCtl.create({
       component: NewTaskModalComponent,
+      showBackdrop: false,
     });
 
     editTaskModal.present();

@@ -1,24 +1,32 @@
-<ion-header>
-  <ion-toolbar class="ion-text-center">
-    <ion-buttons slot="start">
-      <ion-button (click)="cancelClicked()" color="danger">Cancel</ion-button>
-    </ion-buttons>
-    <ion-title>New Task</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="saveClicked()" color="primary">Save</ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
-<ion-content class="ion-padding ion-text-center">
-  <ion-item class="ion-padding">
-    <ion-input
-      color="primary"
-      labelPlacement="stacked"
-      label="Task name"
-      placeholder="New Task Name"
-      inputmode="text"
-      fill="solid"
-      (ionInput)="setName($any($event))"
-    ></ion-input>
-  </ion-item>
-</ion-content>
+<div class="main-div">
+  <div class="controls-box">
+    <h3 class="modal-header">New Task</h3>
+    <ion-item class="input-item-box">
+      <ion-input
+        labelPlacement="floating"
+        label="Name"
+        placeholder="New Task Name"
+        inputmode="text"
+        (ionInput)="setName($any($event))"
+      ></ion-input>
+    </ion-item>
+    <div class="button-box">
+      <ion-button
+        class="button"
+        (click)="saveClicked()"
+        color="primary"
+        fill="solid"
+        shape="round">
+        Save
+      </ion-button>
+      <ion-button
+        class="button"
+        (click)="cancelClicked()"
+        color="danger"
+        shape="round"
+        fill="clear">
+        Cancel
+      </ion-button>
+    </div>
+  </div>
+</div>

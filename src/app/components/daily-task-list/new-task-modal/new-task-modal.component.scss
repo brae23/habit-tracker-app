@@ -1,0 +1,43 @@
+.input-box {
+    width: 80%;
+    max-width: 400px;
+}
+
+.main-div {
+    height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.controls-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 400px;
+    width: 80%;
+    background: var(--ion-card-background);
+    border: 2px solid var(--ion-border-color);
+    border-radius: 20px;
+}
+
+.button-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    width: 100%;
+}
+
+.button {
+  width: 50%;
+  max-width: 300px;
+}
+
+.title-box {
+    margin-top: 30px;
+}
