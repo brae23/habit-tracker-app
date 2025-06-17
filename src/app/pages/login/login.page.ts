@@ -14,6 +14,7 @@ export class LoginPage {
   async openLoginModal() {
     let loginModal = await this.modalCtl.create({
       component: LoginModalComponent,
+      canDismiss: true,
     });
 
     loginModal.present();
@@ -22,6 +23,7 @@ export class LoginPage {
   async openSignupModal() {
     let signupModal = await this.modalCtl.create({
       component: CreateUserModalComponent,
+      canDismiss: true,
     });
 
     signupModal.present();

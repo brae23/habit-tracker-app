@@ -134,3 +134,26 @@ button.alert-button.alert-button-save {
   padding-top: 5px;
   padding-bottom: 15px;
 }
+
+.habitly-icon {
+  display: block;
+  margin: 1.5rem auto;
+  width: 50%;
+  max-width: 300px;
+}
+
+.light-mode-icon {
+  display: block;
+}
+.dark-mode-icon {
+  display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  .light-mode-icon {
+    display: none;
+  }
+  .dark-mode-icon {
+    display: block;
+  }
+}

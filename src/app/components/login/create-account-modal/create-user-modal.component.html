@@ -1,61 +1,62 @@
-<div class="login-input-box">
-  <h3 class="login-header">Create Account</h3>
-  <ion-item class="login-item-box">
-    <ion-input
-      label="Email"
-      labelPlacement="floating"
-      type="email"
+<div class="main-div">
+  <div class="icon-div">
+    <img src="..\..\assets/icon/habitly-full-logo.svg" alt="Habitly Light Icon" class="habitly-icon light-mode-icon" />
+    <img src="..\..\assets/icon/habitly-full-logo-dark.svg" alt="Habitly Dark Icon" class="habitly-icon dark-mode-icon" />
+  </div>
+  <div class="login-input-box">
+    <h3 class="modal-header">Create Account</h3>
+    <ion-item class="input-item-box">
+      <ion-input
+        label="Email"
+        labelPlacement="floating"
+        type="email"
+        (ionInput)="setEmail($any($event))"
+      ></ion-input>
+    </ion-item>
+    <ion-item class="input-item-box">
+      <ion-input
+        label="Password"
+        labelPlacement="floating"
+        type="password"
+        autocomplete="off"
+        pattern="password"
+        minLength="12"
+        maxLength="128"
+        (ionInput)="setPassword($any($event))"
+      ></ion-input>
+    </ion-item>
+    <ion-item class="input-item-box">
+      <ion-input
+        label="Re-enter password"
+        labelPlacement="floating"
+        type="password"
+        autocomplete="off"
+        (ionInput)="setPasswordVerify($any($event))"
+      ></ion-input>
+    </ion-item>
+    <ng-container *ngIf="shouldShowUsernameValueText">
+      <ion-text color="danger" class="login-password-text">{{
+        usernameValueText
+      }}</ion-text>
+    </ng-container>
+    <ng-container *ngIf="shouldShowEmailValueText">
+      <ion-text color="danger" class="login-password-text">{{
+        emailValueText
+      }}</ion-text>
+    </ng-container>
+    <ng-container *ngIf="shouldShowPasswordMatchText">
+      <ion-text color="danger" class="login-password-text">{{
+        passwordsMustMatchText
+      }}</ion-text>
+    </ng-container>
+    <ion-button
+      class="login-button"
+      color="primary"
+      fill="solid"
       shape="round"
-      error-text="Please enter a valid email"
-      (ionInput)="setEmail($any($event))"
-      email
-    ></ion-input>
-  </ion-item>
-  <ion-item class="login-item-box">
-    <ion-input
-      label="Password"
-      labelPlacement="floating"
-      type="password"
-      autocomplete="off"
-      shape="round"
-      pattern="password"
-      minLength="12"
-      maxLength="128"
-      (ionInput)="setPassword($any($event))"
-    ></ion-input>
-  </ion-item>
-  <ion-item class="login-item-box">
-    <ion-input
-      label="Re-enter password"
-      labelPlacement="floating"
-      type="password"
-      autocomplete="off"
-      shape="round"
-      (ionInput)="setPasswordVerify($any($event))"
-    ></ion-input>
-  </ion-item>
-  <ng-container *ngIf="shouldShowUsernameValueText">
-    <ion-text color="danger" class="login-password-text">{{
-      usernameValueText
-    }}</ion-text>
-  </ng-container>
-  <ng-container *ngIf="shouldShowEmailValueText">
-    <ion-text color="danger" class="login-password-text">{{
-      emailValueText
-    }}</ion-text>
-  </ng-container>
-  <ng-container *ngIf="shouldShowPasswordMatchText">
-    <ion-text color="danger" class="login-password-text">{{
-      passwordsMustMatchText
-    }}</ion-text>
-  </ng-container>
-  <ion-button
-    class="login-button"
-    color="primary"
-    fill="solid"
-    shape="round"
-    (click)="signupClicked()"
-  >
-    Sign Up
-  </ion-button>
+      (click)="signupClicked()"
+    >
+      Sign Up
+    </ion-button>
+  </div>
 </div>
