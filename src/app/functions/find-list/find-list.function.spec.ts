@@ -1,10 +1,10 @@
 import { getMockDailyTaskList } from 'src/test/daily-task-list.service.utils';
-import { TaskList } from '../../models/task-list';
+import { List } from '../../models/list';
 import { findListItemArray } from './find-list.function';
 import { IListItem } from '../../models/i-list-item';
 
 describe('FindList Function', () => {
-  let taskList: TaskList = getMockDailyTaskList();
+  let taskList: List = getMockDailyTaskList();
 
   it('should return task list if id matches', () => {
     // Arrange

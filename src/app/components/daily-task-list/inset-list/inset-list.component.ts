@@ -15,7 +15,7 @@ import { CdkDrag, CdkDropList } from '@angular/cdk/drag-drop';
 import { NestedDragDropService } from 'src/app/services/nested-drag-drop/nested-drag-drop.service';
 import { ModalController } from '@ionic/angular';
 import { EditTaskModalComponent } from '../edit-task-modal/edit-task-modal.component';
-import { DailyTaskListService } from 'src/app/services/daily-task-list/daily-task-list.service';
+import { List } from 'src/app/models/list';
 
 @Component({
   selector: 'app-daily-task-list-inset-list',
@@ -23,7 +23,7 @@ import { DailyTaskListService } from 'src/app/services/daily-task-list/daily-tas
   styleUrls: ['./inset-list.component.scss'],
 })
 export class InsetListComponent implements OnInit, OnDestroy, OnChanges {
-  @Input() listItemId: string;
+  @Input() list: List;
   @ViewChild(CdkDropList) set dropList(list: CdkDropList) {
     if (list) {
       this.nestedDragDropService.register(list);
@@ -39,13 +39,11 @@ export class InsetListComponent implements OnInit, OnDestroy, OnChanges {
 
   constructor(
     public nestedDragDropService: NestedDragDropService,
-    private dailyTaskListService: DailyTaskListService,
     private modalCtl: ModalController,
   ) {}
 
   ngOnInit(): void {
-    this.taskList = this.dailyTaskListService.getListItem(this.listItemId);
-    this.listLength = computed(() => this.taskList().listItems?.length!);
+    this.listLength = computed(() => this.list.tasks.length + this.list.sublists.length);
     this.completedTaskCount = signal(0);
     this.connectedLists = this.nestedDragDropService.dropLists$();
     this.evaluateCompletedState();
@@ -66,11 +64,11 @@ export class InsetListComponent implements OnInit, OnDestroy, OnChanges {
   };
 
   listItemClickedEvent(listItem: IListItem): void {
-    this.dailyTaskListService.updateListItemCompletedState(
-      listItem.id,
-      this.taskList().id,
-      !listItem.completed,
-    );
+    // this.dailyTaskListService.updateListItemCompletedState(
+    //   listItem.id,
+    //   this.taskList().id,
+    //   !listItem.completed,
+    // );
   }
 
   onListClicked(): void {
@@ -96,14 +94,14 @@ export class InsetListComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private evaluateCompletedState(): void {
-    this.completedTaskCount = computed(() => {
-      let completedTaskCount: number = 0;
-      this.taskList().listItems?.forEach((item: IListItem) => {
-        if (item.completed) {
-          completedTaskCount++;
-        }
-      });
-      return completedTaskCount;
-    });
+    // this.completedTaskCount = computed(() => {
+    //   let completedTaskCount: number = 0;
+    //   this.taskList().listItems?.forEach((item: IListItem) => {
+    //     if (item.completed) {
+    //       completedTaskCount++;
+    //     }
+    //   });
+    //   return completedTaskCount;
+    // });
   }
 }

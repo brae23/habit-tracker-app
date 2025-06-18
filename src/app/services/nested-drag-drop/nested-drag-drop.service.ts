@@ -4,11 +4,15 @@ import {
   CdkDragMove,
   CdkDragRelease,
   CdkDropList,
+  moveItemInArray,
+  transferArrayItem,
 } from '@angular/cdk/drag-drop';
 import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable, WritableSignal, signal } from '@angular/core';
-import { IListItem } from '../../models/i-list-item';
-import { DailyTaskListService } from '../daily-task-list/daily-task-list.service';
+import { IListItem } from 'src/app/models/i-list-item';
+import { ListService } from '../list/list.service';
+import { TaskService } from '../task/task.service';
+import { findListItemArray } from 'src/app/functions/find-list/find-list.function';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +23,8 @@ export class NestedDragDropService {
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
-    private dailyTaskListService: DailyTaskListService,
+    private listService: ListService,
+    private taskService: TaskService
   ) {
     this.dropLists$ = signal([]);
   }
@@ -82,6 +87,36 @@ export class NestedDragDropService {
   }
 
   drop(event: CdkDragDrop<IListItem[]>) {
-    this.dailyTaskListService.handleItemIndexReorder(event);
+    this.handleItemIndexReorder(event);
+  }
+
+  handleItemIndexReorder(ev: CdkDragDrop<IListItem[]>): void {
+    let listId = ev.container.id;
+    let previousListId = ev.previousContainer.id;
+
+    // this.dailyTaskList$.update((taskList) => {
+    //   if (ev.previousContainer === ev.container) {
+    //     moveItemInArray(
+    //       findListItemArray(taskList, listId)!,
+    //       ev.previousIndex,
+    //       ev.currentIndex,
+    //     );
+    //   } else {
+    //     let previousList = findListItemArray(taskList, previousListId);
+    //     transferArrayItem(
+    //       previousList!,
+    //       findListItemArray(taskList, listId)!,
+    //       ev.previousIndex,
+    //       ev.currentIndex,
+    //     );
+    //     if (previousList!.length == 0) {
+    //       taskList.listItems.map((x) =>
+    //         x.id == previousListId ? toTask(previousList) : x,
+    //       );
+    //     }
+    //   }
+
+    //   return taskList;
+    // });
   }
 }

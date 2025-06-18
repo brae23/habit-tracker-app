@@ -1,8 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { InputCustomEvent, ModalController } from '@ionic/angular';
-import { IListItem } from 'src/app/models/i-list-item';
-import { AuthService } from 'src/app/services/auth/auth.service';
-import { DailyTaskListService } from 'src/app/services/daily-task-list/daily-task-list.service';
+import { TaskService } from 'src/app/services/task/task.service';
+import { Task } from 'src/app/models/task';
 
 @Component({
   selector: 'app-new-task-modal',
@@ -10,24 +9,22 @@ import { DailyTaskListService } from 'src/app/services/daily-task-list/daily-tas
   styleUrls: ['./new-task-modal.component.scss'],
 })
 export class NewTaskModalComponent {
+  @Input() listId: string | undefined;
+
   newTaskName: string | undefined;
 
   constructor(
     private modalCtl: ModalController,
-    private dailyTaskListService: DailyTaskListService,
-    private authService: AuthService,
+    private taskService: TaskService,
   ) {}
 
   saveClicked() {
     if (this.newTaskName && this.newTaskName.length > 0) {
-      let newTaskItem: IListItem = {
-        id: this.newTaskName,
+      let newTaskItem: Partial<Task> = {
         name: this.newTaskName,
-        completed: false,
-        isChildTask: false,
-        createdByUserName: "testUser", // Replace with actual user name from authService when implemented
+        parentListId: this.listId,
       };
-      this.dailyTaskListService.addListItem(newTaskItem);
+      this.taskService.createTask(newTaskItem);
     }
 
     this.modalCtl.dismiss(null, 'confirm');

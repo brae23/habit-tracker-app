@@ -1,7 +1,8 @@
-import { IListItem } from '../../models/i-list-item';
+import { IListItem } from "src/app/models/i-list-item";
+
 
 export function isList(listItem: IListItem): boolean {
   return (
-    listItem.hasOwnProperty('listItems') && listItem.listItems?.length! > 0
+    listItem.hasOwnProperty('tasks')
   );
 }

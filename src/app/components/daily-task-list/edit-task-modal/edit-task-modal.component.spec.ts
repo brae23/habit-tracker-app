@@ -5,7 +5,7 @@ import { EditTaskModalComponent } from './edit-task-modal.component';
 import { DailyTaskListService } from 'src/app/services/daily-task-list/daily-task-list.service';
 import { getMockDailyTaskList } from 'src/test/daily-task-list.service.utils';
 import { WritableSignal, signal } from '@angular/core';
-import { TaskList } from 'src/app/models/task-list';
+import { List } from 'src/app/models/list';
 import { IListItem } from 'src/app/models/i-list-item';
 import { cloneDeep } from 'lodash';
 import { DefaultTask } from 'src/app/models/task';
@@ -15,7 +15,7 @@ describe('EditTaskModalComponent', () => {
   let fixture: ComponentFixture<EditTaskModalComponent>;
   let modalControllerMock: Partial<ModalController>;
   let dailyTaskListServiceMock: Partial<DailyTaskListService>;
-  let dailyTaskListMock: WritableSignal<TaskList>;
+  let dailyTaskListMock: WritableSignal<List>;
 
   beforeEach(waitForAsync(() => {
     dailyTaskListMock = signal(getMockDailyTaskList());

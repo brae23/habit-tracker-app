@@ -3,6 +3,7 @@ import {
   Component,
   ElementRef,
   Input,
+  OnDestroy,
   OnInit,
   QueryList,
   Signal,
@@ -14,38 +15,53 @@ import { IListItem } from 'src/app/models/i-list-item';
 import { NestedDragDropService } from 'src/app/services/nested-drag-drop/nested-drag-drop.service';
 import { ModalController } from '@ionic/angular';
 import { EditTaskModalComponent } from '../edit-task-modal/edit-task-modal.component';
-import { DailyTaskListService } from 'src/app/services/daily-task-list/daily-task-list.service';
+import { Task } from 'src/app/models/task';
+import { TaskService } from 'src/app/services/task/task.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-daily-task-list-list-item',
   templateUrl: './list-item.component.html',
   styleUrls: ['./list-item.component.scss'],
 })
-export class ListItemComponent implements OnInit {
+export class ListItemComponent implements OnInit, OnDestroy {
   @ViewChildren('listItemContainer') listItemContainer: QueryList<ElementRef>;
-  @Input() listItemId: string;
-  listItem: Signal<IListItem>;
+  @Input() task: Task;
   isListItemCompleted: Signal<boolean>;
+  ngUnsub$: Subject<boolean> = new Subject<boolean>();
 
   isList = isList;
 
   constructor(
-    private dailyTaskListService: DailyTaskListService,
     private nestedDragDropService: NestedDragDropService,
     private modalCtl: ModalController,
+    private taskService: TaskService,
   ) {}
 
   ngOnInit(): void {
-    this.listItem = this.dailyTaskListService.getListItem(this.listItemId);
-    this.isListItemCompleted = computed(() => this.listItem().completed);
+    this.isListItemCompleted = computed(() => this.task.completed);
+  }
+
+   ngOnDestroy(): void {
+    this.ngUnsub$.next(true);
+    this.ngUnsub$.complete();
   }
 
   onListItemClickedEvent() {
-    this.dailyTaskListService.updateListItemCompletedState(
-      this.listItemId,
-      undefined,
-      !this.isListItemCompleted(),
-    );
+    console.log('List item clicked:', this.task.name);
+    this.task.completed = !this.task.completed;
+    this.taskService.updateTask(this.task)
+      .pipe(takeUntil(this.ngUnsub$))
+      .subscribe({
+        next: () => {
+          // Task updated successfully
+          this.isListItemCompleted = computed(() => this.task.completed);
+        },
+        error: (err) => {
+          console.error('Error updating task:', err);
+          // TODO: Add error handling logic here, such as showing a toast or alert
+        }
+      });
   }
 
   dragMoved(event: CdkDragMove<IListItem>) {
@@ -59,9 +75,8 @@ export class ListItemComponent implements OnInit {
   async itemEditClicked() {
     let editTaskModal = await this.modalCtl.create({
       component: EditTaskModalComponent,
-
       componentProps: {
-        ['listItem']: this.listItem,
+        ['task']: this.task,
       },
     });
 

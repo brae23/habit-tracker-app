@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { TaskList } from 'src/app/models/task-list';
+import { List } from 'src/app/models/list';
 
 @Component({
   selector: 'app-lp-list-anchor',
@@ -7,7 +7,7 @@ import { TaskList } from 'src/app/models/task-list';
   styleUrls: ['./list-anchor.component.scss'],
 })
 export class ListAnchorComponent {
-  @Input() taskList: TaskList;
+  @Input() taskList: List;
 
   constructor() {}
 }

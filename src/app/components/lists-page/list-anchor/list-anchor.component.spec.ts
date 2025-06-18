@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { ListAnchorComponent } from './list-anchor.component';
-import { TaskList } from 'src/app/models/task-list';
+import { List } from 'src/app/models/list';
 
 describe('ListAnchorComponent', () => {
   let component: ListAnchorComponent;
@@ -17,7 +17,7 @@ describe('ListAnchorComponent', () => {
     fixture = TestBed.createComponent(ListAnchorComponent);
     component = fixture.componentInstance;
 
-    component.taskList = { name: '' } as TaskList;
+    component.taskList = { name: '' } as List;
 
     fixture.detectChanges();
   }));

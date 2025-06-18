@@ -1,7 +1,7 @@
 import { IListItem } from './i-list-item';
-import { TaskList } from './task-list';
+import { List } from './list';
 
-export class HabitList implements TaskList {
+export class HabitList implements List {
   id: string;
   name: string;
   priority: number;

@@ -1,6 +1,6 @@
 <app-page-header [title]="title"></app-page-header>
 <ion-content>
-  <app-daily-task-list></app-daily-task-list>
+  <app-daily-task-list [taskList]="dailyTaskList$"></app-daily-task-list>
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button (click)="onNewTaskClicked()">
       <ion-icon name="add-outline"></ion-icon>

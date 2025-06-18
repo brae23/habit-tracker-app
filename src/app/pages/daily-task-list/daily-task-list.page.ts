@@ -1,9 +1,12 @@
 import { CdkDropList } from '@angular/cdk/drag-drop';
 import { DatePipe } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, Signal, ViewChild, WritableSignal, signal } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { Subject, takeUntil } from 'rxjs';
 import { NewTaskModalComponent } from 'src/app/components/daily-task-list/new-task-modal/new-task-modal.component';
 import { IListItem } from 'src/app/models/i-list-item';
+import { List } from 'src/app/models/list';
+import { ListService } from 'src/app/services/list/list.service';
 
 @Component({
   selector: 'app-daily-task-list-page',
@@ -15,21 +18,38 @@ export class DailyTaskListPage implements OnInit {
   testUserId: string = 'TestUserId1';
   listReorderingTemp: IListItem;
   title: string;
-  dailyTaskList: any;
+  dailyTaskList$: WritableSignal<List>;
+  ngUnsub$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private modalCtl: ModalController,
     private datePipe: DatePipe,
+    private listService: ListService,
   ) {}
 
   ngOnInit() {
     this.title = this.datePipe.transform(Date.now(), 'mediumDate')!;
+
+    this.listService.getDailyTaskList()
+      .pipe(takeUntil(this.ngUnsub$))
+      .subscribe({
+          next: (list: List) => {
+            this.dailyTaskList$ = signal(list);
+          },
+          error: (err) => {
+            console.error('Error retrieving daily task list:', err);
+            // TODO: Add error handling logic here, such as showing a toast or alert
+          }
+      });
   }
 
   async onNewTaskClicked() {
     let editTaskModal = await this.modalCtl.create({
       component: NewTaskModalComponent,
       showBackdrop: false,
+      componentProps: {
+        listId: this.dailyTaskList$().id,
+      },
     });
 
     editTaskModal.present();

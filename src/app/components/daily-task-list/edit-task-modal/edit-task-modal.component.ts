@@ -3,20 +3,20 @@ import { InputCustomEvent, ModalController } from '@ionic/angular';
 import { cloneDeep } from 'lodash';
 import { isList } from 'src/app/functions/is-list/is-list.function';
 import { IListItem } from 'src/app/models/i-list-item';
-import { DefaultTask } from 'src/app/models/task';
-import { DailyTaskListService } from 'src/app/services/daily-task-list/daily-task-list.service';
+import { Task } from 'src/app/models/task';
+import { TaskService } from 'src/app/services/task/task.service';
 
 @Component({
   selector: 'app-edit-task-modal',
   templateUrl: './edit-task-modal.component.html',
   styleUrls: ['./edit-task-modal.component.scss'],
 })
-export class EditTaskModalComponent implements AfterContentInit {
-  @Input() listItem: Signal<IListItem>;
+export class EditTaskModalComponent {
+  @Input() task: Task;
   newSubtaskPopupHeader: string;
   confirmationPopupHeader: string;
   nameUpdate: string | undefined;
-  headerTitle: string = '';
+  headerTitle: string = 'Edit Task';
 
   public newSubtaskPopupInputs = [
     {
@@ -49,15 +49,10 @@ export class EditTaskModalComponent implements AfterContentInit {
 
   constructor(
     private modalCtl: ModalController,
-    private dailyTaskListService: DailyTaskListService,
+    private taskService: TaskService
   ) {
     this.newSubtaskPopupHeader = 'New Subtask';
     this.confirmationPopupHeader = 'Are you sure?';
-  }
-
-  ngAfterContentInit(): void {
-    
-    this.headerTitle = isList(this.listItem()) ? 'Edit List' : 'Edit Task';
   }
 
   cancelClicked(): void {
@@ -65,10 +60,10 @@ export class EditTaskModalComponent implements AfterContentInit {
   }
 
   saveClicked(): void {
-    if (this.nameUpdate && this.nameUpdate !== this.listItem().name) {
-      let listItemClone = cloneDeep(this.listItem());
-      listItemClone.name = this.nameUpdate;
-      this.dailyTaskListService.updateListItem(listItemClone);
+    if (this.nameUpdate && this.nameUpdate !== this.task.name) {
+      let taskClone = cloneDeep(this.task);
+      taskClone.name = this.nameUpdate;
+      this.taskService.updateTask(taskClone);
     }
 
     this.modalCtl.dismiss(null, 'confirm');
@@ -80,14 +75,7 @@ export class EditTaskModalComponent implements AfterContentInit {
 
   onDeletePopupDismissed(ev: any): void {
     if (ev.detail.role === 'confirm') {
-      if (this.listItem().isChildTask) {
-        this.dailyTaskListService.removeListItem(
-          this.listItem().id,
-          this.listItem().parentListId!,
-        );
-      } else {
-        this.dailyTaskListService.removeListItem(this.listItem().id);
-      }
+      this.taskService.deleteTask(this.task.id);
 
       this.modalCtl.dismiss(null, 'confirm');
     }
@@ -95,17 +83,17 @@ export class EditTaskModalComponent implements AfterContentInit {
 
   onNewTaskPopupDismissed(ev: any): void {
     if (ev.detail.role === 'confirm') {
-      let newSubtaskItemName = ev.detail.data.values[0];
+      // let newSubtaskItemName = ev.detail.data.values[0];
 
-      if (newSubtaskItemName.length < 1) {
-        return;
-      }
+      // if (newSubtaskItemName.length < 1) {
+      //   return;
+      // }
 
-      let newSubtaskItem: IListItem = DefaultTask;
-      newSubtaskItem.name = newSubtaskItemName;
-      newSubtaskItem.isChildTask = true;
+      // let newSubtaskItem: Task = DefaultTask;
+      // newSubtaskItem.name = newSubtaskItemName;
+      // newSubtaskItem.isChildTask = true;
 
-      this.dailyTaskListService.addListItem(newSubtaskItem, this.listItem().id);
+      // this.dailyTaskListService.addListItem(newSubtaskItem, this.listItem().id);
 
       this.modalCtl.dismiss(null, 'confirm');
     }

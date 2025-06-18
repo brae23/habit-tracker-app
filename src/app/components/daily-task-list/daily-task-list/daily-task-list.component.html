@@ -2,26 +2,25 @@
   <ion-card-content class="dtl-main-content">
     <div
       cdkDropList
-      id="{{ taskList.id }}"
+      id="{{ taskList().id }}"
       class="dtl-list-box-drag main-list-div"
       (cdkDropListDropped)="onItemDropped($event)"
-      [cdkDropListData]="taskList!.listItems"
+      [cdkDropListData]="taskList().tasks"
       [cdkDropListConnectedTo]="connectedLists"
       [cdkDropListEnterPredicate]="allowDropPredicate"
     >
-      <ng-container *ngIf="taskList!.listItems.length > 0">
-        <ng-container *ngFor="let item of taskList!.listItems">
+      <ng-container *ngIf="taskList().tasks.length > 0">
+        <ng-container *ngFor="let task of taskList().tasks">
           <app-daily-task-list-list-item
-            [listItemId]="item.id"
+            [task]="task"
           ></app-daily-task-list-list-item>
         </ng-container>
       </ng-container>
-      <ng-container *ngIf="taskList!.listItems.length === 0">
+      <ng-container *ngIf="taskList().tasks.length === 0">
         <div class="ion-text-center ion-padding">
-          <ion-text
-            >Your daily task list is empty. Create a task below to
-            start!</ion-text
-          >
+          <ion-text>
+            Your daily task list is empty. Create a task below to start!
+          </ion-text>
         </div>
       </ng-container>
     </div>

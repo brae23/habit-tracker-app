@@ -1,7 +1,7 @@
 <div
   cdkDrag
   class="dtl-list-box inset-list-header"
-  [cdkDragData]="taskList()"
+  [cdkDragData]="list"
   [cdkDragDisabled]="!isCollapsed"
 >
   <div class="dtl-list-clickable-box" (click)="onListClicked()">
@@ -15,7 +15,7 @@
       name="chevron-up-outline"
       *ngIf="!isCollapsed"
     ></ion-icon>
-    <p class="dtl-item-name">{{ taskList().name }}</p>
+    <p class="dtl-item-name">{{ list.name }}</p>
   </div>
   <p>{{ completedTaskCount() }}/{{ listLength() }}</p>
   <ion-icon
@@ -30,35 +30,35 @@
 >
   <div
     cdkDropList
-    id="{{ taskList().id }}"
+    id="{{ list.id }}"
     class="dtl-list-box-drag inset-list-box"
     (cdkDropListDropped)="onItemDropped($event)"
-    [cdkDropListData]="taskList().listItems!"
+    [cdkDropListData]="list.tasks"
     [cdkDropListConnectedTo]="connectedLists"
     [cdkDropListEnterPredicate]="allowDropPredicate"
   >
     <div
       cdkDrag
-      *ngFor="let item of taskList().listItems; index as i"
+      *ngFor="let task of list.tasks; index as i"
       class="dtl-list-box inset-list-item"
-      [cdkDragData]="item"
+      [cdkDragData]="task"
       (cdkDragMoved)="nestedDragDropService.dragMoved($event)"
       (cdkDragReleased)="nestedDragDropService.dragReleased($event)"
-      id="{{ item.id }}"
+      id="{{ task.id }}"
     >
-      <div class="dtl-list-clickable-box" (click)="listItemClickedEvent(item)">
+      <div class="dtl-list-clickable-box" (click)="listItemClickedEvent(task)">
         <ion-checkbox
           class="dtl-list-checkbox"
           justify="start"
           labelPlacement="end"
-          [checked]="item.completed"
+          [checked]="task.completed"
         ></ion-checkbox>
-        <p class="dtl-item-name">{{ item.name }}</p>
+        <p class="dtl-item-name">{{ task.name }}</p>
       </div>
       <ion-icon
         class="dtl-list-icons dtl-edit-icon"
         name="ellipsis-vertical-outline"
-        (click)="itemEditClicked(item)"
+        (click)="itemEditClicked(task)"
       ></ion-icon>
     </div>
   </div>
