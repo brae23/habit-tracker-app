@@ -1,5 +1,5 @@
 <ion-content>
-  <div class="main-div">
+  <div class="main-div" *ngIf="!shouldShowLogin && !shouldShowSignup">
     <img src="..\..\assets/icon/habitly-full-logo.svg" alt="Habitly Light Icon" class="habitly-icon light-mode-icon" />
     <img src="..\..\assets/icon/habitly-full-logo-dark.svg" alt="Habitly Dark Icon" class="habitly-icon dark-mode-icon" />
     <ion-button
@@ -20,5 +20,11 @@
     >
       Sign up
     </ion-button>
+  </div>
+  <div class="login-modal" *ngIf="shouldShowLogin">
+    <app-login-modal (loginSuccess)="onLoginSuccess()"></app-login-modal>
+  </div>
+  <div class="signup-modal" *ngIf="shouldShowSignup">
+    <app-create-user-modal (signupSuccess)="onSignupSuccess()"></app-create-user-modal>
   </div>
 </ion-content>

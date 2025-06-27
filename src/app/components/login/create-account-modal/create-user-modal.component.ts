@@ -1,5 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, EventEmitter, OnDestroy, Output } from '@angular/core';
 import { InputCustomEvent, ModalController } from '@ionic/angular';
 import { Subject, takeUntil } from 'rxjs';
 import { AuthService } from 'src/app/services/auth/auth.service';
@@ -21,11 +20,11 @@ export class CreateUserModalComponent implements OnDestroy {
   shouldShowEmailValueText: boolean = false;
   passwordsMustMatchText: string;
   shouldShowPasswordMatchText: boolean = false;
+  @Output() signupSuccess: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(
     private authService: AuthService,
-    private router: Router,
-    private modalCtl: ModalController,
+    private modalCtl: ModalController
   ) {
     this.usernameValueText = 'Username is empty!';
     this.emailValueText = 'Email is empty!';
@@ -62,11 +61,11 @@ export class CreateUserModalComponent implements OnDestroy {
         .pipe(takeUntil(this.ngUnsub$))
         .subscribe({
           next: (_res) => {
-            this.modalCtl.dismiss();
-            this.router.navigate(['/login']);
+            this.signupSuccess.emit();
           },
           error: (err) => {
-            console.error('Login failed:', err);
+            // Todo: Handle error appropriately, e.g., show a toast or alert
+            console.error('Signup failed:', err);
           }
       });
     }

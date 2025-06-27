@@ -1,14 +1,12 @@
 <app-page-header [title]="title"></app-page-header>
-<ion-content>
-  <div class="lp-search-box">
-    <ion-icon name="search-outline" class="lp-search-icon"></ion-icon>
-  </div>
-  <ng-container *ngFor="let taskList of listsList">
-    <app-lp-list-anchor [taskList]="taskList"></app-lp-list-anchor>
-  </ng-container>
-  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-    <ion-fab-button (click)="onNewListClicked()">
-      <ion-icon name="add-outline"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
-</ion-content>
+<div class="lp-search-box">
+  <ion-icon name="search-outline" class="lp-search-icon"></ion-icon>
+</div>
+<ng-container *ngFor="let taskList of listsList">
+  <app-lp-list-anchor [taskList]="taskList"></app-lp-list-anchor>
+</ng-container>
+<ion-fab slot="fixed" vertical="bottom" horizontal="end">
+  <ion-fab-button (click)="onNewListClicked()">
+    <ion-icon name="add-outline"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
