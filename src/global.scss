@@ -110,9 +110,29 @@ button.alert-button.alert-button-save {
 
 // Login modal
 
-.login-button {
-  margin-top: 30px;
-  margin-bottom: 30px
+.login-modal-button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-modal-action-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 60px;
+  padding-bottom: 30px
+}
+
+.modal-main-div {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  margin-top: 10vh;
 }
 
 .login-input-box {

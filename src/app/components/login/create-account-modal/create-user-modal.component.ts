@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnDestroy, Output } from '@angular/core';
-import { InputCustomEvent, ModalController } from '@ionic/angular';
+import { InputCustomEvent } from '@ionic/angular';
 import { Subject, takeUntil } from 'rxjs';
 import { AuthService } from 'src/app/services/auth/auth.service';
 
@@ -21,10 +21,10 @@ export class CreateUserModalComponent implements OnDestroy {
   passwordsMustMatchText: string;
   shouldShowPasswordMatchText: boolean = false;
   @Output() signupSuccess: EventEmitter<void> = new EventEmitter<void>();
+  @Output() canceled: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(
-    private authService: AuthService,
-    private modalCtl: ModalController
+    private authService: AuthService
   ) {
     this.usernameValueText = 'Username is empty!';
     this.emailValueText = 'Email is empty!';
@@ -69,6 +69,10 @@ export class CreateUserModalComponent implements OnDestroy {
           }
       });
     }
+  }
+
+  cancelClicked(): void {
+    this.canceled.emit();
   }
 
   private emailInputIsValid(): boolean {

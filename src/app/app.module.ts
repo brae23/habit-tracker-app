@@ -6,7 +6,7 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { HttpErrorInterceptor } from './utils/error.interceptor';
 import { AddOptionsInterceptor } from './utils/add-options.interceptor';
@@ -17,7 +17,7 @@ import { AddOptionsInterceptor } from './utils/add-options.interceptor';
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    NoopAnimationsModule,
+    BrowserAnimationsModule,
     HttpClientModule,
   ],
   providers: [
