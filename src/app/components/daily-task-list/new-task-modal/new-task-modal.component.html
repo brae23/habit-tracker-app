@@ -10,6 +10,20 @@
         (ionInput)="setName($any($event))"
       ></ion-input>
     </ion-item>
+    <ion-item class="input-item-box priority-select-box">
+      <ion-select
+        color="primary"
+        label="Priority"
+        labelPlacement="floating"
+        placeholder="Select Priority"
+        [(ngModel)]="newTaskPriority"
+      >
+        <ion-select-option value="0">Low</ion-select-option>
+        <ion-select-option value="1">Medium</ion-select-option>
+        <ion-select-option value="2">High</ion-select-option>
+        <ion-select-option value="3">Urgent</ion-select-option>
+      </ion-select>
+    </ion-item>
     <div class="button-box">
       <ion-button
         class="button"

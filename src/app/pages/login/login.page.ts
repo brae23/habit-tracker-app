@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { MenuController } from '@ionic/angular';
+import { MenuController, Platform } from '@ionic/angular';
 import { Subject, takeUntil } from 'rxjs';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { trigger, transition, style, animate } from '@angular/animations';
@@ -26,7 +26,7 @@ export class LoginPage implements OnInit, OnDestroy {
   shouldShowSignup: boolean = false;
   ngUnsub$: Subject<boolean> = new Subject<boolean>();
 
-  constructor() {}
+  constructor(private platform: Platform) {}
 
   ngOnInit() {
     console.log('LoginPage initialized');
@@ -58,5 +58,12 @@ export class LoginPage implements OnInit, OnDestroy {
   onCanceled() {
     this.shouldShowLogin = false;
     this.shouldShowSignup = false;
+  }
+
+  private onUserBack() {
+    this.platform.backButton.subscribeWithPriority(10, () => {
+      this.shouldShowLogin = false;
+      this.shouldShowSignup = false;
+    });
   }
 }

@@ -1,3 +1,4 @@
+import { TaskPriority } from "./enums/task-priority";
 import { IListItem } from "./i-list-item";
 
 export class Task implements IListItem {
@@ -12,4 +13,5 @@ export class Task implements IListItem {
   dueDate?: string | null;
   parentListId?: string | null;
   listIndex?: number | null;
+  priority: TaskPriority;
 }
