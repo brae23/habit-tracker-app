@@ -7,6 +7,7 @@ import { Component, Input } from '@angular/core';
 })
 export class DtlChipComponent {
   @Input() priority: number = 0;
+  @Input() completed: boolean = false;
 
   priorityLabels = ['Low', 'Medium', 'High', 'Urgent'];
   priorityClass = ['low', 'medium', 'high', 'urgent'];
