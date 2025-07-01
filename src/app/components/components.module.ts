@@ -12,6 +12,7 @@ import { ListAnchorComponent } from './lists-page/list-anchor/list-anchor.compon
 import { NewTaskModalComponent } from './daily-task-list/new-task-modal/new-task-modal.component';
 import { LoginModalComponent } from './login/login-modal/login-modal.component';
 import { CreateUserModalComponent } from './login/create-account-modal/create-user-modal.component';
+import { DtlChipComponent } from './shared/chip/dtl-chip.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { CreateUserModalComponent } from './login/create-account-modal/create-us
     NewTaskModalComponent,
     LoginModalComponent,
     CreateUserModalComponent,
+    DtlChipComponent
   ],
   exports: [
     DailyTaskListComponent,
@@ -33,6 +35,7 @@ import { CreateUserModalComponent } from './login/create-account-modal/create-us
     NewTaskModalComponent,
     LoginModalComponent,
     CreateUserModalComponent,
+    DtlChipComponent
   ],
   imports: [CommonModule, FormsModule, IonicModule, DragDropModule],
   providers: [DatePipe],

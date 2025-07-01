@@ -14,10 +14,7 @@ describe('CreateUserModalComponent', () => {
     TestBed.configureTestingModule({
       declarations: [CreateUserModalComponent],
       imports: [IonicModule.forRoot()],
-      providers: [
-        { provide: AuthService, useValue: authServiceMock },
-        { provide: ModalController, useValue: modalCtlMock },
-      ]
+      providers: []
     }).compileComponents();
 
     fixture = TestBed.createComponent(CreateUserModalComponent);

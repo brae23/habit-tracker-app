@@ -29,18 +29,7 @@ export class DailyTaskListPage implements OnInit {
 
   ngOnInit() {
     this.title = this.datePipe.transform(Date.now(), 'mediumDate')!;
-
-    this.listService.getDailyTaskList()
-      .pipe(takeUntil(this.ngUnsub$))
-      .subscribe({
-          next: (list: List) => {
-            this.dailyTaskList$ = signal(list);
-          },
-          error: (err) => {
-            console.error('Error retrieving daily task list:', err);
-            // TODO: Add error handling logic here, such as showing a toast or alert
-          }
-      });
+    this.getTaskList();
   }
 
   async onNewTaskClicked() {
@@ -52,6 +41,29 @@ export class DailyTaskListPage implements OnInit {
       },
     });
 
-    editTaskModal.present();
+    await editTaskModal.present();
+
+    const { data, role } = await editTaskModal.onDidDismiss();
+
+    if (role === 'confirm') {
+      console.log('New task created:', data);
+      this.getTaskList(); // Refresh the task list after creating a new task
+    } else {
+      console.log('New task creation canceled');
+    }
+  }
+
+  private getTaskList() {
+    this.listService.getDailyTaskList()
+      .pipe(takeUntil(this.ngUnsub$))
+      .subscribe({
+          next: (list: List) => {
+            this.dailyTaskList$ = signal(list);
+          },
+          error: (err) => {
+            console.error('Error retrieving daily task list:', err);
+            // TODO: Add error handling logic here, such as showing a toast or alert
+          }
+      });
   }
 }

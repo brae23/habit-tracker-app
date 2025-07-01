@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy, Output } from '@angular/core';
 import { InputCustomEvent, ModalController } from '@ionic/angular';
 import { TaskService } from 'src/app/services/task/task.service';
 import { Task } from 'src/app/models/task';
