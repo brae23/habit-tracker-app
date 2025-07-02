@@ -5,6 +5,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  Output,
   QueryList,
   Signal,
   ViewChildren,
@@ -19,6 +20,7 @@ import { Task } from 'src/app/models/task';
 import { TaskService } from 'src/app/services/task/task.service';
 import { Subject, takeUntil } from 'rxjs';
 import { TaskPriority } from 'src/app/models/enums/task-priority';
+import { EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-daily-task-list-list-item',
@@ -28,6 +30,7 @@ import { TaskPriority } from 'src/app/models/enums/task-priority';
 export class ListItemComponent implements OnInit, OnDestroy {
   @ViewChildren('listItemContainer') listItemContainer: QueryList<ElementRef>;
   @Input() task: Task;
+  @Output() editModalDismissed: EventEmitter<void> = new EventEmitter<void>();
   isListItemCompleted: Signal<boolean>;
   ngUnsub$: Subject<boolean> = new Subject<boolean>();
   shouldShowPriorityChip: Signal<boolean>;
@@ -83,6 +86,15 @@ export class ListItemComponent implements OnInit, OnDestroy {
       },
     });
 
-    editTaskModal.present();
+    await editTaskModal.present();
+
+    const { data, role } = await editTaskModal.onDidDismiss();
+
+    if (role === 'confirm') {
+      console.log('New task created:', data);
+      this.editModalDismissed.emit();
+    } else {
+      console.log('New task creation canceled');
+    }
   }
 }

@@ -13,6 +13,7 @@
         <ng-container *ngFor="let task of taskList().tasks">
           <app-daily-task-list-list-item
             [task]="task"
+            (editModalDismissed)="onEditModalDismissed()"
           ></app-daily-task-list-list-item>
         </ng-container>
       </ng-container>

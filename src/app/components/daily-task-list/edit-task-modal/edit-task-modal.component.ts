@@ -1,8 +1,8 @@
-import { AfterContentInit, AfterViewInit, Component, Input, Signal } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { InputCustomEvent, ModalController } from '@ionic/angular';
 import { cloneDeep } from 'lodash';
-import { isList } from 'src/app/functions/is-list/is-list.function';
-import { IListItem } from 'src/app/models/i-list-item';
+import { Subject, takeUntil } from 'rxjs';
+import { TaskPriority } from 'src/app/models/enums/task-priority';
 import { Task } from 'src/app/models/task';
 import { TaskService } from 'src/app/services/task/task.service';
 
@@ -11,29 +11,15 @@ import { TaskService } from 'src/app/services/task/task.service';
   templateUrl: './edit-task-modal.component.html',
   styleUrls: ['./edit-task-modal.component.scss'],
 })
-export class EditTaskModalComponent {
+
+export class EditTaskModalComponent implements OnInit {
   @Input() task: Task;
   newSubtaskPopupHeader: string;
   confirmationPopupHeader: string;
   nameUpdate: string | undefined;
-  headerTitle: string = 'Edit Task';
-
-  public newSubtaskPopupInputs = [
-    {
-      placeholder: 'New Subtask Name',
-    },
-  ];
-  public newSubtaskPopupButtons = [
-    {
-      text: 'Cancel',
-      role: 'cancel',
-    },
-    {
-      text: 'Save',
-      role: 'confirm',
-      cssClass: 'alert-button-save',
-    },
-  ];
+  taskPriority: TaskPriority = TaskPriority.low;
+  taskName: string = '';
+  private ngUnsub$ = new Subject<void>();
 
   public confirmationPopupButtons = [
     {
@@ -51,8 +37,12 @@ export class EditTaskModalComponent {
     private modalCtl: ModalController,
     private taskService: TaskService
   ) {
-    this.newSubtaskPopupHeader = 'New Subtask';
     this.confirmationPopupHeader = 'Are you sure?';
+  }
+
+  ngOnInit(): void {
+    this.taskName = this.task.name;
+    this.taskPriority = this.task.priority;
   }
 
   cancelClicked(): void {
@@ -63,6 +53,7 @@ export class EditTaskModalComponent {
     if (this.nameUpdate && this.nameUpdate !== this.task.name) {
       let taskClone = cloneDeep(this.task);
       taskClone.name = this.nameUpdate;
+      taskClone.priority = this.taskPriority;
       this.taskService.updateTask(taskClone);
     }
 
@@ -75,27 +66,26 @@ export class EditTaskModalComponent {
 
   onDeletePopupDismissed(ev: any): void {
     if (ev.detail.role === 'confirm') {
-      this.taskService.deleteTask(this.task.id);
-
-      this.modalCtl.dismiss(null, 'confirm');
+      this.taskService.deleteTask(this.task.id)
+      .pipe(takeUntil(this.ngUnsub$))
+      .subscribe({
+        next: (_complete) => {
+          this.modalCtl.dismiss(null, 'confirm');
+        },
+        error: (err) => {
+          // TODO handle error properly
+          console.error('Error creating task:', err);
+        },
+      });
     }
   }
 
-  onNewTaskPopupDismissed(ev: any): void {
-    if (ev.detail.role === 'confirm') {
-      // let newSubtaskItemName = ev.detail.data.values[0];
+  ngOnDestroy(): void {
+    this.ngUnsub$.next();
+    this.ngUnsub$.complete();
+  }
 
-      // if (newSubtaskItemName.length < 1) {
-      //   return;
-      // }
-
-      // let newSubtaskItem: Task = DefaultTask;
-      // newSubtaskItem.name = newSubtaskItemName;
-      // newSubtaskItem.isChildTask = true;
-
-      // this.dailyTaskListService.addListItem(newSubtaskItem, this.listItem().id);
-
-      this.modalCtl.dismiss(null, 'confirm');
-    }
+  onPrioritySelected(event: any) {
+     this.taskPriority = event.detail.value;
   }
 }

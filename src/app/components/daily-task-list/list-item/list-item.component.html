@@ -12,10 +12,9 @@
     (cdkDragReleased)="dragReleased($event)"
     class="dtl-list-box"
     #listItemContainer
-    (click)="onListItemClickedEvent()"
     [class.completed]="isListItemCompleted()"
   >
-    <div class="dtl-list-clickable-box">
+    <div class="dtl-list-clickable-box" (click)="onListItemClickedEvent()">
       <ion-checkbox
         class="dtl-list-checkbox"
         justify="start"
@@ -25,9 +24,9 @@
       >
       </ion-checkbox>
       <p class="dtl-item-name" [class.completed]="isListItemCompleted()">{{ task.name }}</p>
-    </div>
-    <div *ngIf="shouldShowPriorityChip()">
-      <dtl-chip [priority]="task.priority" [completed]="task.completed"></dtl-chip>
+      <div *ngIf="shouldShowPriorityChip()" class="chip-box">
+        <dtl-chip [priority]="task.priority" [completed]="task.completed"></dtl-chip>
+      </div>
     </div>
     <ion-icon
       class="dtl-list-icons dtl-edit-icon"

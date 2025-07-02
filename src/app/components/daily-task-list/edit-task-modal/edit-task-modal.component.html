@@ -1,80 +1,64 @@
-<ion-header>
-  <ion-toolbar class="ion-text-center">
-    <ion-buttons slot="start">
-      <ion-button (click)="cancelClicked()" color="danger">Cancel</ion-button>
-    </ion-buttons>
-    <ion-title>{{ headerTitle }}</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="saveClicked()" color="primary">Save</ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
-<ion-content class="ion-text-center">
-  <div class="content-box">
-    <ion-item class="input-box">
+<div class="main-div">
+  <div class="controls-box">
+    <h3 class="modal-header">Edit Task</h3>
+    <ion-item class="input-item-box">
       <ion-input
-        labelPlacement="stacked"
-        label="Task name"
-        placeholder="Task Name"
+        labelPlacement="floating"
+        label="Name"
+        placeholder="New Task Name"
         inputmode="text"
-        fill="solid"
-        value="{{ task.name }}"
         (ionInput)="setName($any($event))"
+        [value]="taskName"
       ></ion-input>
     </ion-item>
-
-    <!-- Due Date Input Date Picker -->
-    <!-- Commented out until due date functionality is implemented -->
-
-    <!-- <ion-item class="ion-padding">
-      <ion-label position="stacked">Due Date</ion-label>
-      <ion-input value="{{ listItem.dueDate | date: 'dd MMM yyyy' }}" id="date"></ion-input>
-      <ion-popover trigger="date" >
-          <ng-template>
-              <ion-datetime presentation="datetime" [(ngModel)]="listItem.dueDate" locale="en-US"></ion-datetime>
-          </ng-template>
-      </ion-popover>
-    </ion-item> -->
-
-    <ion-item class="input-box">
-      <ion-input
-        color="primary"
-        labelPlacement="stacked"
-        label="Created By"
-        readonly="true"
-        value="{{ task.createdByUserId }}"
-      ></ion-input>
+    <ion-item class="input-item-box priority-select-box">
+      <ion-select
+        label="Priority"
+        labelPlacement="floating"
+        placeholder="Select Priority"
+        [value]="taskPriority"
+        (ionChange)="onPrioritySelected($event)"
+      >
+        <ion-select-option value="0">Low</ion-select-option>
+        <ion-select-option value="1">Medium</ion-select-option>
+        <ion-select-option value="2">High</ion-select-option>
+        <ion-select-option value="3">Urgent</ion-select-option>
+      </ion-select>
     </ion-item>
-    <ion-button
-      color="primary"
-      fill="solid"
-      class="modal-button"
-      id="present-new-subtask-popup"
-    >
-      <ion-icon slot="start" name="checkbox-outline"></ion-icon>
-      Create New Subtask
-    </ion-button>
-    <ion-alert
-      trigger="present-new-subtask-popup"
-      header="{{ newSubtaskPopupHeader }}"
-      [buttons]="newSubtaskPopupButtons"
-      [inputs]="newSubtaskPopupInputs"
-      (didDismiss)="onNewTaskPopupDismissed($event)"
-    ></ion-alert>
-    <ion-button
-      color="danger"
-      fill="solid"
-      class="modal-button"
-      id="present-delete-confirmation-popup"
-    >
+    <div class="delete-button-box">
+      <ion-button
+        color="danger"
+        fill="clear"
+        shape="round"
+        id="present-delete-confirmation-popup"
+      >
       <ion-icon slot="start" name="trash"></ion-icon>
-      Delete Task
-    </ion-button>
-    <ion-alert
-      trigger="present-delete-confirmation-popup"
-      header="{{ confirmationPopupHeader }}"
-      [buttons]="confirmationPopupButtons"
-      (didDismiss)="onDeletePopupDismissed($event)"
-    ></ion-alert>
+        Delete Task
+      </ion-button>
+      <ion-alert
+        trigger="present-delete-confirmation-popup"
+        header="{{ confirmationPopupHeader }}"
+        [buttons]="confirmationPopupButtons"
+        (didDismiss)="onDeletePopupDismissed($event)"
+      ></ion-alert>
+    </div>
+    <div class="button-box">
+      <ion-button
+        class="button"
+        (click)="saveClicked()"
+        color="primary"
+        fill="solid"
+        shape="round">
+        Save
+      </ion-button>
+      <ion-button
+        class="button"
+        (click)="cancelClicked()"
+        color="danger"
+        shape="round"
+        fill="clear">
+        Cancel
+      </ion-button>
+    </div>
   </div>
-</ion-content>
+</div>

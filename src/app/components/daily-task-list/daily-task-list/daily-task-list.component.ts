@@ -16,6 +16,7 @@ import { NestedDragDropService } from 'src/app/services/nested-drag-drop/nested-
 import { ListService } from 'src/app/services/list/list.service';
 import { Subject, takeUntil } from 'rxjs';
 import { Task } from 'src/app/models/task';
+import { EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-daily-task-list',
@@ -30,6 +31,7 @@ export class DailyTaskListComponent implements OnInit, OnDestroy {
   }
 
   @Input() taskList: WritableSignal<List>;
+  @Input() refreshTaskList: EventEmitter<void> = new EventEmitter<void>();
   currentDate: number;
   isList = isList;
   connectedLists: CdkDropList<any>[];
@@ -61,5 +63,9 @@ export class DailyTaskListComponent implements OnInit, OnDestroy {
 
   onItemDropped(ev: CdkDragDrop<any[]>): void {
     this.nestedDragDropService.drop(ev);
+  }
+
+  onEditModalDismissed(): void {
+    this.refreshTaskList.emit();
   }
 }

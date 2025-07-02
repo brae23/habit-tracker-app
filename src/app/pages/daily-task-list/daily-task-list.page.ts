@@ -33,7 +33,7 @@ export class DailyTaskListPage implements OnInit {
   }
 
   async onNewTaskClicked() {
-    let editTaskModal = await this.modalCtl.create({
+    let newTaskModal = await this.modalCtl.create({
       component: NewTaskModalComponent,
       showBackdrop: false,
       componentProps: {
@@ -41,9 +41,9 @@ export class DailyTaskListPage implements OnInit {
       },
     });
 
-    await editTaskModal.present();
+    await newTaskModal.present();
 
-    const { data, role } = await editTaskModal.onDidDismiss();
+    const { data, role } = await newTaskModal.onDidDismiss();
 
     if (role === 'confirm') {
       console.log('New task created:', data);
@@ -53,7 +53,7 @@ export class DailyTaskListPage implements OnInit {
     }
   }
 
-  private getTaskList() {
+  getTaskList() {
     this.listService.getDailyTaskList()
       .pipe(takeUntil(this.ngUnsub$))
       .subscribe({
