@@ -18,6 +18,7 @@ import { EditTaskModalComponent } from '../edit-task-modal/edit-task-modal.compo
 import { Task } from 'src/app/models/task';
 import { TaskService } from 'src/app/services/task/task.service';
 import { Subject, takeUntil } from 'rxjs';
+import { TaskPriority } from 'src/app/models/enums/task-priority';
 
 @Component({
   selector: 'app-daily-task-list-list-item',
@@ -29,6 +30,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
   @Input() task: Task;
   isListItemCompleted: Signal<boolean>;
   ngUnsub$: Subject<boolean> = new Subject<boolean>();
+  shouldShowPriorityChip: Signal<boolean>;
 
   isList = isList;
 
@@ -40,6 +42,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.isListItemCompleted = computed(() => this.task.completed);
+    this.shouldShowPriorityChip = computed(() => this.task.priority === TaskPriority.urgent);
   }
 
    ngOnDestroy(): void {
