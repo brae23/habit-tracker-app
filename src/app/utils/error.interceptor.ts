@@ -15,6 +15,8 @@ import {
   throwError,
   timer,
 } from 'rxjs';
+import { AuthService } from '../services/auth/auth.service';
+import { Injectable } from '@angular/core';
 
 const retryConfig: RetryConfig = {
   count: 3,
@@ -28,12 +30,17 @@ const retryConfig: RetryConfig = {
   },
 };
 
+@Injectable({ providedIn: 'root' })
 export class HttpErrorInterceptor implements HttpInterceptor {
+  constructor(
+    private toastCtl: ToastController,
+    private authService: AuthService
+  ) {}
+
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler,
   ): Observable<HttpEvent<any>> {
-    let toastCtl: ToastController = new ToastController();
 
     return next.handle(req).pipe(
       retry(retryConfig),
@@ -42,7 +49,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
 
         console.log(error);
         if (error.status == 400) {
-          toastCtl
+          this.toastCtl
             .create({
               header: 'Error',
               message: error.error.error_message,
@@ -54,16 +61,36 @@ export class HttpErrorInterceptor implements HttpInterceptor {
             .then((toast) => {
               toast.present();
             });
+        } else if (error.status == 401 && !error.url?.includes('/api/auth/login')) {
+          this.toastCtl
+            .create({
+              header: 'Unauthorized',
+              message: 'Please log in again.',
+              animated: true,
+              duration: 5000,
+              color: 'danger',
+              position: 'top',
+            })
+            .then((toast) => {
+              this.authService.logout();
+              toast.present();
+            });
+        } else if (error.status == 500) {
+          this.toastCtl
+            .create({
+              header: 'Error',
+              message: 'An unexpected error occurred. Please try again later.',
+              animated: true,
+              duration: 5000,
+              color: 'danger',
+              position: 'top',
+            })
+            .then((toast) => {
+              toast.present();
+            });
         }
-
-        if (error.error instanceof ErrorEvent) {
-          // client side error
-          errorMessage = `Error: <${error.error.message}>`;
-        } else {
-          // server side error
-          errorMessage = `Error status code: <${error.status}>, Error message: <${error.message}>`;
-        }
-        return throwError(() => errorMessage);
+        
+        return throwError(() => error);
       }),
     );
   }

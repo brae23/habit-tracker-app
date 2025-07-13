@@ -1,0 +1,7 @@
+.daily-task-list-loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: calc(100vh - 56px); /* Adjust based on header height */
+}

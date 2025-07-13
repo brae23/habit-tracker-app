@@ -1,5 +1,5 @@
 import { Component, OnDestroy, Output, EventEmitter } from '@angular/core';
-import { InputCustomEvent, ModalController } from '@ionic/angular';
+import { InputCustomEvent, ModalController, ToastController } from '@ionic/angular';
 import { Subject, takeUntil } from 'rxjs';
 import { AuthService } from 'src/app/services/auth/auth.service';
 
@@ -21,7 +21,8 @@ export class LoginModalComponent implements OnDestroy {
   @Output() canceled: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(
-    private authService: AuthService
+    private authService: AuthService,
+    private toastController: ToastController,
   ) {
     this.usernameValueText = 'Email is empty!';
     this.passwordValueText = 'Password is empty!';
@@ -53,8 +54,9 @@ export class LoginModalComponent implements OnDestroy {
           },
           error: (err) => {
             this.loading = false;
-            // Todo: Handle error appropriately, e.g., show a toast or alert
-            console.error('Login failed:', err);
+            if (err.status === 401) {
+              this.presentLoginFailedToast();
+            }
           }
       });
     } else {
@@ -74,5 +76,17 @@ export class LoginModalComponent implements OnDestroy {
 
   cancelClicked(): void {
     this.canceled.emit();
+  }
+
+  async presentLoginFailedToast() {
+    const toast = await this.toastController.create({
+      message: 'Login Failed! Incorrect email or password.',
+      duration: 5000,
+      position: "top",
+      color: "danger",
+      cssClass: 'toast-content',
+    });
+
+    await toast.present();
   }
 }

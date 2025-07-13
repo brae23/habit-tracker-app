@@ -20,6 +20,7 @@ export class DailyTaskListPage implements OnInit {
   title: string;
   dailyTaskList$: WritableSignal<List>;
   ngUnsub$: Subject<boolean> = new Subject<boolean>();
+  loading: WritableSignal<boolean> = signal(false);
 
   constructor(
     private modalCtl: ModalController,
@@ -54,13 +55,16 @@ export class DailyTaskListPage implements OnInit {
   }
 
   getTaskList() {
+    this.loading.set(true);
     this.listService.getDailyTaskList()
       .pipe(takeUntil(this.ngUnsub$))
       .subscribe({
           next: (list: List) => {
+            this.loading.set(false);
             this.dailyTaskList$ = signal(list);
           },
           error: (err) => {
+            this.loading.set(false);
             console.error('Error retrieving daily task list:', err);
             // TODO: Add error handling logic here, such as showing a toast or alert
           }

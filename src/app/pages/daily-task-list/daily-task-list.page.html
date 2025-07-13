@@ -1,5 +1,10 @@
 <app-page-header [title]="title"></app-page-header>
-<app-daily-task-list [taskList]="dailyTaskList$" (refreshTaskList)="getTaskList()"></app-daily-task-list>
+<div *ngIf="loading()" class="daily-task-list-loading-container">
+  <ion-spinner name="circular"></ion-spinner>
+</div>
+<div *ngIf="!loading()">
+  <app-daily-task-list [taskList]="dailyTaskList$" (refreshTaskList)="getTaskList()"></app-daily-task-list>
+</div>
 <ion-fab slot="fixed" vertical="bottom" horizontal="end">
   <ion-fab-button (click)="onNewTaskClicked()">
     <ion-icon name="add-outline"></ion-icon>
